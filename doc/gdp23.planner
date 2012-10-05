@@ -1,0 +1,180 @@
+<?xml version="1.0"?>
+<project name="GDP23" company="ECS" manager="" phase="" project-start="20121001T000000Z" mrproject-version="2" calendar="2">
+  <properties/>
+  <phases/>
+  <calendars>
+    <day-types>
+      <day-type id="0" name="Working" description="A default working day"/>
+      <day-type id="1" name="Nonworking" description="A default non working day"/>
+      <day-type id="2" name="Use base" description="Use day from base calendar"/>
+    </day-types>
+    <calendar id="1" name="Default">
+      <default-week mon="0" tue="0" wed="0" thu="0" fri="0" sat="1" sun="1"/>
+      <overridden-day-types>
+        <overridden-day-type id="0">
+          <interval start="0800" end="1200"/>
+          <interval start="1300" end="1700"/>
+        </overridden-day-type>
+      </overridden-day-types>
+      <days>
+        <day date="20130106" type="day-type" id="0"/>
+      </days>
+      <calendar id="2" name="allthedays">
+        <default-week mon="0" tue="0" wed="0" thu="0" fri="0" sat="0" sun="0"/>
+        <overridden-day-types>
+          <overridden-day-type id="0">
+            <interval start="0000" end="2359"/>
+          </overridden-day-type>
+        </overridden-day-types>
+        <days>
+          <day date="20121222" type="day-type" id="1"/>
+          <day date="20130101" type="day-type" id="1"/>
+          <day date="20121221" type="day-type" id="1"/>
+          <day date="20121231" type="day-type" id="1"/>
+          <day date="20121220" type="day-type" id="1"/>
+          <day date="20121230" type="day-type" id="1"/>
+          <day date="20121219" type="day-type" id="1"/>
+          <day date="20121229" type="day-type" id="1"/>
+          <day date="20121218" type="day-type" id="1"/>
+          <day date="20121228" type="day-type" id="1"/>
+          <day date="20121217" type="day-type" id="1"/>
+          <day date="20121227" type="day-type" id="1"/>
+          <day date="20130106" type="day-type" id="0"/>
+          <day date="20121216" type="day-type" id="1"/>
+          <day date="20121226" type="day-type" id="1"/>
+          <day date="20130105" type="day-type" id="1"/>
+          <day date="20121225" type="day-type" id="1"/>
+          <day date="20130104" type="day-type" id="1"/>
+          <day date="20121224" type="day-type" id="1"/>
+          <day date="20130103" type="day-type" id="1"/>
+          <day date="20121223" type="day-type" id="1"/>
+          <day date="20130102" type="day-type" id="1"/>
+        </days>
+      </calendar>
+    </calendar>
+  </calendars>
+  <tasks>
+    <task id="1" name="Project Startup" note="" work="953340" duration="607880" start="20121001T000000Z" end="20121008T005820Z" work-start="20121001T000000Z" percent-complete="50" priority="0" type="normal" scheduling="fixed-duration">
+      <task id="2" name="Prepare Project Brief" note="" work="690720" start="20121001T000000Z" end="20121004T235820Z" work-start="20121001T000000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="3" name="Write Brief" note="" work="345360" start="20121001T000000Z" end="20121004T235820Z" work-start="20121001T000000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="4" name="Build Gantt Chart" note="META!" work="345360" start="20121001T000000Z" end="20121004T235820Z" work-start="20121001T000000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      </task>
+      <task id="5" name="Agree Brief With Customer" note="" work="259020" start="20121004T235820Z" end="20121007T235820Z" work-start="20121004T235820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="2" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="6" name="Submit Brief" note="" work="3600" start="20121007T235820Z" end="20121008T005820Z" work-start="20121007T235820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="5" type="FS"/>
+        </predecessors>
+      </task>
+    </task>
+    <task id="7" name="Development Iteration 1" note="" work="4230660" start="20121008T005820Z" end="20121105T005820Z" work-start="20121008T005820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="1" type="FS"/>
+      </predecessors>
+      <task id="8" name="Retrieve Key Words" note="" work="604380" start="20121008T005820Z" end="20121015T005820Z" work-start="20121008T005820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="9" name="Get Search Results" note="" work="604380" start="20121015T005820Z" end="20121022T005820Z" work-start="20121015T005820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="8" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="10" name="Render Web Page Content" note="" work="1208760" start="20121008T005820Z" end="20121022T005820Z" work-start="20121008T005820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="11" name="Detect Malware" note="" work="604380" start="20121022T005820Z" end="20121029T005820Z" work-start="20121022T005820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="10" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="12" name="Store Detection Results" note="" work="604380" start="20121029T005820Z" end="20121105T005820Z" work-start="20121029T005820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="11" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="13" name="Produce Detection Report" note="" work="604380" start="20121008T005820Z" end="20121015T005820Z" work-start="20121008T005820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    </task>
+    <task id="14" name="Progress Seminar 1" note="" work="431700" start="20121020T000000Z" end="20121024T235820Z" work-start="20121020T000000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="15" name="Prepare Presentation" note="" work="259020" start="20121020T000000Z" end="20121022T235820Z" work-start="20121020T000000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="start-no-earlier-than" time="20121020T000000Z"/>
+      </task>
+      <task id="16" name="Practice Presentation" note="" work="172680" start="20121022T235820Z" end="20121024T235820Z" work-start="20121022T235820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="15" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="17" name="Seminar" note="" work="0" start="20121024T235820Z" end="20121024T235820Z" work-start="20121024T235820Z" percent-complete="0" priority="0" type="milestone" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="16" type="FS"/>
+        </predecessors>
+      </task>
+    </task>
+    <task id="18" name="Development Iteration 2" note="" work="2417520" start="20121105T005820Z" end="20121203T005820Z" work-start="20121105T005820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="7" type="FS"/>
+      </predecessors>
+      <task id="19" name="Render Web Page Content" note="" work="604380" start="20121105T005820Z" end="20121112T005820Z" work-start="20121105T005820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="20" name="Detect Malware" note="" work="1208760" start="20121112T005820Z" end="20121126T005820Z" work-start="20121112T005820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="19" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="21" name="Produce Detection Report" note="" work="604380" start="20121126T005820Z" end="20121203T005820Z" work-start="20121126T005820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="20" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="22" name="Development Done" note="" work="0" start="20121203T000000Z" end="20121203T000000Z" work-start="20121203T000000Z" percent-complete="0" priority="0" type="milestone" scheduling="fixed-work">
+        <constraint type="start-no-earlier-than" time="20121203T000000Z"/>
+      </task>
+    </task>
+    <task id="23" name="Progress Seminar 2" note="" work="431700" start="20121117T000000Z" end="20121121T235820Z" work-start="20121117T000000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="24" name="Prepare Presentation" note="" work="259020" start="20121117T000000Z" end="20121119T235820Z" work-start="20121117T000000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="start-no-earlier-than" time="20121117T000000Z"/>
+      </task>
+      <task id="25" name="Practice Presentation" note="" work="172680" start="20121119T235820Z" end="20121121T235820Z" work-start="20121119T235820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="24" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="26" name="Seminar" note="" work="0" start="20121121T235820Z" end="20121121T235820Z" work-start="20121121T235820Z" percent-complete="0" priority="0" type="milestone" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="25" type="FS"/>
+        </predecessors>
+      </task>
+    </task>
+    <task id="27" name="Project Report" note="" work="1813140" start="20121121T235820Z" end="20121213T000000Z" work-start="20121121T235820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="23" type="FS"/>
+      </predecessors>
+      <task id="28" name="Write Report" note="" work="1813140" start="20121121T235820Z" end="20121212T235820Z" work-start="20121121T235820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="29" name="Project Report Handin" note="" work="0" start="20121213T000000Z" end="20121213T000000Z" work-start="20121213T000000Z" percent-complete="0" priority="0" type="milestone" scheduling="fixed-work">
+        <constraint type="start-no-earlier-than" time="20121213T000000Z"/>
+        <predecessors>
+          <predecessor id="1" predecessor-id="28" type="FS"/>
+        </predecessors>
+      </task>
+    </task>
+    <task id="30" name="Final Presentation" note="" work="518040" start="20121213T000000Z" end="20130109T000000Z" work-start="20121213T000000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="27" type="FS"/>
+      </predecessors>
+      <task id="31" name="Prepare Presentation" note="" work="345360" start="20121213T000000Z" end="20130106T235820Z" work-start="20121213T000000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="32" name="Practice Presentation" note="" work="172680" start="20130106T235820Z" end="20130108T235820Z" work-start="20130106T235820Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="31" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="33" name="Presentation" note="" work="0" start="20130109T000000Z" end="20130109T000000Z" work-start="20130109T000000Z" percent-complete="0" priority="0" type="milestone" scheduling="fixed-work">
+        <constraint type="must-start-on" time="20130109T000000Z"/>
+      </task>
+    </task>
+  </tasks>
+  <resource-groups/>
+  <resources>
+    <resource id="1" name="Thomas Grainger" short-name="Tom" type="1" units="0" email="tag1g09@ecs.soton.ac.uk" note="" std-rate="0"/>
+    <resource id="2" name="Chris Orchard" short-name="Chris" type="1" units="0" email="cso1g09@ecs.soton.ac.uk" note="" std-rate="0"/>
+    <resource id="3" name="Nafiseh Vahabi" short-name="Nafiseh" type="1" units="0" email="nv2g09@ecs.soton.ac.uk" note="" std-rate="0"/>
+    <resource id="4" name="Weike Liao" short-name="Weike" type="1" units="0" email="wl15g09@ecs.soton.ac.uk" note="" std-rate="0"/>
+  </resources>
+  <allocations/>
+</project>
