@@ -1,6 +1,6 @@
 import tweepy
 import json
-import pprint
+import re
 
 consumer_key="8MJXt6b7JO4D9CQuDdzNLg"
 consumer_secret="pJuG88umFd61hVmqgcv4S1A26B9FROwr1w2nPLBjMHk"
@@ -13,20 +13,16 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
+
+def camelCaseSentenceToCase(string):
+    # http://stackoverflow.com/a/9283563
+    return re.sub(r'((?<=[a-z])[A-Z]|(?<!\A)[A-Z](?=[a-z]))', r' \1', string)
+
 trend_list = api.trends_location('1')[0]['trends']
 
 for dct in trend_list:
-	name = dct['name'].encode('gb18030','ignore')
-	if(name.startswith('#')):
-		name = name.replace('#','',1)
-		tempList = list(name)
-		for i, c in enumerate(tempList):
-			if(i == 0): continue
-			if c.isupper():
-				if(tempList[i+1].isupper() and tempList[i-1].isupper()):
-					continue
-				else:
-					tempList[i] = ' '+tempList[i]
-		name = ''.join(tempList)
+    	name = dct['name'].encode('gb18030','ignore')
+	if name.startswith('#'):
+		name = camelCaseSentenceToCase(name[1:])
 	print name
 	
