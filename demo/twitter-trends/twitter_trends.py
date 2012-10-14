@@ -21,7 +21,7 @@ def camelCaseSentenceToCase(string):
 trend_list = api.trends_location('1')[0]['trends']
 
 for dct in trend_list:
-    name = dct['name'].encode('gb18030', 'ignore')
+    name = dct['name']
     if name.startswith('#'):
         name = camelCaseSentenceToCase(name[1:])
     print name
