@@ -13,13 +13,9 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
-#print api.me().name
+trend_list = api.trends_location('1')[0]['trends']
 
-pprinter = pprint.PrettyPrinter(indent=2)
-respond = api.trends_location('1')
-respondJson = json.dumps(respond)
-trendList = json.loads(respondJson)[0]['trends']
-for dct in trendList:
+for dct in trend_list:
 	name = dct['name'].encode('gb18030','ignore')
 	if(name.startswith('#')):
 		name = name.replace('#','',1)
