@@ -2,7 +2,8 @@ import tweepy
 import requests
 import re
 import lxml.html
-from urlparse import urlparse, parse_qs
+from urlparse import urlparse, parse_qs, urlunparse
+from urllib import urlencode
 
 consumer_key = "8MJXt6b7JO4D9CQuDdzNLg"
 consumer_secret = "pJuG88umFd61hVmqgcv4S1A26B9FROwr1w2nPLBjMHk"
@@ -33,6 +34,8 @@ def search(keyword):
     return map(
         lambda link: parse_qs(urlparse(link.get('href')).query)["du"][0],
         lxml.html.fromstring(
-            requests.get("http://www.dogpile.co.uk/search/web?q=foo").text
+            requests.get(urlunparse(
+                ("http","www.dogpile.co.uk","/search/web",'',urlencode({"q":keyword}),'')
+            )).text
         ).cssselect(".webResult .resultDisplayUrl")
     )
