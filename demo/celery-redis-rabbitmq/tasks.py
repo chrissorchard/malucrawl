@@ -8,5 +8,5 @@ def add(x, y):
 
 @celery.task
 def addlist(list):
-    return group(add.subtask((i,i)) for i in list).apply_async()
+    return group(add.subtask((i,i)) for i in list).apply_async().get()
 
