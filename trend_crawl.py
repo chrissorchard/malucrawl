@@ -2,6 +2,7 @@ import tweepy
 import requests
 import re
 import lxml.html
+import cssselect
 from urlparse import urlparse, parse_qs, urlunparse
 from urllib import urlencode
 
