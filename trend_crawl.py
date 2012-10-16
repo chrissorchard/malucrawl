@@ -43,18 +43,22 @@ def twitter_trend():
             name = camelCaseToSentenceCase(name[1:])
         return name
 
-    return [hash_tag_handle(to_unicode(item["name"])) for item in trend_list]
+    return group((search.s(hash_tag_handle(to_unicode(item["name"]))) for item in trend_list)).apply_async().get()
 
 @celery.task	
 def search(keyword):
-    base_url = urlunparse(("http","www.dogpile.co.uk","/search/web",'',urlencode({"q":keyword}),''))
-    return map(
-        lambda link: parse_qs(urlparse(link.get('href')).query)["du"][0],
-        lxml.html.fromstring(
-            requests.get(base_url).text,
-            base_url = base_url
-        ).cssselect(".webResult .resultDisplayUrl")
-    )
+    base_url = urlunparse(("http","www.dogpile.co.uk","/search/web","",urlencode({"q":keyword.encode("utf-8")}),""))
+    return group(
+        (
+            malware_scan.s(url) for url in map(
+                lambda link: parse_qs(urlparse(link.get('href')).query)["du"][0],
+                lxml.html.fromstring(
+                    requests.get(base_url).text,
+                    base_url = base_url
+                ).cssselect(".webResult .resultDisplayUrl")
+            )
+        )
+    ).apply_async().get()
 
 @celery.task
 def malware_scan(url):
