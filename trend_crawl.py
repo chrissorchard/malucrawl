@@ -64,7 +64,7 @@ def search(keyword):
 @celery.task
 def malware_scan(url):
     e_title = lxml.html.fromstring(
-        requests.get(url).text,
+        requests.get(url, timeout=10.0).text,
         base_url = url
     ).cssselect("title")
     if e_title:
