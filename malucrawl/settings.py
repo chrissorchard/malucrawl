@@ -1,5 +1,7 @@
 # Django settings for malucrawl project.
 import os
+import djcelery
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 COMPRESS_ENABLED=True
@@ -122,6 +124,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
+    'djcelery',
     'bootstrap',
     'angularjs',
     'jquery',
@@ -172,3 +175,12 @@ COMPRESS_PRECOMPILERS = (
     ('text/x-sass', 'sass {infile} {outfile}'),
     ('text/x-scss', 'sass --scss {infile} {outfile}'),
 )
+
+BROKER_URL = "amqp://guest:mkP5b9mholFmthIixyNx@malucrawl.ecs.soton.ac.uk//"
+
+CElERY_IMPORTS = ("malware_crawl.tasks",)
+
+CELERY_RESULT_BACKEND = "redis://:Km7icdOpKvb6JIzN40iG@malucrawl.ecs.soton.ac.uk"
+
+
+djcelery.setup_loader()
