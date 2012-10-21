@@ -1,4 +1,4 @@
-﻿Architectural Design Slides
+Architectural Design Slides
 ===========================
 
 1. Distributed Archetecture
@@ -8,7 +8,7 @@
     * Machines can be added and removed from the cluster without losing tasks
 1. The system is split into three types of Task
     <dl>
-        <dt>Discover Trends</dt>
+        <dt>Trend Discovery</dt>
         <dd>
             <p>Find trends on [Twitter](https://www.twitter.com/), or news feeds like [The Sun](http://www.thesun.co.uk), [BBC News](http://www.bbc.com/news/) and [The Register](http://www.theregister.co.uk/]</p>
             <p>Takes no input, outputs a list of keywords</p>
@@ -24,5 +24,12 @@
             <p>Takes a URL as input, outputs a malware report.</p>
         </dd>
     </dl>
+1. Periodic Tasks
+    * Each period run each Trend Discorery, launching Search and Malware Scanning tasks as required.
+    * Also run a new set of Search and Malware Scanning tasks for each Trend Discovery task that has been run historically.
+    * So as to investigate malware incidence over time for each trend source
+        * How long does it take on average for topics to be targeted by malware?
+        * How long before malware is removed?
+        * Which source gets the most malware?
 1. Diagram
 1. Demo
