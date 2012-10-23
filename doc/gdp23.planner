@@ -176,5 +176,12 @@
     <resource id="3" name="Nafiseh Vahabi" short-name="Nafiseh" type="1" units="0" email="nv2g09@ecs.soton.ac.uk" note="" std-rate="0"/>
     <resource id="4" name="Weike Liao" short-name="Weike" type="1" units="0" email="wl15g09@ecs.soton.ac.uk" note="" std-rate="0"/>
   </resources>
-  <allocations/>
+  <allocations>
+    <allocation task-id="10" resource-id="1" units="100"/>
+    <allocation task-id="13" resource-id="2" units="100"/>
+    <allocation task-id="12" resource-id="2" units="100"/>
+    <allocation task-id="11" resource-id="3" units="100"/>
+    <allocation task-id="9" resource-id="4" units="100"/>
+    <allocation task-id="8" resource-id="4" units="100"/>
+  </allocations>
 </project>

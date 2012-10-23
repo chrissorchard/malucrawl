@@ -1,6 +1,8 @@
 *.log
 *.pot
 *.pyc
+*.~vsd
+*.*#
 local_settings.py
 dp.sqlite3
 malucrawl/staticfiles/
