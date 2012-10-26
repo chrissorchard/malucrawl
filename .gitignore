@@ -6,3 +6,4 @@
 local_settings.py
 dp.sqlite3
 malucrawl/staticfiles/
+malucrawl/local_settings.py

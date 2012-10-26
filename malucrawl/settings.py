@@ -184,3 +184,8 @@ CELERY_RESULT_BACKEND = "redis://:Km7icdOpKvb6JIzN40iG@malucrawl.ecs.soton.ac.uk
 
 
 djcelery.setup_loader()
+
+try:
+    from local_settings import *
+except ImportError as e:
+    pass
