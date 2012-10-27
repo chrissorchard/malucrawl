@@ -21,6 +21,6 @@ django-bootstrap-less
 django-compressor
 django-extensions
 django-celery-with-redis
-publicprefix
+publicsuffix
 
 lessc
