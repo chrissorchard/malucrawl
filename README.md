@@ -20,7 +20,7 @@ django-angularjs
 django-bootstrap-less
 django-compressor
 django-extensions
-django-celery
-celery-with-redis
+django-celery-with-redis
+publicprefix
 
 lessc
