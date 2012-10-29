@@ -23,4 +23,4 @@ django-extensions
 django-celery-with-redis
 publicsuffix
 
-lessc
+lessc git build-essential python-dev python-pip redis-server rabbitmq-server
