@@ -180,7 +180,12 @@ BROKER_URL = "amqp://guest:mkP5b9mholFmthIixyNx@malucrawl.ecs.soton.ac.uk//"
 
 CElERY_IMPORTS = ("malware_crawl.tasks",)
 
-CELERY_RESULT_BACKEND = "redis://:Km7icdOpKvb6JIzN40iG@malucrawl.ecs.soton.ac.uk"
+MALUCRAWL_REDIS = {
+    "master": "redis://:Km7icdOpKvb6JIzN40iG@malucrawl.ecs.soton.ac.uk:6379/0",
+    "slave": "redis://:Km7icdOpKvb6JIzN40iG@localhost:6379/0"
+}
+
+CELERY_RESULT_BACKEND = MALUCRAWL_REDIS["master"]
 
 
 djcelery.setup_loader()
