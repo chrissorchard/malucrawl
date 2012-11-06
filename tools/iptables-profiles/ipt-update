@@ -1,0 +1,75 @@
+#!/bin/bash
+
+#
+# iptbles RHEL 6 profile script
+#
+# C. Orchard 06/11/2012
+#
+
+PROFILEDIR="/usr/local/share/ipt-profiles"
+
+usage () {
+    echo Usage:
+    echo "Update Profiles:  $0 -u profile"
+    echo "List Profiles:    $0 -l"
+    echo
+    echo "profile - iptables profile to set. Profiles are stored in $PROFILEDIR"
+}
+
+rootcheck () {
+    if [[ $USER != "root" ]]; then
+        echo "This script must be run as root!"
+        exit 1
+    fi
+}
+
+profilecheck(){
+    if [ ! -e "$PROFILEDIR/$1" ]
+    then
+        echo "ERROR: Profile $1 does not exist!"
+        usage
+        exit 1
+    fi
+}
+
+updateprofile(){
+    echo "Updating profile to $1..."
+
+    cp $PROFILEDIR/$1 /etc/sysconfig/iptables
+
+    echo "Restarting iptables..."
+
+    service iptables restart
+
+    echo "done!"
+    exit 0
+}
+
+while getopts ":lu:" opt; do
+    case $opt in
+        l)
+            echo "Available profiles in $PROFILEDIR"
+            echo "$(ls $PROFILEDIR)"
+            exit 0
+            ;;
+        u)
+            rootcheck
+            profilecheck $OPTARG
+            updateprofile $OPTARG
+            ;;
+        \?)
+            echo "Invalid option: -$OPTARG" >&2
+            usage
+            exit 1
+            ;;
+        :)
+            echo "Option -$OPTARG requires an argument." >&2
+            usage
+            exit 1
+            ;;
+    esac
+done
+
+usage
+exit 0
+
