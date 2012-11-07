@@ -22,5 +22,6 @@ django-compressor
 django-extensions
 django-celery-with-redis
 publicsuffix
+progress
 
 lessc git build-essential python-dev python-pip redis-server rabbitmq-server
