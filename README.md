@@ -25,5 +25,6 @@ publicsuffix
 progress
 tweepy
 jsonschema
+eventlet
 
 lessc git build-essential python-dev python-pip redis-server rabbitmq-server
