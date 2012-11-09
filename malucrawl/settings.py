@@ -1,5 +1,6 @@
 # Django settings for malucrawl project.
 import os
+import socket
 import djcelery
 
 DEBUG = True
@@ -176,19 +177,22 @@ COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'sass --scss {infile} {outfile}'),
 )
 
-BROKER_URL = "amqp://guest:mkP5b9mholFmthIixyNx@malucrawl.ecs.soton.ac.uk//"
+MALUCRAWL_REDIS = {}
 
-CElERY_IMPORTS = ("malware_crawl.tasks",)
+BROKER_URL = "amqp://localhost//"
 
 MALUCRAWL_REDIS = {
-    "master": "redis://:Km7icdOpKvb6JIzN40iG@malucrawl.ecs.soton.ac.uk:6379/0",
-    "slave": "redis://:Km7icdOpKvb6JIzN40iG@localhost:6379/0"
+    "master": "redis://localhost:6379/0",
+    "slave": "redis://localhost:6379/0"
 }
 
 CELERY_RESULT_BACKEND = MALUCRAWL_REDIS["master"]
 
 
 djcelery.setup_loader()
+
+if socket.gethostname().startswith("kanga"):
+    from deploy_settings import *
 
 try:
     from local_settings import *
