@@ -19,16 +19,21 @@ def levenshtein(s1, s2):
 
 def classify_is_sus(database_dict, new_url):
 	sus_sum = 0; notsus_sum = 0;
+	sind = 0; nind = 0
 	for k,v in database_dict.items():
 		dist = levenshtein(new_url, k)
 		if v == 1:
 			sus_sum = sus_sum + dist
+			sind = sind + 1
 		else:
 			notsus_sum = notsus_sum +dist
-	if sus_sum > notsus_sum:
-		return True
-	else:
+			nind = nind + 1
+	avg_sus = sus_sum/sind
+	avg_notsus = notsus_sum/nind
+	if avg_sus > avg_notsus:
 		return False
+	else:
+		return True
 
 
 
