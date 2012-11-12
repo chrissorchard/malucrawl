@@ -1,0 +1,91 @@
+\section{Project Brief}
+%DNS\nomenclature{DNS}{Domain Name Service}
+
+\newpage
+\mbox{}
+\newpage
+\mbox{}
+\newpage
+
+\section{List of Abbreviations}
+\renewcommand{\nomname}{}
+\printnomenclature
+
+\clearpage
+\section{User Manual}
+\label{sec:manual}
+
+
+\clearpage
+\section{Contents of Source Disk}
+
+Each directory has a README files describing its contents.
+
+\subsection{Directories}
+\begin{enumerate}
+\item\texttt{db-tools/} - Node database tools and Icinga Templates
+\begin{enumerate}
+ \item\texttt{bottle.py} - copy of Bottle.py web framework.
+ \item\texttt{list-serve.py} - normal python version of list-serve using default sever.
+ \item\texttt{list-serve.wsgi} - wsgi compatible version of the server.
+ \item\texttt{templates/} - templates used for Icinga config generation.
+ \item\texttt{update-icinga.py} - script for taking values from the node database, and creating
+Icinga configuration files.
+ \item\texttt{upload-db.py} - script for adding new nodes to the database.
+\end{enumerate}
+\item\texttt{edumond-node/} - Configuration running on the wireless node
+\begin{enumerate}
+ \item\texttt{lighttpd/} - copy of /etc/lighttpd, containing lighttpd.conf with fastcgi
+ \item\texttt{lua/} - copy of /usr/lib/lua, containing json.lua and rad-check.lua
+ \item\texttt{rad-check/} - copy of /etc/rad-check, containing config.lua and client and server keys/certs
+ \item\texttt{magnet} - binary used by fastcgi to run Lua scripts with POST data.
+ \item\texttt{packages} - list of openwrt packages installed
+ \item\texttt{send\_nsca.cfg} - copy of /etc/send\_nsca.conf, configured to
+contact Icinga server
+\end{enumerate}
+\item\texttt{kanga-config/} - Configuration for Icinga, FreeRADIUS, and PNP4Nagios
+\begin{enumerate}
+ \item\texttt{www/} - copy of /var/www, node serving code in www/wsgi
+ \item\texttt{httpd/} - copy of /etc/httpd, nodes server set up in httpd/conf/httpd.conf
+ \item\texttt{raddb/} - copy of /etc/raddb, FreeRadius configuration files.
+ \item\texttt{nagios/} - copy of /etc/nagios, contains NSCA configuration in nagios/nsca.cfg
+ \item\texttt{icinga/} - copy of /etc/icinga, Icinga configuration files
+\begin{enumerate}
+                \item icinga/objects/matrix-hosts - test device defenitions
+                \item icinga/objects/matrix.cfg - general test configuration
+                \item icinga/objects/commands.cfg - contains added commands
+                \item icinga/objects/templates.cfg - contains service templates
+\end{enumerate}
+ \item\texttt{nodedb.sql} - Dump of the MySQL database of the nodes
+\end{enumerate}
+\item\texttt{kangab-config/} - Configuration for second FreeRADIUS server.
+\begin{enumerate}
+ \item\texttt{raddb/} - copy of /etc/raddb, FreeRadius configuration files.
+\begin{enumerate}
+                \item raddb/clients.conf - clients with secrets
+                \item raddb/proxy.conf - realm configuration
+\end{enumerate}
+\end{enumerate}
+\item\texttt{rad-check/} - Test data generation code
+\begin{enumerate}
+ \item\texttt{credcheck.lua} - fastcgi response script
+ \item\texttt{eapol\_test} - cross-compiled eapol\_test tool
+ \item\texttt{edumond.lua} - Lua credential exchange and testing script
+ \item\texttt{edumond.py} - deprecated python version
+ \item\texttt{index.lua} - debug script
+ \item\texttt{json-LICENCE.txt} - License for Lua JSON library
+ \item\texttt{json.lua} - JSON library
+ \item\texttt{magnet.c} - modified magnet.c source code to pass POST data.
+ \item\texttt{rad-check.lua} - Lua script for automating eapol\_test
+ \item\texttt{rad-check.py} - deprecated python version
+ \item\texttt{templates/} - wpa\_supplicant type templates for eapol\_test
+\end{enumerate}
+\item\texttt{security/} - PKI and certificates
+\begin{enumerate}
+ \item\texttt{CA/} - copy of /etc/pki/CA, containing CA certificate and private key,
+                with a registry of certificate requests and issues 
+ \item\texttt{secure/} - copy of /root/secure, x509 certificates and keys used during
+                the testing of the system. Because the test system is still
+                live, passphrases for keys are not provided.
+\end{enumerate}
+\end{enumerate}
