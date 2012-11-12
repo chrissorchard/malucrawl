@@ -1,4 +1,4 @@
-from pebl import levenshtein
+from pebl.util import levenshtein
 
 
 def classify_is_sus(database_dict, new_url):
