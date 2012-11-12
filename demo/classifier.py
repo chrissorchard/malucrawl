@@ -16,13 +16,7 @@ def classify_is_sus(database, new_url):
             notsus_sum = notsus_sum + dist
             nind = nind + 1
 
-    avg_sus = sus_sum / sind
-    avg_notsus = notsus_sum / nind
-
-    if avg_sus > avg_notsus:
-        return False
-    else:
-        return True
+    return sus_sum / sind <= notsus_sum / nind
 
 
 if __name__ == '__main__':
