@@ -1,28 +1,4 @@
-import json
-import pkgutil
-
-
-def levenshtein_matrix(s1, s2):
-    # https://code.activestate.com/recipes/576874-levenshtein-distance/
-    l1 = len(s1)
-    l2 = len(s2)
-
-    matrix = [range(l1 + 1)] * (l2 + 1)
-
-    for zz in range(l2 + 1):
-        matrix[zz] = range(zz, zz + l1 + 1)
-
-    for zz in range(l2):
-        for sz in range(l1):
-            if s1[sz] == s2[zz]:
-                matrix[zz + 1][sz + 1] = min(matrix[zz + 1][sz] + 1, matrix[zz][sz + 1] + 1, matrix[zz][sz])
-            else:
-                matrix[zz + 1][sz + 1] = min(matrix[zz + 1][sz] + 1, matrix[zz][sz + 1] + 1, matrix[zz][sz] + 1)
-    return matrix
-
-
-def levenshtein(s1, s2):
-    return levenshtein_matrix(s1, s2)[len(s2)][len(s1)]
+from pebl import levenshtein
 
 
 def classify_is_sus(database_dict, new_url):
@@ -50,6 +26,9 @@ def classify_is_sus(database_dict, new_url):
 
 
 if __name__ == '__main__':
+    import json
+    import pkgutil
+
     mal_dict = json.loads(pkgutil.get_data("classifier", "mal_test_data.json"))
     url = 'http://uk.movies.yahoo.com/features/sdfasf'
     print classify_is_sus(mal_dict, url)

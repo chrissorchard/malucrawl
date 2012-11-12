@@ -26,5 +26,6 @@ progress
 tweepy
 jsonschema
 eventlet
+pebl
 
 lessc git build-essential python-dev python-pip redis-server rabbitmq-server
