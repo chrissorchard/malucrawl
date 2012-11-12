@@ -2,7 +2,7 @@ import json
 import pkgutil
 
 
-def levenshtein(s1, s2):
+def levenshtein_matrix(s1, s2):
     l1 = len(s1)
     l2 = len(s2)
 
@@ -17,8 +17,11 @@ def levenshtein(s1, s2):
                 matrix[zz + 1][sz + 1] = min(matrix[zz + 1][sz] + 1, matrix[zz][sz + 1] + 1, matrix[zz][sz])
             else:
                 matrix[zz + 1][sz + 1] = min(matrix[zz + 1][sz] + 1, matrix[zz][sz + 1] + 1, matrix[zz][sz] + 1)
+    return matrix
 
-    return matrix[l2][l1]
+
+def levenshtein(s1, s2):
+    return levenshtein_matrix(s1, s2)[len(s2)][len(s1)]
 
 
 def classify_is_sus(database_dict, new_url):
