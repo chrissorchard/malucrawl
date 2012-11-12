@@ -3,6 +3,7 @@ import pkgutil
 
 
 def levenshtein_matrix(s1, s2):
+    # https://code.activestate.com/recipes/576874-levenshtein-distance/
     l1 = len(s1)
     l2 = len(s2)
 
