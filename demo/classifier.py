@@ -1,15 +1,15 @@
 from pebl.util import levenshtein
 
 
-def classify_is_sus(database_dict, new_url):
+def classify_is_sus(database, new_url):
     sus_sum = 0
     notsus_sum = 0
     sind = 0
     nind = 0
 
-    for k, v in database_dict.items():
-        dist = levenshtein(new_url, k)
-        if v == 1:
+    for item in database:
+        dist = levenshtein(new_url, item["url"])
+        if item["malware"]:
             sus_sum = sus_sum + dist
             sind = sind + 1
         else:
