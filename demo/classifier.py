@@ -30,10 +30,18 @@ def classify_is_sus(database_dict, new_url):
 			nind = nind + 1
 	avg_sus = sus_sum/sind
 	avg_notsus = notsus_sum/nind
+	total_len = avg_sus + avg_notsus
 	if avg_sus > avg_notsus:
-		return False
+		return False, 1.0 - float(avg_notsus)/float(total_len)
 	else:
-		return True
+		return True, 1.0 - float(avg_sus)/float(total_len)
+
+
+def classify_is_sus_urls(database_dict, urls):
+	results = {}
+	for url in urls:
+		results[url] = classify_is_sus(database_dict, url)
+	return results
 
 
 
@@ -43,5 +51,8 @@ if __name__ == '__main__':
 		d = [l for l in f]
 		d = '\n'.join(d)
 		mal_dict = json.loads(d)
-		url = 'http://uk.movies.yahoo.com/features/sdfasf'
-		print classify_is_sus(mal_dict, url)
+		urls = [
+			'http://uk.movies.yahoo.com/features/sdfasf',
+			'http://uk.movies.yahoo.com/moveies/sdfasf'
+		]
+		print classify_is_sus_urls(mal_dict, urls)
