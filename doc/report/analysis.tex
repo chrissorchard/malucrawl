@@ -1,0 +1,72 @@
+%\section{Analysis \& Specification}
+
+\section{Analysis}
+%how I worked out how to do it...
+\subsection{Analysis Approach}
+%this is my dev approach, content here + at in design result of this.
+
+\nomenclature{SOWN}{Southampton Open Wireless Network}
+\subsection{Testing Approaches}
+
+\subsubsection{RADIUS Peered Testing}
+
+\subsubsection{Client Based Testing}
+
+\nomenclature{AP}{Access Point}
+
+\subsection{Presentation of Test Data}
+
+
+\subsection{Credential Exchange Security Concerns}
+
+\subsection{Proposed Solutions to Security Concerns}
+\subsubsection{Looking-Glass}
+
+\nomenclature{AS}{Autonomous System}
+\nomenclature{BGP}{Border Gateway Protocol}
+
+
+\subsubsection{Encrypted Test Schedule}
+
+
+\clearpage
+\section{Specification}
+
+To aid in the task of designing the solution, a set of requirements have
+been drawn up. These requirements have been derived from a combination of the
+division of the task presented in the goals of the project, and the analysis
+presented above, with MOSCOW priority attached to each.
+
+\begin{enumerate}
+    \setlength{\itemsep}{1pt}
+    \item The system \textbf{must} generate data that indicates the status of local
+802.1X authentication using appropriate test tools, where the \emph{local}
+deployment references the site under test.
+    \item The system \textbf{must} generate data that indicates the status of remote
+access at the local eduroam deployment using appropriate test tools.
+    \item The system \textbf{should} generate data that indicates the status of remote
+authentication by users of the local deployment.
+    \item The system \textbf{should} generate data for different methods of
+authentication supported by 802.1X.
+    \item The system \textbf{should} generate data to report the level of functionality
+available to remote users, with reference to the JRS Tiers\cite{janet-tech}.
+    \item The system \textbf{must} transfer test results from the testing nodes to a
+suitable platform for storage and presentation.
+    \item The system \textbf{should} allow data transfer in a way which is scalable to
+the scope of all the UK eduroam sites.
+    \item The system \textbf{should} transfer test results using a reliable mechanism.
+    \item The system \textbf{must} store test data collected from each test site.
+    \item The system \textbf{should} maintain historical data records to assist in the
+diagnosis of intermittent network issues.
+    \item The system \textbf{should} store the test data in a format that aids
+presentation and development of future tools that use the data.
+    \item The system \textbf{must} allow users to view data in a human friendly format
+    \item The system \textbf{should} provide a variety of different data views, to cater
+for the different users and their respective needs.
+    \item The system \textbf{could} provide an API to simplify integration with other tools.
+    \item The system \textbf{will not} include specific capabilities for mobile devices,
+or extensive eduroam user-oriented applications.
+    \item The system \textbf{must} be able to be deployed on discrete hardware devices,
+with both wired and wireless interfaces, to enable easy roll-out of the system.
+\end{enumerate}
+\nomenclature{API}{Application programming interface}

@@ -1,0 +1,65 @@
+\documentclass[pdftex, 12pt, a4paper]{article}
+
+\usepackage[pdftex]{graphicx}
+\usepackage[utf8x]{inputenc}
+\usepackage{appendix}
+\usepackage{cite}
+%\usepackage{pgfgantt}
+%\usepackage{pst-gantt}
+\usepackage{rotating}
+\usepackage{lscape}
+\usepackage{hyperref}
+%\usepackage{breakurl}
+\usepackage{listings}
+\usepackage{nomencl}
+
+\nomitemsep 1pt
+
+\makenomenclature
+
+\begin{document}
+
+\include{title}
+
+\include{abstract}
+
+\tableofcontents
+%acknowledgments
+\include{acks}
+%project description (problems + goals)
+\include{description}
+%literature review 
+\include{review}
+%TODO: split into Analysis + Spec, and Detailed Design? DONE
+\include{analysis}
+%justified design
+\include{tech-approach}
+
+%TODO: New Sections
+%\include{implementation}
+\include{testing}
+\include{evaluation}
+\include{control}
+\include{conclusion}
+
+
+
+%references
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{IEEEtran}
+\bibliography{final-report,rfc,i-d,tag1g09,cso1g09,nv2g09,wl15g09}{}
+
+%Appendices
+\appendix
+\include{appendices}
+
+%TODO: following sections:
+%       project description
+%       literature review
+%       design + spec.
+%       justification of approact
+%       project control: past, future
+%       gantt chart
+
+
+\end{document}

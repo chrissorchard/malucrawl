@@ -1,0 +1,99 @@
+\section{Literature Review}
+
+Previous reports in the relevant areas were researched. In this section we are
+going to introduce some background knowledges and research contributions
+summarised from three reports written by authoritative institutions. We will
+see the importance of trending keywords in malware distribution, and the
+methods and systems to measure and counter them. Approaches for malicious
+website detection and analysis are also included. 
+
+\subsection{Search-engine optimization} 
+
+Search engine is a key tool for
+exploring resources on the Internet and becomes increasingly significant in
+people's daily life. Many famous search engines index web pages using PageRank
+algorithm, which states that the rank of a web page depends on the quantity and
+quality of incoming links, and the higher is the rank, the more likely that the
+web page will apear in the top results of a search query. Although search
+engine providers do not usually reveal their algorithms in calculating
+PageRanks in order to reduce spammers who gaming with the system, many main
+features are still well-known. For example, many webpages have their main title
+stored in the URLs, therefore the URLs themself may represent a summary of the
+page contents, which is a feature that can be utilised by search engines to
+rise PageRank.
+\paragraph{}
+A report produced by University of Washington and Microsoft
+Research Silicon Vally introduces a widely used search results poisoning
+technique named Search Engine Optimization (SEO) as well as a system that
+automatically detects them, called deSEO.\cite{deseo} They claim to be "the
+first to present a systematic study of search-result poisoning attacks and how
+to detect them". SEO is a process that uses varies approaches to affect a web
+page such that it will apear in higher positions of a search engine's search
+results, and for most of the cases, a rise of PageRank is achieved. This
+process can be exploited to support illegal websites, such as malicious
+websites, with some additional unethical techniques (which will be introduced
+later) therefore achieves conspicuous boosts in PageRanks. This is called SEO
+attacks. According to the paper, a typical SEO attack consists three servers,
+which are compromised server, redirection server and exploit server. The
+process of exploitation can be divided into five steps: 
+\paragraph{}
+\begin{enumerate} 
+\item The victim submit a common request to a search engine.
+\item The victim click on a search result and is navigated to a malicious web
+page hosted on a compromised server.
+\item The compromised server fowards the request to a redirection server.
+\item The redirect server selects an exploit server then navigates the user
+to it.  
+\item Exploitation of the vitim's browser or scareware displayed.  
+\end{enumerate}
+
+To compromise a server, the attackers often target specific popular software
+with known vunlerabilities but are still used by many servers. The example in
+the report is a shopping websites management software called osCommerce, and
+the attackers compromise the servers by uploading php scripts. Those scripts
+are likely to have funtions that can navigate through the server's file system,
+find data, and upload further files etc. When a server is compromised, SEO
+pages can then be generated. Those pages contains a large number of links
+connects to other SEO pages (probably on other compromised servers), as well as
+contents that relate to the keywords this page's URL focuses on. Such dense
+link structure and high relevant contents are the main means to elevate the
+PageRank. The generated SEO pages may have clocking techniques, which means
+they present different contents to search engine crawlers and victims. When the
+page is visited by a search engine crawler, links to other SEO pages and
+poisoned keywords are displayed, and when a victim accesses, the user's browser
+is forwarded to a redirection server. 
+
+\paragraph{}
+Redirection servers are often formed
+with several layers before reaching the exploit server, where they redirect
+within the compromised server network. In the paper's case the domains of those
+servers are very similar and according to their IPs it is determined that those
+servers are hosted in physical groups. The Exploit servers in that example have
+191 domains being hosted on only two IPs, and the webpage is very cautious with
+incoming visitors. The page detects search engine crawlers as well as referrer,
+and also blocks IPs from search engine companies.  
+
+\paragraph{} 
+The
+researchers of the report crawled across the network of SEO links and finially
+determined 5400 compromised domains. Each domain have an average links of
+80,000 to other domains with 8,000 keywords corresponding to the same number of
+SEO pages, which proves the use of dense link structure in rising PageRank.
+They also provided an estimation of the number of victims affected by this
+group of domains, which was produced from a dataset collected for two and a
+half months. The result was that over 81,000 users were directed to exploit
+pages.
+\paragraph{} 
+The detection of SEO attacks is not a trivial task, as
+those pages usually trigger malicious actions only after strict requirements
+are met, such as depending on the execution result of a JavaScript with the
+input of a user's mouse action. Fortunately the report proved that study only
+the URLs' structures is sufficient to complete the detections. 
+
+
+\subsection{Trending-term exploitation}
+
+
+\subsection{Automatic malware collection}
+
+

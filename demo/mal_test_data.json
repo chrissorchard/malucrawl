@@ -1,78 +1,302 @@
-{
-    "http://everything.yahoo.com/uk/": 1, 
-    "http://feedback.yahoo.com/forums/168900-uk-movies/": 1, 
-    "http://help.yahoo.com//l/uk/yahoo/comments/notifications/": 0, 
-    "http://help.yahoo.com/l/uk/yahoo/movies/": 1, 
-    "http://info.yahoo.com/legal/uk/yahoo/ip_copyright.html": 1, 
-    "http://info.yahoo.com/privacy/uk/yahoo/": 1, 
-    "http://info.yahoo.com/privacy/uk/yahoo/relevantads.html": 1, 
-    "http://twitter.com/intent/user?region=screen_name&screen_name=yahoomoviesuk": 0, 
-    "http://uk.cars.yahoo.com/": 1, 
-    "http://uk.cybergeddon.yahoo.com/": 0, 
-    "http://uk.docs.yahoo.com/info/terms.html": 1, 
-    "http://uk.finance.yahoo.com/": 1, 
-    "http://uk.games.yahoo.com/": 1, 
-    "http://uk.lifestyle.yahoo.com/": 1, 
-    "http://uk.mail.yahoo.com/?.intl=uk&.lang=en-gb": 0, 
-    "http://uk.movies.yahoo.com#": 0, 
-    "http://uk.movies.yahoo.com#next": 0, 
-    "http://uk.movies.yahoo.com#previous": 0, 
-    "http://uk.movies.yahoo.com#yuhead-search": 0, 
-    "http://uk.movies.yahoo.com/": 1, 
-    "http://uk.movies.yahoo.com/blogs/": 1, 
-    "http://uk.movies.yahoo.com/blogs/movie-editors/ben-affleck-argo-makes-cia-good-guys-once-142021349.html": 0, 
-    "http://uk.movies.yahoo.com/blogs/movie-editors/first-look-cruise-kill-121815785.html": 0, 
-    "http://uk.movies.yahoo.com/blogs/movie-editors/kevin-james-honed-comedy-skills-bouncer-125634041.html": 0, 
-    "http://uk.movies.yahoo.com/box-office/": 0, 
-    "http://uk.movies.yahoo.com/coming-soon/": 0, 
-    "http://uk.movies.yahoo.com/electric-city/": 0, 
-    "http://uk.movies.yahoo.com/features/": 1, 
-    "http://uk.movies.yahoo.com/film-festivals/": 1, 
-    "http://uk.movies.yahoo.com/film-festivals/berlin/": 0, 
-    "http://uk.movies.yahoo.com/film-festivals/cannes/": 0, 
-    "http://uk.movies.yahoo.com/film-festivals/sundance/": 0, 
-    "http://uk.movies.yahoo.com/madagascar-3/": 0, 
-    "http://uk.movies.yahoo.com/madagascar-3/madagascar-3-trailer-29487624.html": 0, 
-    "http://uk.movies.yahoo.com/movie/alex-cross/": 1, 
-    "http://uk.movies.yahoo.com/movie/argo/": 1, 
-    "http://uk.movies.yahoo.com/movie/end-of-watch/": 1, 
-    "http://uk.movies.yahoo.com/movie/gambit-2/": 1, 
-    "http://uk.movies.yahoo.com/movie/skyfall-2012/": 0, 
-    "http://uk.movies.yahoo.com/movie/the-twilight-saga-breaking-dawn-part-2/": 1, 
-    "http://uk.movies.yahoo.com/movie/trouble-with-the-curve/": 1, 
-    "http://uk.movies.yahoo.com/news/": 1, 
-    "http://uk.movies.yahoo.com/oscars/": 1, 
-    "http://uk.movies.yahoo.com/paranormal-activity-4/": 0, 
-    "http://uk.movies.yahoo.com/person/emma-watson/": 0, 
-    "http://uk.movies.yahoo.com/person/emma-watson/biography.html": 0, 
-    "http://uk.movies.yahoo.com/person/emma-watson/filmography.html": 0, 
-    "http://uk.movies.yahoo.com/person/emma-watson/photos/": 0, 
-    "http://uk.movies.yahoo.com/photo/": 1, 
-    "http://uk.movies.yahoo.com/photos/": 0, 
-    "http://uk.movies.yahoo.com/photos/brilliant-photos-bring-film-stills-to-life-slideshow/": 0, 
-    "http://uk.movies.yahoo.com/photos/every-bond-film-premiere-in-pictures-slideshow/": 0, 
-    "http://uk.movies.yahoo.com/photos/fun-size-film-stills-slideshow/": 0, 
-    "http://uk.movies.yahoo.com/photos/harry-potter-and-the-halfblood-prince-photocall-slideshow-1899/": 0, 
-    "http://uk.movies.yahoo.com/photos/harry-potter-and-the-halfblood-prince-photocall-slideshow-1899/harry-potter-half-blood-prince-uk-photocall-2009-31621.html": 0, 
-    "http://uk.movies.yahoo.com/photos/harry-potter-and-the-halfblood-prince-photocall-slideshow-1899/harry-potter-half-blood-prince-uk-photocall-2009-31624.html": 0, 
-    "http://uk.movies.yahoo.com/photos/harry-potter-and-the-halfblood-prince-photocall-slideshow-1899/harry-potter-half-blood-prince-uk-photocall-2009-31629.html": 0, 
-    "http://uk.movies.yahoo.com/photos/harry-potter-and-the-halfblood-prince-photocall-slideshow-1899/harry-potter-half-blood-prince-uk-photocall-2009-31630.html": 0, 
-    "http://uk.movies.yahoo.com/photos/skyall-royal-world-premiere-red-carpet-pics-slideshow/": 0, 
-    "http://uk.movies.yahoo.com/reviews/": 1, 
-    "http://uk.movies.yahoo.com/showtimes/": 0, 
-    "http://uk.movies.yahoo.com/trailers/": 1, 
-    "http://uk.movies.yahoo.com/video/carrie-trailer-1-085155896.html": 0, 
-    "http://uk.movies.yahoo.com/video/yahoo-interview-070000974.html": 0, 
-    "http://uk.movies.yahoo.com/write-for-us/": 1, 
-    "http://uk.movies.yahoo.comhttps://edit.yahoo.com/config/eval_register?.src=mov&.intl=uk&.lang=en-gb&.done=http://uk.movies.yahoo.com/person/emma-watson/": 0, 
-    "http://uk.movies.yahoo.comhttps://login.yahoo.com/config/login?.src=mov&.intl=uk&.lang=en-gb&.done=http://uk.movies.yahoo.com/person/emma-watson/": 0, 
-    "http://uk.my.yahoo.com/": 0, 
-    "http://uk.news.yahoo.com/": 1, 
-    "http://uk.omg.yahoo.com/": 1, 
-    "http://uk.travel.yahoo.com/": 1, 
-    "http://uk.tv.yahoo.com/": 1, 
-    "http://uk.yahoo.com/": 0, 
-    "http://uk.yahoo.com/bin/set": 0, 
-    "http://www.facebook.com/yahoomoviesuk": 0
-}
-
+[
+    {
+        "url": "http://uk.movies.yahoo.com/blogs/movie-editors/ben-affleck-argo-makes-cia-good-guys-once-142021349.html",
+        "malware": false
+    },
+    {
+        "url": "http://uk.yahoo.com/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/movie/trouble-with-the-curve/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/movie/the-twilight-saga-breaking-dawn-part-2/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/film-festivals/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/electric-city/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com#yuhead-search",
+        "malware": false
+    },
+    {
+        "url": "http://uk.news.yahoo.com/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/photos/harry-potter-and-the-halfblood-prince-photocall-slideshow-1899/harry-potter-half-blood-prince-uk-photocall-2009-31629.html",
+        "malware": false
+    },
+    {
+        "url": "http://uk.yahoo.com/bin/set",
+        "malware": false
+    },
+    {
+        "url": "http://help.yahoo.com/l/uk/yahoo/movies/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.tv.yahoo.com/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.lifestyle.yahoo.com/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.finance.yahoo.com/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/oscars/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com#next",
+        "malware": false
+    },
+    {
+        "url": "http://twitter.com/intent/user?region=screen_name&screen_name=yahoomoviesuk",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/person/emma-watson/biography.html",
+        "malware": false
+    },
+    {
+        "url": "http://help.yahoo.com//l/uk/yahoo/comments/notifications/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/madagascar-3/madagascar-3-trailer-29487624.html",
+        "malware": false
+    },
+    {
+        "url": "http://uk.travel.yahoo.com/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/photos/brilliant-photos-bring-film-stills-to-life-slideshow/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.comhttps://edit.yahoo.com/config/eval_register?.src=mov&.intl=uk&.lang=en-gb&.done=http://uk.movies.yahoo.com/person/emma-watson/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/movie/gambit-2/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com#previous",
+        "malware": false
+    },
+    {
+        "url": "http://uk.cars.yahoo.com/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/news/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/photos/harry-potter-and-the-halfblood-prince-photocall-slideshow-1899/harry-potter-half-blood-prince-uk-photocall-2009-31630.html",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/photos/fun-size-film-stills-slideshow/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/film-festivals/berlin/",
+        "malware": false
+    },
+    {
+        "url": "http://www.facebook.com/yahoomoviesuk",
+        "malware": false
+    },
+    {
+        "url": "http://feedback.yahoo.com/forums/168900-uk-movies/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/movie/skyfall-2012/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/movie/argo/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.comhttps://login.yahoo.com/config/login?.src=mov&.intl=uk&.lang=en-gb&.done=http://uk.movies.yahoo.com/person/emma-watson/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.docs.yahoo.com/info/terms.html",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/blogs/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.omg.yahoo.com/",
+        "malware": true
+    },
+    {
+        "url": "http://info.yahoo.com/legal/uk/yahoo/ip_copyright.html",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/photos/every-bond-film-premiere-in-pictures-slideshow/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/box-office/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/blogs/movie-editors/kevin-james-honed-comedy-skills-bouncer-125634041.html",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/photos/harry-potter-and-the-halfblood-prince-photocall-slideshow-1899/harry-potter-half-blood-prince-uk-photocall-2009-31621.html",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/reviews/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/write-for-us/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/photos/harry-potter-and-the-halfblood-prince-photocall-slideshow-1899/harry-potter-half-blood-prince-uk-photocall-2009-31624.html",
+        "malware": false
+    },
+    {
+        "url": "http://info.yahoo.com/privacy/uk/yahoo/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/person/emma-watson/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/photo/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/coming-soon/",
+        "malware": false
+    },
+    {
+        "url": "http://info.yahoo.com/privacy/uk/yahoo/relevantads.html",
+        "malware": true
+    },
+    {
+        "url": "http://everything.yahoo.com/uk/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.mail.yahoo.com/?.intl=uk&.lang=en-gb",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/person/emma-watson/filmography.html",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/madagascar-3/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/photos/skyall-royal-world-premiere-red-carpet-pics-slideshow/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/film-festivals/cannes/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/person/emma-watson/photos/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.games.yahoo.com/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/blogs/movie-editors/first-look-cruise-kill-121815785.html",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/film-festivals/sundance/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/photos/harry-potter-and-the-halfblood-prince-photocall-slideshow-1899/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com#",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/features/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/trailers/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/movie/alex-cross/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/video/yahoo-interview-070000974.html",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/paranormal-activity-4/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/showtimes/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.my.yahoo.com/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/movie/end-of-watch/",
+        "malware": true
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/video/carrie-trailer-1-085155896.html",
+        "malware": false
+    },
+    {
+        "url": "http://uk.cybergeddon.yahoo.com/",
+        "malware": false
+    },
+    {
+        "url": "http://uk.movies.yahoo.com/photos/",
+        "malware": false
+    }
+]

@@ -1,6 +1,7 @@
-import json
+from pebl.util import levenshtein
 
 
+<<<<<<< HEAD
 def levenshtein(s1, s2):
     l1 = len(s1)
     l2 = len(s2)
@@ -42,11 +43,28 @@ def classify_is_sus_urls(database_dict, urls):
 	for url in urls:
 		results[url] = classify_is_sus(database_dict, url)
 	return results
+=======
+def classify_is_sus(database, new_url):
+    sus_sum = 0
+    notsus_sum = 0
+    sind = 0
+    nind = 0
+>>>>>>> feccc89c90bce610e05d01e0f2522834cd1fa40e
 
+    for item in database:
+        dist = levenshtein(new_url, item["url"])
+        if item["malware"]:
+            sus_sum = sus_sum + dist
+            sind = sind + 1
+        else:
+            notsus_sum = notsus_sum + dist
+            nind = nind + 1
 
+    return sus_sum / sind <= notsus_sum / nind
 
 
 if __name__ == '__main__':
+<<<<<<< HEAD
 	with open('mal_test_data.json', 'r') as f:
 		d = [l for l in f]
 		d = '\n'.join(d)
@@ -56,3 +74,11 @@ if __name__ == '__main__':
 			'http://uk.movies.yahoo.com/moveies/sdfasf'
 		]
 		print classify_is_sus_urls(mal_dict, urls)
+=======
+    import json
+    import pkgutil
+
+    mal_dict = json.loads(pkgutil.get_data("classifier", "mal_test_data.json"))
+    url = 'http://uk.movies.yahoo.com/features/sdfasf'
+    print classify_is_sus(mal_dict, url)
+>>>>>>> feccc89c90bce610e05d01e0f2522834cd1fa40e
