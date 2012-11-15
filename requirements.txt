@@ -1,0 +1,15 @@
+django-crispy-forms
+django-jquery
+django-js-utils
+django-angularjs
+django-bootstrap-less
+django-compressor
+django-extensions
+django-celery-with-redis
+publicsuffix
+progress
+tweepy
+jsonschema
+eventlet
+pebl
+pyclamd

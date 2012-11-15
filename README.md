@@ -13,20 +13,4 @@ To start the Celery workers: see http://docs.celeryproject.org/en/latest/django/
 Required Packages
 -----------------
 
-django-crispy-forms
-django-jquery
-django-js-utils
-django-angularjs
-django-bootstrap-less
-django-compressor
-django-extensions
-django-celery-with-redis
-publicsuffix
-progress
-tweepy
-jsonschema
-eventlet
-pebl
-pyclamd
-
 lessc git build-essential python-dev python-pip redis-server rabbitmq-server
