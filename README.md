@@ -27,5 +27,6 @@ tweepy
 jsonschema
 eventlet
 pebl
+pyclamd
 
 lessc git build-essential python-dev python-pip redis-server rabbitmq-server
