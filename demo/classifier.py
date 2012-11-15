@@ -1,3 +1,4 @@
+from __future__ import division
 from pebl.util import levenshtein
 
 
@@ -17,13 +18,13 @@ def classify_is_sus(database, new_url):
         else:
             notsus_sum = notsus_sum + dist
             nind = nind + 1
-    avg_sus = sus_sum / sind
-    avg_notsus = notsus_sum / nind
+    avg_sus = sus_sum // sind
+    avg_notsus = notsus_sum // nind
     total_len = avg_sus + avg_notsus
     if avg_sus > avg_notsus:
-        return False, 1.0 - float(avg_notsus) / float(total_len)
+        return False, 1.0 - avg_notsus / total_len
     else:
-        return True, 1.0 - float(avg_sus) / float(total_len)
+        return True, 1.0 - avg_sus / total_len
 
 
 def add_url(url, is_mal):
