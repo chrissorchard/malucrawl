@@ -17,24 +17,24 @@ def classify_is_sus(database, new_url):
         else:
             notsus_sum = notsus_sum + dist
             nind = nind + 1
-	avg_sus = sus_sum/sind
-	avg_notsus = notsus_sum/nind
-	total_len = avg_sus + avg_notsus
-	if avg_sus > avg_notsus:
-		return False, 1.0 - float(avg_notsus)/float(total_len)
-	else:
-		return True, 1.0 - float(avg_sus)/float(total_len)
+    avg_sus = sus_sum/sind
+    avg_notsus = notsus_sum/nind
+    total_len = avg_sus + avg_notsus
+    if avg_sus > avg_notsus:
+        return False, 1.0 - float(avg_notsus)/float(total_len)
+    else:
+        return True, 1.0 - float(avg_sus)/float(total_len)
 
 
 def add_url(url, is_mal):
-	""" Gets url and if it is a malware and fills the 
-		_mal_list which is used for the classification task
+    """ Gets url and if it is a malware and fills the 
+        _mal_list which is used for the classification task
 
-		url -- the url which is classified as malware or not 
-		is_mal -- true or false 
-	"""
-	global _mal_list
-	_mal_list.append ({"url":url, "malware":is_mal})
+        url -- the url which is classified as malware or not 
+        is_mal -- true or false 
+    """
+    global _mal_list
+    _mal_list.append ({"url":url, "malware":is_mal})
 
 if __name__ == '__main__':
     import json
