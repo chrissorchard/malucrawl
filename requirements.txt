@@ -12,4 +12,4 @@ tweepy
 jsonschema
 eventlet
 pebl
-pyclamd
+clamd
