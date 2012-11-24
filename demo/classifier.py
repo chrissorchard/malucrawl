@@ -1,15 +1,29 @@
 from __future__ import division
 from pebl.util import levenshtein
-
+from malware_crawl.models import Malicouse_sites
 
 _mal_list = []
 
 
-def classify_is_sus(database, new_url):
+
+
+def read_from_database():
+    """
+        Reads the malwares from the database and returns a mal_dict
+    """
+    malwares =  Malicouse_sites.objects.all()
+    mal_dict = {}
+    for m in malwares:
+        mal_dict[m.url] = m.malware 
+    return mal_dict
+
+
+def classify_is_sus(new_url):
     sus_sum = 0
     notsus_sum = 0
     sind = 1
     nind = 1
+    database = read_from_database()
     for item in database:
         dist = levenshtein(new_url, item["url"])
         if item["malware"]:
@@ -37,9 +51,14 @@ def add_url(url, is_mal):
     global _mal_list
     _mal_list.append({"url": url, "malware": is_mal})
 
+
 if __name__ == '__main__':
     import json
     import pkgutil
+    """
     mal_dict = json.loads(pkgutil.get_data("classifier", "mal_test_data.json"))
-    url = 'http://uk.movies.yahoo.com/features/sdfasf'
+    malwares = Malicouse_sites.objects.all() 
     print classify_is_sus(mal_dict, url)
+    """
+    url = 'http://uk.movies.yahoo.com/features/sdfasf'
+    print classify_is_sus(url)
