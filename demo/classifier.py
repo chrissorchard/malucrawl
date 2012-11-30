@@ -7,7 +7,7 @@ _mal_list = []
 
 
 
-def read_from_database():
+def read_from_database_to_dict():
     """
         Reads the malwares from the database and returns a mal_dict
     """
@@ -23,7 +23,9 @@ def classify_is_sus(new_url):
     notsus_sum = 0
     sind = 1
     nind = 1
-    database = read_from_database()
+    database = read_from_database_to_dict()
+    if new_url in database:
+        return database[new_url], 1.0
     for item in database:
         dist = levenshtein(new_url, item["url"])
         if item["malware"]:
