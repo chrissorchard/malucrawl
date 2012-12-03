@@ -127,9 +127,10 @@ print rstatus.json
 
 import matplotlib.pyplot as plt
 import numpy as np
+from operator import itemgetter
 
 
-sdata = sorted(data.values(), key=lambda x:x[1])
+sdata = sorted(data.values(), key=itemgetter(1))
 
 mindate = sdata[0][1].date()
 maxdate = sdata[-1][1].date()
@@ -186,7 +187,7 @@ plt.xticks(rotation='vertical')
 plt.ylabel('Words')
 plt.title('Report Word Count Breakdown')
 
-legend = map(lambda x:x[0], pltbars.values())
+legend = map(itemgetter(0), pltbars.values())
 plt.legend(legend, bars, loc="upper left")
 
 plt.subplots_adjust(bottom=.2)
