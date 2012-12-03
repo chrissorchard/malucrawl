@@ -8,7 +8,6 @@
 
 import requests
 import getpass
-import json
 from urlparse import urljoin
 import tempfile
 import os
@@ -117,6 +116,7 @@ for commit in sortcommits:
 
     dt = dateutil.parser.parse(commit["commit"]["committer"]["date"])
     data[commit["sha"]] = commit["author"]["login"], dt, changes
+
     #print json.dumps(rc.json, sort_keys=True, indent=2)
 
 #print data
@@ -132,9 +132,10 @@ print rstatus.json
 
 import matplotlib.pyplot as plt
 import numpy as np
+from operator import itemgetter
 
 
-sdata = sorted(data.values(), key=lambda x: x[1])
+sdata = sorted(data.values(), key=itemgetter(1))
 
 mindate = sdata[0][1].date()
 maxdate = sdata[-1][1].date()
@@ -154,7 +155,6 @@ for name, dt, count in sdata:
     namecount[name].sort()
 
 
-import collections
 nameadd = {}
 bars = []
 width = 0.35
@@ -182,8 +182,10 @@ for name in namecount.keys():
         bars.append(name)
     else:
         pltbars[name] = plt.bar(
-                dateList, nameadd[name],
-                bottom=nameadd[bars[-1]], color=colours[currc])
+                dateList,
+                nameadd[name],
+                bottom=nameadd[bars[-1]],
+                color=colours[currc])
         currc = (currc + 1) % len(colours)
         bars.append(name)
 
@@ -194,7 +196,7 @@ plt.xticks(rotation='vertical')
 plt.ylabel('Words')
 plt.title('Report Word Count Breakdown')
 
-legend = map(lambda x: x[0], pltbars.values())
+legend = map(itemgetter(0), pltbars.values())
 plt.legend(legend, bars, loc="upper left")
 
 plt.subplots_adjust(bottom=.2)
