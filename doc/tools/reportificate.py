@@ -2,13 +2,12 @@
 
 #
 # github API abusing script for report metrics
-# 
+#
 # C. Orchard - 29/11/2012
 #
 
 import requests
 import getpass
-import json
 from urlparse import urljoin
 import tempfile
 import os
@@ -46,7 +45,7 @@ commit_url = "repos/chrissorchard/malucrawl/commits/"
 status_url = "rate_limit"
 
 param = {
-    'path': 'doc/report'        
+    'path': 'doc/report'
         }
 
 r = requests.get(urljoin(github_url, repo_url), auth=(username, password), params=param)
@@ -67,7 +66,7 @@ for commit in r.json:
         g_used = False
         f_used = False
         with codecs.open(fname, 'a', encoding='utf-8') as f:
-            with codecs.open(fname2, 'a', encoding='utf-8') as g: 
+            with codecs.open(fname2, 'a', encoding='utf-8') as g:
                 for changedf in rc.json["files"]:
                     if changedf["filename"] in report_files:
                         rcf = requests.get(changedf["raw_url"], auth=(username, password))
@@ -110,9 +109,8 @@ for commit in r.json:
     os.unlink(fname)
     os.unlink(fname2)
 
-    
     dt = dateutil.parser.parse(commit["commit"]["committer"]["date"])
-    data[commit["sha"]] = commit["author"]["login"], dt, ret - ret2 
+    data[commit["sha"]] = commit["author"]["login"], dt, ret - ret2
     #print json.dumps(rc.json, sort_keys=True, indent=2)
 
 #print data
@@ -137,7 +135,7 @@ maxdate = sdata[-1][1].date()
 
 delta = maxdate - mindate
 
-dateList = [ mindate + datetime.timedelta(days=x) for x in range(0,delta.days + 1) ]
+dateList = [mindate + datetime.timedelta(days=x) for x in range(0, delta.days + 1)]
 
 #make four lists for y values
 
@@ -145,15 +143,14 @@ namecount = {}
 for name, dt, count in sdata:
     if name not in namecount:
         namecount[name] = []
-    namecount[name].append((dt,count))
+    namecount[name].append((dt, count))
     namecount[name].sort()
 
 
-import collections
 nameadd = {}
 bars = []
 width = 0.35
-colours = ["b","g","r","c","m","y"]
+colours = ["b", "g", "r", "c", "m", "y"]
 currc = 0
 pltbars = {}
 
@@ -170,12 +167,12 @@ for name in namecount.keys():
         running_total[i] = total
 
     nameadd[name] = running_total
-    
+
     if not bars:
         pltbars[name] = plt.bar(dateList, nameadd[name], color=colours[currc])
-        currc+= 1
+        currc += 1
         bars.append(name)
-    else: 
+    else:
         pltbars[name] = plt.bar(dateList, nameadd[name], bottom=nameadd[bars[-1]], color=colours[currc])
         currc = (currc + 1) % len(colours)
         bars.append(name)
@@ -192,4 +189,3 @@ plt.legend(legend, bars, loc="upper left")
 
 plt.subplots_adjust(bottom=.2)
 plt.show()
-
