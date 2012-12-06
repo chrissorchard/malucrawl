@@ -32,7 +32,14 @@ report_files = [
     "doc/report/tech-sections/clam-av/design.tex",
     "doc/report/tech-sections/clam-av/results.tex",
     "doc/report/tech-sections/clam-av/testing.tex",
-    "doc/report/lit-review.tex"
+    "doc/report/lit-review.tex",
+    "doc/report/tech-sections/celery-framwework/design.tex",
+    "doc/report/tech-sections/celery-framwework/results.tex",
+    "doc/report/tech-sections/celery-framwework/testing.tex"
+    "doc/report/tech-sections/malware-lists/design.tex",
+    "doc/report/tech-sections/malware-lists/results.tex",
+    "doc/report/tech-sections/malware-lists/testing.tex",
+    "doc/report/tech-sections/Classification"
     ]
 
 github_url = "https://api.github.com/"
