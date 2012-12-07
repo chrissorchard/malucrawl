@@ -65,7 +65,7 @@ Each item from a feed should be entered into a corpus, to calculate keywords fro
 Note that each feed can be processed separately. Ie one corpus per feed.
 
 \subsubsection{A note on the Sun}
-The Sun provides a JSON API for the top 200 most commented on articles at \verb`http://bootstrap.thesun.fyre.co/api/cust/ni/todays_hottest/200.json`. In most cases the content of this JSON file can be treated exactly the same as an RSS feed however care should be taken to deal with the dodgy encoding of some of the returned headlines: ``Terry a â\\u0080\\u0098liarâu\\0080\\u0099'' should be ``Terry a liar''.
+The Sun provides a JSON API for the top 200 most commented on articles at \verb`http://bootstrap.thesun.fyre.co/api/cust/ni/todays_hottest/200.json`. In most cases the content of this JSON file can be treated exactly the same as an RSS feed however care should be taken to deal with the dodgy encoding of some of the returned headlines: ``Terry a â\\u0080\\u0098liarâu\\0080\\u0099'' should be ``Terry a \"liar\"''.
 
 \subsubsection{Even More Sources}
 Examples include:
