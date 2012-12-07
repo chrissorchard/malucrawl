@@ -22,3 +22,5 @@ final-report.out*
 final-report.pdf*
 final-report.toc*
 
+#vim
+*.swp
