@@ -13,13 +13,13 @@ Each result from the ``keyword finding'' task should result in a new ``search en
 Each result from the ``search engine'' task should result in a new ``malware finding placeholder'' task
 Each result from the ``malware finding placeholder'' should be printed to STDOUT by the master node.
 
-It is expected that the ``search engine'' will return hundreds of results, as such the Celery chunking api should be investigated to optimise resource usage. http://docs.celeryproject.org/en/latest/userguide/canvas.html#chunks
+It is expected that the ``search engine'' will return hundreds of results, as such the Celery chunking api should be investigated to optimise resource usage. \verb`http://docs.celeryproject.org/en/latest/userguide/canvas.html#chunks`
 Future Extension
 The system should be designed so that it is possible to avoid repeating the ``same'' task too often. Eg a ``search engine'' task for the same keyword, or ``malware finding'' task for the same URL should only be repeated once in any given time period.
 
 To implement this a set of keywords and URLs should be maintained. Each item should be dropped from the set after a certain time. This could be in a database eg. the existing Redis instance used for the result backend:
 
-{``task:(keyword|url):#{data}'':{``result'':taskid, ``requested'':time_stamp}}
+\verb/{"task:(keyword|url):#{data}":{"result":taskid, "requested":time_stamp}}/
 
 The simplest solution is that: each time a task is called it checks in Redis for its task key, eg ``task:keyword:foo'' and returns the result at ``taskid'' if the time is recent enough. Otherwise it adds itself to Redis and returns normally.
 
@@ -42,22 +42,22 @@ It is important to note that further possibilities for keyword determination sho
 \subsubsection{Twitter}
 The twitter api is available in multiple versions, 1 and 1.1. Currently 1 is deprecated and it is recommended that new applications build against 1.1.  The disadvantage of the 1.1 API is that it requires a ``User Context'', ie all requests must be authenticated based on Application-User key.
 
-The Twitter API provides access to global trending topics at     
+The Twitter API provides access to global trending topics at
 
-https://api.twitter.com/1.1/trends/place.json
+\verb`https://api.twitter.com/1.1/trends/place.json`
 
-Documented at https://dev.twitter.com/docs/api/1.1/get/trends/place
+Documented at \verb`https://dev.twitter.com/docs/api/1.1/get/trends/place`
 
 The keyword information is available at [0].trends[].name.
 
-Topics with a # infront are Twitter ``hashtags'', and are usually camel cased. The system should be able to convert from camel cased to space delimited. As in http://commons.apache.org/lang/api-3.0.1/org/apache/commons/lang3/StringUtils.html#splitByCharacterTypeCamelCase%28java.lang.String%29
+Topics with a \# infront are Twitter ``hashtags'', and are usually camel cased. The system should be able to convert from camel cased to space delimited. As in \verb`http://commons.apache.org/lang/api-3.0.1/org/apache/commons/lang3/StringUtils.html#splitByCharacterTypeCamelCase%28java.lang.String%29`
 
-Eg. #BrazilWantsOneDirection -> Brazil Wants One Direction
-#XFactorPHFinale -> X Factor PH Final
+Eg. \#BrazilWantsOneDirection -> Brazil Wants One Direction
+\#XFactorPHFinale -> X Factor PH Final
 
 In the case of all capitals eg NIALLSAYHITOTURKEY, it's probably best to drop it.
 
-\subsubsetion{RSS}
+\subsubsection{RSS}
 A set of RSS feeds should be collected and parsed, ``feedparser'' is likely to be useful for this.
 
 Each item from a feed should be entered into a corpus, to calculate keywords from items in the corpus algorithms such as TFIDF should be used. The natural language library ``metanl'' is likely to be helpful.
@@ -65,14 +65,15 @@ Each item from a feed should be entered into a corpus, to calculate keywords fro
 Note that each feed can be processed separately. Ie one corpus per feed.
 
 \subsubsection{A note on the Sun}
-The Sun provides a JSON API for the top 200 most commented on articles at http://bootstrap.thesun.fyre.co/api/cust/ni/todays_hottest/200.json. In most cases the content of this JSON file can be treated exactly the same as an RSS feed however care should be taken to deal with the dodgy encoding of some of the returned headlines: ``Terry a âliarâ'' should be ``Terry a liar''.
+The Sun provides a JSON API for the top 200 most commented on articles at \verb`http://bootstrap.thesun.fyre.co/api/cust/ni/todays_hottest/200.json`. In most cases the content of this JSON file can be treated exactly the same as an RSS feed however care should be taken to deal with the dodgy encoding of some of the returned headlines: ``Terry a â\\u0080\\u0098liarâu\\0080\\u0099'' should be ``Terry a liar''.
 
 \subsubsection{Even More Sources}
 Examples include:
-
-    Link aggregation sites such as Reddit and Digg.
-    Search engine common searches and trends such as Google, Bing and Yahoo trends services.
-    Network logs such as the campus search trends. It should be noted that this data is very unlikely to be accessible by malware distribution networks and might allow us to see trends before they do.
+\begin{itemize}
+    \item Link aggregation sites such as Reddit and Digg.
+    \item Search engine common searches and trends such as Google, Bing and Yahoo trends services.
+    \item Network logs such as the campus search trends. It should be noted that this data is very unlikely to be accessible by malware distribution networks and might allow us to see trends before they do.
+\end{itemize}
 
 \subsubsection{Search Engine}
 To determine URLs to investigate a search engine of some sort is required, the best I have found that can be used by automata is http://dogpile.co.uk.
@@ -81,8 +82,6 @@ A handy code snippet for retrieving URLs from dogpile:
 
 map(lambda link: link.get('href'),lxml.html.fromstring(requests.get("http://www.dogpile.co.uk/search/web?q=foo").text).cssselect(".webResult .resultDisplayUrl"))
 
-Because each of the links we want is wrapped in a
+Because each of the links we want is wrapped in a ``ClickHandler'' \verb`http://cs.infospace.com/ClickHandler.ashx?du=http%3a%2f%2fwww.ietf.org%2frfc%2frfc3092.txt&ru=http%3a%2f%2fwww.ietf.org%2frfc%2frfc3092.txt&ld=20121006&ap=10&app=1&c=uk.dogpl&s=dogpileuk&coi=239138&cop=main-title&euip=94.193.128.47&npp=10&p=0&pp=0&pvaid=1351848139fc4226b6b6a0f6e0eed58b&ep=8&mid=9&hash=22AE450C7F5B9FA7C51FE2CEA7841093`
 
-``ClickHandler'': ``http://cs.infospace.com/ClickHandler.ashx?du=http\%3a\%2f\%2fwww.ietf.org\%2frfc\%2frfc3092.txt&ru=http\%3a\%2f\%2fwww.ietf.org\%2frfc\%2frfc3092.txt&ld=20121006&ap=10&app=1&c=uk.dogpl&s=dogpileuk&coi=239138&cop=main-title&euip=94.193.128.47&npp=10&p=0&pp=0&pvaid=1351848139fc4226b6b6a0f6e0eed58b&ep=8&mid=9&hash=22AE450C7F5B9FA7C51FE2CEA7841093''
-
-The URLs returned must be parsed, eg using ``urlparse'' to retrieve the unwrapped URL available in the ``du'' or ``ru'' GET parameter, in this case ``http://www.ietf.org/rfc/rfc3092.txt''
+The URLs returned must be parsed, eg using ``urlparse'' to retrieve the unwrapped URL available in the ``du'' or ``ru'' GET parameter, in this case\cite{rfc3092}
