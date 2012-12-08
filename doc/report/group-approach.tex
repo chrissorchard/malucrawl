@@ -98,8 +98,21 @@ As part of the project management task, possible risks associated with the
 project were identified, and steps taken to mitigate them. The risks identified
 by this process are listed in the table below.
 
-RISK REGISTER TABLE
-
+\clearpage
+\begin{landscape}
+\thispagestyle{empty}
+\makebox[\textwidth]{
+    \begin{tabularx}{1.5\textwidth}{|p{5cm}XXp{8cm}XXl|}
+        \hline
+        Risk & Impact (1-5) & Probability (1-5) & Mitigation & Risk Score (1-25) & Mitigated Risk Score & Status \\ \hline
+        The delivered project does not meet the provide specification. & 5 & 2 & Ensure that progress is monitored throughout the project and that any necessary change in specification is discussed with the customer. & 10 & 8 & Not Impacted \\ 
+        The delivered project does not meet customer expectations & 5 & 2 & Ensure customer is aware of the status of the project and likely outcome throughout the course of the project lifecyle & 10 & 4 & Mitigated \\ 
+        A tool or library chosen for use in the development of the project does not meet its requirements. & 4 & 3 & Chose tools and libraries that group members are familiar with, and preferably those which can be patch by group members where possible. & 12 & 6 & Mitigated \\ 
+        Integration takes much longer than planned due to conflicting styles of coding in software components developed be different group members & 3 & 4 & Discuss and enforce a single style of coding for all software, reviewing code as it is written. & 12 & 3 & Mitigated \\ 
+        \hline
+    \end{tabularx}
+}
+\end{landscape}
 %Risk approach???
 
 \subsection{Stakeholder Management}
