@@ -3,8 +3,9 @@ import os
 import socket
 import djcelery
 import requests
-from malware_crawl.scan.capture_hpc import CaptureRouter
+#from malware_crawl.scan.capture_hpc import CaptureRouter
 
+DEPLOYED = False
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 COMPRESS_ENABLED = True
@@ -198,16 +199,17 @@ MALUCRAWL_REDIS = {
 
 CELERY_RESULT_BACKEND = MALUCRAWL_REDIS["master"]
 CELERYD_PREFETCH_MULTIPLIER = 0
-CELERY_ROUTES = (CaptureRouter(), )
+#CELERY_ROUTES = (CaptureRouter(), )
 
 requests.defaults.defaults["base_headers"]["User-Agent"] += " +http://git.io/cso_malucrawl"
 
 djcelery.setup_loader()
 
-if socket.gethostname().startswith("kanga"):
+if DEPLOYED:
     from deploy_settings import *
 
 try:
+    pass
     from local_settings import *
 except ImportError as e:
     pass
