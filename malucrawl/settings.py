@@ -3,6 +3,7 @@ import os
 import socket
 import djcelery
 import requests
+from malware_crawl.scan.capture_hpc import CaptureRouter
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -21,7 +22,7 @@ DATABASES = {
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
+    },
     'capture': {
         'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'capturehpc',                      # Or path to database file if using sqlite3.
