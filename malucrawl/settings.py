@@ -22,6 +22,14 @@ DATABASES = {
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
+    'capture': {
+        'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'capturehpc',                      # Or path to database file if using sqlite3.
+        'USER': 'capture',
+        'PASSWORD': 'capture',
+        'HOST': 'kanga-toast.ecs.soton.ac.uk',
+        'PORT': '',                      # Set to empty string for default.
+    }
 }
 
 # Local time zone for this installation. Choices can be found here:
