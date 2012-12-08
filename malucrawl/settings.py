@@ -189,6 +189,7 @@ MALUCRAWL_REDIS = {
 
 CELERY_RESULT_BACKEND = MALUCRAWL_REDIS["master"]
 CELERYD_PREFETCH_MULTIPLIER = 0
+CELERY_ROUTES = (CaptureRouter(), )
 
 requests.defaults.defaults["base_headers"]["User-Agent"] += " +http://git.io/cso_malucrawl"
 
