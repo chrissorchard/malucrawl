@@ -6,6 +6,7 @@
 # C. Orchard - 29/11/2012
 #
 
+import itertools
 import requests
 import getpass
 from urlparse import urljoin
@@ -16,6 +17,9 @@ from subprocess import PIPE, Popen
 import dateutil.parser
 import datetime
 from copy import deepcopy
+import json
+
+from link_header import parse_link_value
 
 report_files = [
     "doc/report/analysis.tex",
@@ -51,10 +55,7 @@ repo_url = "repos/chrissorchard/malucrawl/commits"
 commit_url = "repos/chrissorchard/malucrawl/commits/"
 status_url = "rate_limit"
 
-param = {
-    'path': 'doc/report',
-    'per_page': '100'
-        }
+
 
 
 def lacount(counttext):
@@ -84,17 +85,35 @@ username = raw_input("Username: ")
 #WARNING: password contains the password, do not print!!!
 password = getpass.getpass()
 
-r = requests.get(
-        urljoin(github_url, repo_url),
-        auth=(username, password),
-        params=param)
+def commits_generator():
+    url = urljoin(github_url, repo_url)
+    first_page = True
+    param = {
+        'path': 'doc/report',
+        'per_page': '100'
+    }
+    while True:
+        r = requests.get(
+            url,
+            auth=(username, password),
+            params = param
+        )
+        yield r.json
 
-#print json.dumps(r.json, sort_keys=True, indent=2)
+        for key_url, prop in parse_link_value(r.headers["link"]).items():
+            if prop.get("rel", None) == "next":
+                url = key_url
+                param = {}
+                break
+        else:
+            "Not found a next URL? Then the generator is empty"
+            break
+
 data = {}
 filecount = {}
 
 sortcommits = sorted(
-        r.json,
+        itertools.chain.from_iterable(commits_generator()),
         key=lambda x: dateutil.parser.parse(x["commit"]["committer"]["date"]))
 
 for commit in sortcommits:
