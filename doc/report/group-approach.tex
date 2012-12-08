@@ -1,3 +1,128 @@
-\section{Group-Work Approach}
+\section{Planning \& Group-Work Approach}
 
-bees
+\subsection{Development of a Plan}
+
+During the first couple of weeks of the project the group formed into a team,
+and after receiving a detailed brief from the customer via video-call, quickly
+went about setting up ground rules and how the project should be executed. It
+was decided that weekly meetings with the project supervisor would be
+appropriate, with one to two more group meetings during each week, as required.
+It was decided that meetings should be informal in general, with loose notes
+taken if required, to try and cut down on any unnecessary overhead.
+
+%TODO: link to appendix using latex foo
+The group established an understanding of the task, and duly created a project
+brief in response to the first customer meeting. This contained a rough overview
+of the group's understanding of the task, and can be found attached in appendix
+A. The Gantt chart in the project brief is an elaboration on a project lifecycle
+shown in the diagram shown below, chosen to fit in with the two customer
+presentations over the course of the project so that a presentable work package
+could be shown to the customer at each milestone. This approach also gives some
+room for agile methods in the underlying development approach (discussed in
+more detail later in the section). Further discussion of the time management
+methods used by the group, with a more detailed evaluation of the Gantt charts
+produced over the course of the project can be found in the evaluation section
+of this report.
+
+AWESOME L1 PLAN DIAGRAM.
+
+Once the group had established a naive breakdown of the tasks involved with the
+project, a skills audit was held to discuss which team members were best
+qualified for the various roles required by the project. The table below shows
+a summary of the audit, including the roles derived during the audit.
+
+AWESOME SKILLS AUDIT TABLE
+
+%maybe more stuff about streams of work?
+After some background research had been performed, the group decided to split
+the development tasks into discrete components allowing members of the group to
+work in the areas of most experience, researching and developing independently
+with progress and code produced periodically reviewed by other members of the
+group.
+
+\subsection{Group-work Approach}
+%TODO: elaborate to an appropriate extent
+The development approach used for the project is a vaguely agile one, with two
+development iterations over the 10 week life of the project. Whilst ideally more
+iterations would be made, allowing more customer involvement, the
+structure and timescale of the project meant that this was not possible. 
+
+At the time of the skills audit, the group also investigated appropriate tooling
+for the development to be carried out. The language chosen to implement the
+solution in was python, as all of the members of the group had some experience
+with the language, and it was noted that python code was generally easier to
+read than some of the other options available, making code review somewhat
+easier. The group also had some experience in python distributed frameworks.
+For version control, git was chosen as most of the group had previous experience
+with the tool, and the group also chose to use github to host the code
+repository (in a private repository) removing some risks associated with the
+possibility of ECS systems failure. Github also presents a RESTful API that the group
+found useful for developing metrics tools. This report is written in LaTeX,
+mainly to ease the burden of version control and collaborative editing by using
+multiple files.
+
+%adjust to say less not-production-ready?
+Choosing and enforcing an appropriate level of quality control for the code
+developed was an important task throughout the project. The customer specified
+that they would prefer a solution along the lines of a high-fidelity prototype,
+as a way of achieving a maximal amount of useful work, with possible transition
+to a production-ready system if the developed product proved to be useful. This
+is not to say that the code was not tested and reviewed throughout the project,
+just that testing and review were not enforced as vigorously as might be
+required for direct production use.
+
+%example of use cases, use cases??!
+The group decided to use a distributed task framework long before development
+began, and this design decision was made for a variety of technical reasons
+detailed in the technical approach section of this report. There are also some
+benefits for managing the development effort from using such a framework. The
+framework allows each component to be developed in relative isolation from the
+other components, with low coupling between the different parts of the system.
+This also served as a method for mitigating some of the risks associated with
+individual components in the system either not working, or not being suitable
+for a given use case.
+
+During the development of the project, the group had to make two presentations
+detailing the progress made up to that point, addressed to the supervisor,
+customer, and a selection of peers. The Level 1 plan above shows the gaps left
+for the preparation of each presentation. For each presentation, the group first
+came up with an appropriate structure for the presentation, and then constructed
+the relevant slides according to which parts of the work being presented each
+member of the group was responsible for. An equivalent process will be used for
+the final end-of-project presentation.
+
+
+\subsection{Risk Management}
+
+As part of the project management task, possible risks associated with the
+project were identified, and steps taken to mitigate them. The risks identified
+by this process are listed in the table below.
+
+RISK REGISTER TABLE
+
+%Risk approach???
+
+\subsection{Stakeholder Management}
+
+%TODO:JANET explanation
+%TODO:call isolutions isolutions?
+%are supervisor/second supervisor stakeholders?
+Although interaction with the customer has been detailed previously, there are
+also some other stakeholders of note, specifically in relation to the use of the
+University of Southampton's infrastructure and JANET's network link to
+potentially download (and try to execute in some cases) large volumes of
+malware. A solution was found to the technical challenge of how to restrict
+possible malicious activity caused by malware being analysed by the system, as
+discussed in the technical approach. Once the preventative technical measures
+had been discussed with members of ECS systems staff and judged adequate, both
+JANET and the University computing service were contacted to inform them of the
+intended activity, and to invite comment. A conversation ensued with the
+technical staff of the University infrastructure team, who not only felt that
+the measures being taken were adequate but were model solution of how such work
+should be carried out in the future. All of the contact detailed above took
+place via the groups single point of contact for the stakeholders. Although
+having a single person responsible for all stakeholder contact is not risk
+averse, this is offset by the advantage of the stakeholders only having to deal
+with a single person, and not having to link together several email addresses or
+identities.
+

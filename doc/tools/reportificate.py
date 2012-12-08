@@ -6,6 +6,7 @@
 # C. Orchard - 29/11/2012
 #
 
+import itertools
 import requests
 import getpass
 from urlparse import urljoin
@@ -16,6 +17,9 @@ from subprocess import PIPE, Popen
 import dateutil.parser
 import datetime
 from copy import deepcopy
+import json
+
+from link_header import parse_link_value
 
 report_files = [
     "doc/report/analysis.tex",
@@ -32,7 +36,18 @@ report_files = [
     "doc/report/tech-sections/clam-av/design.tex",
     "doc/report/tech-sections/clam-av/results.tex",
     "doc/report/tech-sections/clam-av/testing.tex",
-    "doc/report/lit-review.tex"
+    "doc/report/lit-review.tex",
+    "doc/report/group-approach.tex",
+    "doc/report/tech-sections/celery-framework/design.tex",
+    "doc/report/tech-sections/celery-framework/results.tex",
+    "doc/report/tech-sections/celery-framework/testing.tex",
+    "doc/report/tech-sections/malware-lists/design.tex",
+    "doc/report/tech-sections/malware-lists/results.tex",
+    "doc/report/tech-sections/malware-lists/testing.tex",
+    "doc/report/tech-sections/Classification/design.tex",
+    "doc/report/tech-sections/Classification/implementation.tex",
+    "doc/report/tech-sections/HTML-malware/design.tex",
+    "doc/report/tech-sections/HTML-malware/implementation.tex"
     ]
 
 github_url = "https://api.github.com/"
@@ -40,9 +55,7 @@ repo_url = "repos/chrissorchard/malucrawl/commits"
 commit_url = "repos/chrissorchard/malucrawl/commits/"
 status_url = "rate_limit"
 
-param = {
-    'path': 'doc/report'
-        }
+
 
 
 def lacount(counttext):
@@ -72,17 +85,35 @@ username = raw_input("Username: ")
 #WARNING: password contains the password, do not print!!!
 password = getpass.getpass()
 
-r = requests.get(
-        urljoin(github_url, repo_url),
-        auth=(username, password),
-        params=param)
+def commits_generator():
+    url = urljoin(github_url, repo_url)
+    first_page = True
+    param = {
+        'path': 'doc/report',
+        'per_page': '100'
+    }
+    while True:
+        r = requests.get(
+            url,
+            auth=(username, password),
+            params = param
+        )
+        yield r.json
 
-#print json.dumps(r.json, sort_keys=True, indent=2)
+        for key_url, prop in parse_link_value(r.headers["link"]).items():
+            if prop.get("rel", None) == "next":
+                url = key_url
+                param = {}
+                break
+        else:
+            "Not found a next URL? Then the generator is empty"
+            break
+
 data = {}
 filecount = {}
 
 sortcommits = sorted(
-        r.json,
+        itertools.chain.from_iterable(commits_generator()),
         key=lambda x: dateutil.parser.parse(x["commit"]["committer"]["date"]))
 
 for commit in sortcommits:
@@ -94,6 +125,7 @@ for commit in sortcommits:
         for changedf in rc.json["files"]:
             fn = changedf["filename"]
             if fn in report_files:
+                #print "I found: " + fn
                 rcf = requests.get(
                         changedf["raw_url"], auth=(username, password))
                 if "removed" in changedf["status"]:
@@ -117,6 +149,7 @@ for commit in sortcommits:
     dt = dateutil.parser.parse(commit["commit"]["committer"]["date"])
     data[commit["sha"]] = commit["author"]["login"], dt, changes
 
+    #print data[commit["sha"]]
     #print json.dumps(rc.json, sort_keys=True, indent=2)
 
 #print data
@@ -161,6 +194,7 @@ width = 0.35
 colours = ["b", "g", "r", "c", "m", "y"]
 currc = 0
 pltbars = {}
+barsum = np.zeros(len(dateList))
 
 for name in namecount.keys():
     amounts = np.zeros(len(dateList))
@@ -184,10 +218,11 @@ for name in namecount.keys():
         pltbars[name] = plt.bar(
                 dateList,
                 nameadd[name],
-                bottom=nameadd[bars[-1]],
+                bottom=barsum,
                 color=colours[currc])
         currc = (currc + 1) % len(colours)
         bars.append(name)
+    barsum += running_total
 
 print dateList
 print nameadd
