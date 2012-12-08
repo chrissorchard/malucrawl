@@ -52,7 +52,8 @@ commit_url = "repos/chrissorchard/malucrawl/commits/"
 status_url = "rate_limit"
 
 param = {
-    'path': 'doc/report'
+    'path': 'doc/report',
+    'per_page': '100'
         }
 
 
