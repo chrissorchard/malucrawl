@@ -1,0 +1,74 @@
+\subsection{Design}
+
+As one of the selection of high-interaction malware scanning
+methods available for use in the malucrawl framework,
+Capture-HPC\cite{capture-hpc} is a way of
+realistically emulating a user browsing to a given URL in a real web browser.
+Capture-HPC is designed as a client honeypot, where in contrast to the usual and
+more common form of passive honeypots that simply wait for incoming attacks,
+goes out and requests content from the Internet and attempts to detect any
+malicious activity caused by the content. Capture-HPC was developed at Victoria
+University in Wellington NZ and is maintained be the HoneyNet project(CITE).
+
+%TODO: Detailed description of what capture-hpc does and how it works.
+
+Capture-HPC is the most accurate simulation of user browsing used by the project
+as a malware scanner, and has a very low URL throughput thanks to each URL
+needing to be rendered in a web browser. The throughput is further reduced be
+the need to rebuild the VM every time malicious activity is detected. Therefore
+it is necessary to limit the number of URLs that Capture-HPC is required to
+process. As discussed previously, limiting of the URLs processed by Capture-HPC
+is done by a classification system, and only URLS that are strongly suspected to
+harbour malware are submitted for scanning. In addition to the confidence factor
+that each malware analyser in the framework must return, Capture-HPC is also
+capable of returning a description of the actions taken by a malicious page, and
+these details are returned to the framework for optional in-depth analysis.
+
+\subsubsection{Security Considerations}
+
+As Capture-HPC renders web pages, there is a significant risk that any malicious
+content will take over the VM and try to exploit other machines connected to it
+or send spam. To mitigate this threat, a set of preventative measures are taken
+as shown in the diagram below.
+
+AWESOME SECURITY ARCH DIAGRAM
+
+To secure the virtual machine(s) running the Capture-HPC client, a Linux
+firewall is placed between the VMs and the network, with the client VMs only
+able to communicate with the outside network via the firewall. The firewall
+blocks all ports by default, only proxying a small selection of ports and
+forwarding no ports. To allow the Capture-HPC client to request web pages, DNS
+queries are proxied through the firewall, with all requests logged. All HTTP and
+HTTPS traffic is also proxied and logged using a rolling log so any suspicious
+activity can be investigated. A self-signed SSL certificate will be installed on
+the client VM so that HTTPS connections still appear valid despite interception.
+A small selection of ports will also be open into and out of the firewall to
+allow control of Capture-HPC and reporting of results.
+
+\subsection{Implementation}
+
+\subsubsection{Deployment of Secure Architecture In ECS}
+
+When deploying Capture-HPC in ECS to form part of our prototype deployment of
+the framework, a small group of VMs were used host the security architecture
+discussed above. The gateway VM had RHEL 6 installed for stability and security,
+with iptables used to provide a firewall. An annotated version of the iptables
+rules used for running Capture-HPC is listed in Appendix TODO, explaining the
+function of each rule. Squid was used as a HTTP and HTTPS proxy, compiled with
+support for dynamically generating certificates for HTTPS websites. To ease 
+development on the system, a small tool was written to allow a number of
+iptables "profiles" to be created, and then changed using a small shell script,
+the source of which can be found in Appendix TODO. The Capture-HPC Server
+program, written in Java, was compiled and run from this machine.
+
+The Capture-HPC client was compiled on a Windows XP development VM, and then
+deployed to a clean install of Windows XP. It is also possible to run the
+Capture-HPC client on a Windows Vista or Window 7 install, but was not tested in
+the prototype deployment due to time constraints.
+
+\subsubsection{ECS Specific Customisations}
+
+\subsubsection{Framework Integration}
+
+\subsubsection{Exclusion Lists}
+
