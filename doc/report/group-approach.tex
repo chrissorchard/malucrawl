@@ -100,18 +100,38 @@ by this process are listed in the table below.
 
 \clearpage
 \begin{landscape}
-\thispagestyle{empty}
-\makebox[\textwidth]{
-    \begin{tabularx}{1.5\textwidth}{|p{5cm}XXp{8cm}XXl|}
+%\thispagestyle{empty}
+%\makebox[\textwidth]{
+\small
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+\begin{longtable}{@{\extracolsep{\fill}}|p{5cm}p{1cm}p{2cm}p{6cm}p{2cm}p{2cm}l|}
+    %\begin{tabularx}{1.5\textwidth}{|p{5cm}XXp{5cm}XXl|}
         \hline
         Risk & Impact (1-5) & Probability (1-5) & Mitigation & Risk Score (1-25) & Mitigated Risk Score & Status \\ \hline
-        The delivered project does not meet the provide specification. & 5 & 2 & Ensure that progress is monitored throughout the project and that any necessary change in specification is discussed with the customer. & 10 & 8 & Not Impacted \\ 
+        The delivered project does not meet the provide specification. & 5 & 2 & Ensure that progress is monitored throughout the project and that any necessary change in specification is discussed with the customer. & 10 & 8 & Not Impacted \\
+        \hline 
         The delivered project does not meet customer expectations & 5 & 2 & Ensure customer is aware of the status of the project and likely outcome throughout the course of the project lifecyle & 10 & 4 & Mitigated \\ 
-        A tool or library chosen for use in the development of the project does not meet its requirements. & 4 & 3 & Chose tools and libraries that group members are familiar with, and preferably those which can be patch by group members where possible. & 12 & 6 & Mitigated \\ 
-        Integration takes much longer than planned due to conflicting styles of coding in software components developed be different group members & 3 & 4 & Discuss and enforce a single style of coding for all software, reviewing code as it is written. & 12 & 3 & Mitigated \\ 
         \hline
-    \end{tabularx}
-}
+        A tool or library chosen for use in the development of the project does not meet its requirements. & 4 & 3 & Chose tools and libraries that group members are familiar with, and preferably those which can be patch by group members where possible. & 12 & 6 & Mitigated \\ 
+        \hline
+        Integration takes much longer than planned due to conflicting styles of coding in software components developed be different group members & 3 & 4 & Discuss and enforce a single style of coding for all software, reviewing code as it is written. & 12 & 3 & Mitigated \\
+        \hline
+        The code contributed by a team member does not perform as expected or is not completed to the necessary quality & 4 & 2 & Review all code committed to the source repository, use pair coding if possible. & 8 & 4 & Not Impacted\\
+        \hline
+        Interaction with the customer leads to a significant expansion of scope of the project, causing the project not to be delivered on time. & 5 & 2 & Be vigilant of any possible scope creep, and discuss the implementation time of any requested changes with the customer. & 10 & 6 & Not Impacted\\ 
+        \hline
+        Infrastructure hosting critical parts of the project such as the source code repository suffer from a critical failure, preventing access or causing loss of work. & 5 & 2 & Use a distributed version control system such as git for all code and written documentation, hosted on a large reputable code hosting service such as github.  & 10 & 2 & Mitigated\\
+        \hline
+        A member of the team falls ill, preventing them from contributing significantly to a given part of the project. & 5 & 2 & Ensure a low "bus factor" is maintained, and that no single group member is given responsibility for a larger than necessary portion of critical tasks. & 10 & 8 & Not Impacted\\
+        \hline
+        The group is not given the necessary permissions from iSolutions and JANET to operate the project on university systems. & 4 & 3 & Communicate the intent and reasoning for the project at an early stage, ensure suitable preventative measures are implemented to prevent adverse effects from the malware scanning component of the project. If possible, keep a group member's personal computer as a contingency. & 12 & 6 & Mitigated\\
+        \hline
+        ECS are not able to provide the project with the resources necessary to run the project. & 4 & 1 & Request sufficient resources at an early stage, track the resource usage of the project during development and attempt to keep resources used during scanning to the minimum necessary & 4 & 2 & Not Impacted\\
+        \hline
+    %\end{tabularx}
+\end{longtable}
+%}
 \end{landscape}
 %Risk approach???
 
