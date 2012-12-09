@@ -40,9 +40,9 @@ The video conference was used to introduce the group to Team Cymru and discuss t
 
     \item A requirement to use simple crawling and static analysis as in Low Interaction Malware Scanners, to be determined as part of the literature search.
 
-    \item A requirement to create a scanning modules that uses signature oriented scanning of pages and the hyper-linked files
+    \item A suggestion to create a scanning modules that uses signature oriented scanning of pages and the hyper-linked files
 
-    \item A requirement to write modules that make use of existing repositories of malicious websites such as Google's Safe Browsing API\cite{google-safe} Google's Safe Browsing API and the crowd sourced Web Of Trust.
+    \item A suggestion to write modules that make use of existing repositories of malicious websites such as Google's Safe Browsing API\cite{google-safe} Google's Safe Browsing API and the crowd sourced Web Of Trust.
 
     \item Make the code machine-independant, so as to allow the scanning modules to operate on cheap, commodity, cloud machines such as Amazon Web Services Spot Instances\cite{aws-spot} or Rackspace Cloud instances\cite{rackspace}
 \end{enumerate}
@@ -53,9 +53,12 @@ After the first presentation an informal meeting was held to discuss progress on
 
 \begin{enumerate}
     \item A suggestion to use Internet Explorer 6 running under several interfaces of Wine to act as a faster High Interaction malware scanner than virtualizing an entire operating system.
+
     \item A suggestion to use ClamAV as the scanning engine behind the signature oriented scanning malware scanner.
+
     \item Lowered the requirement of a web based reporting interface from \textbf{should} to \textbf{could}, as being able to manually query the database would be acceptable.
-    \item Added the requirement to be able to monitor the system, components and workers specifically mentioning Nagios, however it was chosen to use Celery's own monitoring tools instead
+
+    \item A requirement to be able to monitor the system, components and workers specifically mentioning Nagios, however it was chosen to use Celery's own monitoring tools instead
 \end{enumerate}
 
 One further meeting was to be held after the second presentation, but Chas was not available.
