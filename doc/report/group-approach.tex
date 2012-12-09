@@ -2,9 +2,10 @@
 
 \subsection{Development of a Plan}
 
-During the first couple of weeks of the project the group formed into a team,
+During the first couple of weeks of the project the group members formed into a
+working team,
 and after receiving a detailed brief from the customer via video-call, quickly
-went about setting up ground rules and how the project should be executed. It
+went about setting up ground rules about how the project should be executed. It
 was decided that weekly meetings with the project supervisor would be
 appropriate, with one to two more group meetings during each week, as required.
 It was decided that meetings should be informal in general, with loose notes
@@ -17,8 +18,9 @@ of the group's understanding of the task, and can be found attached in appendix
 A. The Gantt chart in the project brief is an elaboration on a project lifecycle
 shown in the diagram shown below, chosen to fit in with the two customer
 presentations over the course of the project so that a presentable work package
-could be shown to the customer at each milestone. This approach also gives some
-room for agile methods in the underlying development approach (discussed in
+could be shown to the customer at each milestone. This approach also gives as
+much room as possible
+for using agile methods in the underlying development approach (discussed in
 more detail later in the section). Further discussion of the time management
 methods used by the group, with a more detailed evaluation of the Gantt charts
 produced over the course of the project can be found in the evaluation section
@@ -26,7 +28,7 @@ of this report.
 
 AWESOME L1 PLAN DIAGRAM.
 
-Once the group had established a naive breakdown of the tasks involved with the
+Once the group had established an initial breakdown of the tasks involved with the
 project, a skills audit was held to discuss which team members were best
 qualified for the various roles required by the project. The table below shows
 a summary of the audit, including the roles derived during the audit.
@@ -36,17 +38,17 @@ a summary of the audit, including the roles derived during the audit.
 \begin{tabularx}{\linewidth}{|XXX|}
 \hline
 Group Member & Skill & Level of Expertise (1-5) \\ \hline
-Tom Grainger & Python & bees \\ 
-& Python Frameworks & bees \\ 
-& Web Frameworks & bees \\ 
-& Reading Documentation & bees \\ 
-Weike Liao & Python & bees \\ 
-& AI & bees \\ 
-Chris Orchard & Python & bees \\ 
-& Project Management & bees \\ 
-& Systems Integration & bees \\ 
-& C & bees \\ 
-Nafiseh Vahabi & AI & bees \\ 
+Thomas Grainger & Python & bees \\
+& Python Frameworks & bees \\
+& Web Frameworks & bees \\
+& Reading Documentation & bees \\
+Weike Liao & Python & bees \\
+& AI & bees \\
+Chris Orchard & Python & bees \\
+& Project Management & bees \\
+& Systems Integration & bees \\
+& C & bees \\
+Nafiseh Vahabi & AI & bees \\
 & Python & bees \\
 \hline
 \end{tabularx}
@@ -62,21 +64,28 @@ group.
 
 \subsection{Group-work Approach}
 %TODO: elaborate to an appropriate extent
-The development approach used for the project is a vaguely agile one, with two
+The development approach used for the project draws inspiration from agile
+methods, with two
 development iterations over the 10 week life of the project. Whilst ideally more
 iterations would be made, allowing more customer involvement, the
-structure and timescale of the project meant that this was not possible. 
+structure and timescale of the project meant that this was not possible.  
 
 At the time of the skills audit, the group also investigated appropriate tooling
 for the development to be carried out. The language chosen to implement the
-solution in was python, as all of the members of the group had some experience
-with the language, and it was noted that python code was generally easier to
+solution in was python, as all of the group members had some experience
+with the language, and it was also noted that python code was generally easier to
 read than some of the other options available, making code review somewhat
-easier. The group also had some experience in python distributed frameworks.
+easier. Another advantage of choosing python was the inclusive developer
+community, allowing the group to contribute a bug fix back to one of
+the tools used by the project, utilising some prior experience in python distributed
+frameworks.
 For version control, git was chosen as most of the group had previous experience
-with the tool, and the group also chose to use github to host the code
+with the tool, and the group also chose to use GitHub to host the code
 repository (in a private repository) removing some risks associated with the
-possibility of ECS systems failure. Github also presents a RESTful API that the group
+possibility of ECS systems failure. GitHub gave the group an easy way to monitor
+commits and view the diff made by any given commit, a feature that made the
+process of reviewing committed code much quicker. GitHub also presents a
+RESTful API that the group
 found useful for developing metrics tools. This report is written in LaTeX,
 mainly to ease the burden of version control and collaborative editing by using
 multiple files.
@@ -85,8 +94,9 @@ multiple files.
 Choosing and enforcing an appropriate level of quality control for the code
 developed was an important task throughout the project. The customer specified
 that they would prefer a solution along the lines of a high-fidelity prototype,
-as a way of achieving a maximal amount of useful work, with possible transition
-to a production-ready system if the developed product proved to be useful. This
+as a way of achieving a maximal amount of useful work, with further testing to transition
+to a production-ready system if the developed product proved to be useful
+(outside of the scope of the project). This
 is not to say that the code was not tested and reviewed throughout the project,
 just that testing and review were not enforced as vigorously as might be
 required for direct production use.
@@ -116,7 +126,10 @@ the final end-of-project presentation.
 
 As part of the project management task, possible risks associated with the
 project were identified, and steps taken to mitigate them. The risks identified
-by this process are listed in the table below.
+by this process are listed in the table below. Throughout  the
+project, precedence was given to tasks with outstanding risk, or risks that had
+not been assessed, as a means of minimising the risk of the project not being
+finished by the deadline.
 
 \clearpage
 \begin{landscape}
@@ -131,7 +144,7 @@ by this process are listed in the table below.
         Risk & Impact (1-5) & Probability (1-5) & Mitigation & Risk Score (1-25) & Mitigated Risk Score & Status \\ \hline
         The delivered project does not meet the provide specification. & 5 & 2 & Ensure that progress is monitored throughout the project and that any necessary change in specification is discussed with the customer. & 10 & 8 & Not Impacted \\
         \hline 
-        The delivered project does not meet customer expectations & 5 & 2 & Ensure customer is aware of the status of the project and likely outcome throughout the course of the project lifecyle & 10 & 4 & Mitigated \\ 
+        The delivered project does not meet customer expectations & 5 & 2 & Ensure customer is aware of the status of the project and likely outcome throughout the course of the project lifecycle & 10 & 4 & Mitigated \\ 
         \hline
         A tool or library chosen for use in the development of the project does not meet its requirements. & 4 & 3 & Chose tools and libraries that group members are familiar with, and preferably those which can be patch by group members where possible. & 12 & 6 & Mitigated \\ 
         \hline
@@ -141,7 +154,7 @@ by this process are listed in the table below.
         \hline
         Interaction with the customer leads to a significant expansion of scope of the project, causing the project not to be delivered on time. & 5 & 2 & Be vigilant of any possible scope creep, and discuss the implementation time of any requested changes with the customer. & 10 & 6 & Not Impacted\\ 
         \hline
-        Infrastructure hosting critical parts of the project such as the source code repository suffer from a critical failure, preventing access or causing loss of work. & 5 & 2 & Use a distributed version control system such as git for all code and written documentation, hosted on a large reputable code hosting service such as github.  & 10 & 2 & Mitigated\\
+        Infrastructure hosting critical parts of the project such as the source code repository suffer from a critical failure, preventing access or causing loss of work. & 5 & 2 & Use a distributed version control system such as git for all code and written documentation, hosted on a large reputable code hosting service such as GitHub.  & 10 & 2 & Mitigated\\
         \hline
         A member of the team falls ill, preventing them from contributing significantly to a given part of the project. & 5 & 2 & Ensure a low "bus factor" is maintained, and that no single group member is given responsibility for a larger than necessary portion of critical tasks. & 10 & 8 & Not Impacted\\
         \hline
@@ -171,11 +184,12 @@ had been discussed with members of ECS systems staff and judged adequate, both
 JANET and the University computing service were contacted to inform them of the
 intended activity, and to invite comment. A conversation ensued with the
 technical staff of the University infrastructure team, who not only felt that
-the measures being taken were adequate but were model solution of how such work
+the measures being taken were adequate but was a model solution of how such work
 should be carried out in the future. All of the contact detailed above took
 place via the groups single point of contact for the stakeholders. Although
 having a single person responsible for all stakeholder contact is not risk
 averse, this is offset by the advantage of the stakeholders only having to deal
-with a single person, and not having to link together several email addresses or
-identities.
+with a single person, not having to link together several email addresses or
+identities, and mitigating the risk of the conflicting messages being sent to a
+stakeholder from different group members.
 
