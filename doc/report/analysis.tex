@@ -37,26 +37,26 @@ Over the course of the project we had two meetings with Team Cymru representativ
 
 The video conference was used to introduce the team to Team Cymru and discuss the project requirements, in which the brief was expanded upon. The specification was influenced by requests to:
 \begin{enumerate}
-    \item Emulate a user browsing the web using a virtualized web browser also referred to as High Interaction Malware Scanning.
+    \item A requirement to emulate a user browsing the web using a virtualized web browser also referred to as High Interaction Malware Scanning.
 
-    \item Use simple crawling and static analysis as in Low Interaction Malware Scanners, to be determined as part of the literature search.
+    \item A requirement to use simple crawling and static analysis as in Low Interaction Malware Scanners, to be determined as part of the literature search.
 
-    \item Make use of existing repositories of malicious websites such as Google's Safe Browsing API\cite{google-safe} Google's Safe Browsing API and the crowd sourced Web Of Trust.
+    \item A requirement to create a scanning modules that uses signature oriented scanning of pages and the hyper-linked files
 
-    \item Use signature based scanning of pages and hyper-linked files
+    \item A requirement to write modules that make use of existing repositories of malicious websites such as Google's Safe Browsing API\cite{google-safe} Google's Safe Browsing API and the crowd sourced Web Of Trust.
 
     \item Make the code machine-independant, so as to allow the scanning modules to operate on cheap, commodity, cloud machines such as Amazon Web Services Spot Instances\cite{aws-spot} or Rackspace Cloud instances\cite{rackspace}
 \end{enumerate}
 
 Also discussed was the possibility of downloading and investigating a ``Drive by Download'' malicious software distribution tool.  The legal considerations of downloading and executing an illegal piece of software are complex and as such would require the group to obtain a detailed set of permissions before attempting such a task. Therefore a decision was made to not investigate ``Drive By Download'' toolkits as part of the project.
 
-After the first presentation an informal meeting was held to discuss progress with Chas.
+After the first presentation an informal meeting was held to discuss progress on the project so far with Chas:
 
 \begin{enumerate}
-    \item Don't need to focus on a web interface
-    \item Should be able to show status of workers
-    \item Should be IE in Wine
-    \item ClamAV
+    \item A suggestion to use Internet Explorer 6 running under several interfaces of Wine to act as a faster High Interaction malware scanner than virtualizing an entire operating system.
+    \item A suggestion to use ClamAV as the scanning engine behind the signature oriented scanning malware scanner.
+    \item Lowered the requirement of a web based reporting interface from \textbf{could} to \textbf{should}, as being able to manually query the database would be acceptable.
+    \item Added the requirement to be able to monitor the system, components and workers specifically mentioning Nagios, however it was chosen to use Celery's own monitoring tools instead
 \end{enumerate}
 
 One further meeting was to be held after the second presentation, but Chas was not available.
