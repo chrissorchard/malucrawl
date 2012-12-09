@@ -6,6 +6,8 @@ Trend Analysis, Search Engine, Multiple Malware Scanning Modules, Storage, Displ
 Multiple Machine System
 Task dispatching
 
+determine that a URL has at one point returned a malicious page
+
 \subsection{Implementation}
 This section describes how to use a set of workers to determine trending topics and sites relating to those topics
 
@@ -64,7 +66,8 @@ Topics with a \# infront are Twitter ``hashtags'', and are usually camel cased. 
 Eg. \#BrazilWantsOneDirection -> Brazil Wants One Direction
 \#XFactorPHFinale -> X Factor PH Final
 
-In the case of all capitals eg NIALLSAYHITOTURKEY, it's probably best to drop it.
+In the case of all capi
+    \item Use simpletals eg NIALLSAYHITOTURKEY, it's probably best to drop it.
 
 \subsubsection{RSS}
 A set of RSS feeds should be collected and parsed, ``feedparser'' is likely to be useful for this.
