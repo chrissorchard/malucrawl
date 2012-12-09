@@ -33,15 +33,24 @@ To aid in the task of designing the solution, a set of requirements have been dr
 \subsection{Customer Interaction}
 The project was put forward by Team Cymru Research NFP, ``a specialized Internet security research firm and 501(c)3 non-profit''\cite{team-cymru}. Team Cymru maintains various real-time monitoring ``pods'' to measure the status of malware on the public Internet. The project compliments their existing offerings by incorporating social media and news trends with active web scanning.
 
-Over the course of the project we had two meetings with Team Cymru representative Chas Tomlin: a video conference and an informal meeting.
+Over the course of the project we had two meetings with Team Cymru representative Chas Tomlin: a video conference and an informal meeting.  Meetings were intended to occur at the start of the project and after each of the presentations, however only one of the post-presentation meetings occurred.
 
-The video conference was used to introduce the team to Team Cymru and discuss the project requirements, in which the brief was expanded upon. The specification was influenced by requests to: Emulate a web Browser, allow the system to operate on Amazon Spot Instances and use existing malware signatures and repositories of malicious websites.
+The video conference was used to introduce the team to Team Cymru and discuss the project requirements, in which the brief was expanded upon. The specification was influenced by requests to:
+\begin{enumerate}
+    \item Emulate a user browsing the web using a virtualized web browser also referred to as High Interaction Malware Scanning.
 
-Also discussed was the possibility of downloading and investigating a ``Drive by Download'' malicious software distribution tool.
+    \item Use simple crawling and static analysis as in Low Interaction Malware Scanners, to be determined as part of the literature search.
 
-The legal considerations of downloading and executing an illegal piece of software are complex and as such would require the group to obtain a detailed set of permissions before attempting such a task. Therefore a decision was made to not investigate ``Drive By Download'' toolkits as part of the project.
+    \item Make use of existing repositories of malicious websites such as Google's Safe Browsing API\cite{google-safe} Google's Safe Browsing API and the crowd sourced Web Of Trust.
 
-After the first presentation an Informal Meeting was called to discuss progress with the customer.
+    \item Use signature based scanning of pages and hyper-linked files
+
+    \item Make the code machine-independant, so as to allow the scanning modules to operate on cheap, commodity, cloud machines such as Amazon Web Services Spot Instances\cite{aws-spot} or Rackspace Cloud instances\cite{rackspace}
+\end{enumerate}
+
+Also discussed was the possibility of downloading and investigating a ``Drive by Download'' malicious software distribution tool.  The legal considerations of downloading and executing an illegal piece of software are complex and as such would require the group to obtain a detailed set of permissions before attempting such a task. Therefore a decision was made to not investigate ``Drive By Download'' toolkits as part of the project.
+
+After the first presentation an informal meeting was called to discuss progress with the customer.
 
 Informal Meeting:
     Blackhole, DbD Kit
