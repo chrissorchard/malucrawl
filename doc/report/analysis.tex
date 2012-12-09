@@ -25,13 +25,32 @@
 \clearpage
 \section{Specification}
 
-To aid in the task of designing the solution, a set of requirements have
-been drawn up. These requirements have been derived from a combination of the
-division of the task presented in the goals of the project, and the analysis
-presented above, with MOSCOW priority attached to each.
+To aid in the task of designing the solution, a set of requirements have been drawn up. These requirements have been derived from the division of the task presented in the goals of the project with MOSCOW priority attached to each.
 
 \begin{enumerate}
-    \setlength{\itemsep}{1pt}
-    \item The system \textbf{could} provide an API to simplify integration with other tools.
+    %\setlength{\itemsep}{1pt}
+    \item The system \textbf{must} be able to collect trends
+    \item should be able to collect trends from more than once source
+    
+    \item must be able to discover target web pages using a search engine
+    \item should be able to discover target web pages using multiple different search engines
+    \item could be able to discover target web pages using Twitter
+    
+    \item must be able to determine if a page is malicious or not
+    \item must be able to control multiple different malware scanning components
+    \item must use High Interaction Malware Scanning
+    \item must use Zero Interaction Malware Scanning
+    \item must use Low Interaction Malware Scanning
+    \item should be able to dispatch dispatch only likely candidate malicious URLs to slower High Interaction Scanners
+    \item must be able to store data determined page
+    \item must be able to generate reports
+    \item could display reports dynamically using a web based interface
+    \item should be able to monitor the status of the system
+    \item should be able to monitor the status of each malware scanning component
 \end{enumerate}
+
+\subsection{Customer Interaction}
+Video Call
+Informal Meeting: Don't need to focus on a web interface, should be able to show status of workers
+
 \nomenclature{API}{Application programming interface}
