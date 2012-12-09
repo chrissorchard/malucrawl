@@ -42,11 +42,17 @@ To aid in the task of designing the solution, a set of requirements have been dr
     \item must use Zero Interaction Malware Scanning
     \item must use Low Interaction Malware Scanning
     \item should be able to dispatch dispatch only likely candidate malicious URLs to slower High Interaction Scanners
-    \item must be able to store data determined page
+    \item should be able to fine tune High Interaction Scanner dispatch probability
+    \item could use historical speed and current status of the system to influence High Interaction Scanner dispatch probability
+
+    \item must be able to store data determined about targets
+    \item must be able to relate data about targets to the trend source and time it was discovered on
     \item must be able to generate reports
+    \item should be able to show the time taken for a particular 
     \item could display reports dynamically using a web based interface
     \item should be able to monitor the status of the system
     \item should be able to monitor the status of each malware scanning component
+    \item could be able to display statuses with a web interface
 \end{enumerate}
 
 \subsection{Customer Interaction}
