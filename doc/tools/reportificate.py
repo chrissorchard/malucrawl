@@ -23,6 +23,7 @@ from link_header import parse_link_value
 
 report_files = [
     "doc/report/analysis.tex",
+    "doc/report/spec-cust.tex"
     "doc/report/conclusion.tex",
     "doc/report/description.tex",
     "doc/report/control.tex",
