@@ -42,8 +42,8 @@ report_files = [
     "doc/report/tech-sections/celery-framework/design.tex",
     "doc/report/tech-sections/celery-framework/results.tex",
     "doc/report/tech-sections/celery-framework/testing.tex",
-    "doc/report/tech-sections/celery-framework/search-engine.tex"
-    "doc/report/tech-sections/celery-framework/trend-sources.tex"
+    "doc/report/tech-sections/celery-framework/search-engine.tex",
+    "doc/report/tech-sections/celery-framework/trend-sources.tex",
     "doc/report/tech-sections/malware-lists/design.tex",
     "doc/report/tech-sections/malware-lists/results.tex",
     "doc/report/tech-sections/malware-lists/testing.tex",

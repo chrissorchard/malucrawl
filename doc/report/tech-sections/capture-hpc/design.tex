@@ -43,6 +43,28 @@ actions for each monitoring tool that should be considered as safe. It is also
 possible to specify precisely which actions should cause the monitoring tool to
 report suspected malicious activity.
 
+The Capture-HPC server program that controls the clients is a Java program that
+will run on most platforms (platform compatibility is limited by the VM revert
+script detailed below). The role of the server is to communicate the exclusion
+lists and URLs to be tested to the clients, and then collect the results of the
+analysis. The server also uses and external script to reset the virtual machine
+if malicious activity is detected by the client. The server also resets the
+client if it does not respond to keepalive packets, so the client does not get
+stuck on a URL that errors. There exists two options for supplying URLs to the
+Capture-HPC server, using a plaintext input file with one URL on each line (the
+line can also contain options controlling which client application is used to
+open the URL) or a MySQL database with a schema provided with the application.
+The server stores the results in text files labelled for safe, error, and
+progress by default, with additional detail for suspicious URLs stored in a file
+named with the suspicious URL (URL encoded). This is not ideal for use within
+the project, but fortunately Capture-HPC will store all results in the
+relational database if one is configured. The use of a MySQL table for a queue
+could be considered an anti-pattern as discussed in (CITE), but is the best of
+the options available for providing Capture-HPC with data, and retrieving the
+results. Unfortunately the Capture-HPC server also has to be restarted to
+consume new URLs from the database, with any finished URLs that are left in the
+database processed again. The Capture-HPC server is configured using an XML
+configuration file that can be found in Appendix X.
 
 \subsubsection{How Capture-HPC is used in the project}
 
@@ -96,7 +118,7 @@ support for dynamically generating certificates for HTTPS websites. To ease
 development on the system, a small tool was written to allow a number of
 iptables "profiles" to be created, and then changed using a small shell script,
 the source of which can be found in Appendix TODO. The Capture-HPC Server
-program, written in Java, was compiled and run from this machine.
+program was compiled and run from this machine.
 
 The Capture-HPC client was compiled on a Windows XP development VM, and then
 deployed to a clean install of Windows XP. It is also possible to run the
