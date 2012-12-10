@@ -13,6 +13,36 @@ University in Wellington NZ and is maintained be the HoneyNet project(CITE).
 \subsubsection{Capture-HPC in Detail}
 
 %TODO: Detailed description of what capture-hpc does and how it works.
+Capture-HPC uses virtualisation to simulate user browsing, using a web browser
+running in a monitored and externally controlled Virtual Machine. There are two
+distinct pieces of software used to do this, a client to run the web browser on
+the virtual machine and monitor for malicious activity, and a server to
+orchestrate URL scanning between however many clients are being used and to
+reset client VMs when malicious activity is detected. The client and server
+components communicate over a network connection.
+
+The Capture-HPC client is a C++ program that runs on Windows XP, Vista, or 7.
+It's role is to automatically browse the web and to monitor the VM for any
+suspicious activity, reporting the outcome rendering URLs to the server. The
+client is capable of driving a number of applications using URLS, from web
+browsers such as Microsoft Internet Explorer and Mozilla Firefox, to downloading and opening
+Microsoft Word documents and Adobe PDFs. For the purposes of the project, the
+use of Internet Explorer is prioritised as a starting point for malware scanning
+that can be easily extended to cover the other applications. To detect any
+malicious activity that may be caused by visiting a website, or opening a
+downloaded file, a collection of kernel drivers are used. The kernel drivers
+watch filesystem, network and process activity at a low level, enusring that
+unusual activity can be detected despite attempts from any malware to conceal
+its actions. This isn't a technique that works in general on a PC where the user
+may be performing any number of other actions whilst using the machine, but
+works well in the controlled environment provided by the virtual machine. To
+stop the small number of standard processes and filesystem changes made during
+normal operation of the operating system and client applications triggering the
+malware detection, Capture-HPC uses a set of "exclusion lists" that specify
+actions for each monitoring tool that should be considered as safe. It is also
+possible to specify precisely which actions should cause the monitoring tool to
+report suspected malicious activity.
+
 
 \subsubsection{How Capture-HPC is used in the project}
 
