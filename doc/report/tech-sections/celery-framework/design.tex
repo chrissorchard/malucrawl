@@ -58,9 +58,13 @@ To be able to communicate to multiple workers operating on multiple, disparate a
 \subsubsubsection{RabbitMQ}
 Although being one of many possible message brokers, RabbitMQ was chosen as the message broker not just because it is the system recommended by Celery.
 
-Celery supports a range of message broker systems, two Memory Queue systems: RabbitMQ, and Beanstalk, three NoSQL databases: Redis, MongoDB and CouchDB and any SQL database supported by SQLAlchamey or the Django ORM.
+Celery supports a range of message broker systems, two message queue systems: RabbitMQ, and Beanstalk, three NoSQL databases: Redis, MongoDB and CouchDB and any SQL database supported by SQLAlchamey or the Django ORM.
 
-While some of the database systems support publish and subscribe on records none of them are capable of managing multiple queues of messages on widely distributed machines.  The SQL databases are to particularly avoided and only used for test or because no other system is available because the only way to get notified of messages is to repeatedly poll them.
+While some of the database systems support publish and subscribe on records none of them are capable of managing multiple queues of messages on widely distributed machines.  The SQL databases are to be particularly avoided and only used for test or because no other system is available. This is known as the ``Database as Queue Anti-pattern''\cite{database-as-mq}.
+
+Using a database as a queue is an anti-pattern because the only way to get notified of messages is to repeatedly poll the database and also because a database is difficult to share among multiple client machines while remaining synchronized.
+
+The only remaining systems after the others have been eliminated are Beanstalk and RabbitMQ, both message queue systems.  RabbitMQ was chosen over Beanstalk because it is easier to distribute the queue itself over a network of machines.
 
 \subsubsubsection{Redis}
 
