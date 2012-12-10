@@ -1,5 +1,19 @@
-\subsubsection{Trend Sources}
-This section describes the sources and methods used to obtain trends from those sources.
+\subsubsubsection{Trend Analysis}
+Each trend analysis phase should be able to query some external services and determine a set of keywords. These keywords can then be returned, to be expanded to URLs by the URL Discovery phase.
+
+Libraries available that will be useful include:
+
+\begin{itemize}
+    \item requests A simple API for making HTTP requests
+    \item feedparser For parsing RSS feeds
+\end{itemize}
+
+Trend sources to be used are Twitter Trending Topics API, RSS Feeds and Trends from the Sun JSON Feed.
+
+
+
+It is important to note that further possibilities for keyword determination should be researched. The sources suggested here are the ones I think will be the easiest to interface to, but might not be the sources malware distribution networks actually use!
+
 \subsubsubsection{Twitter}
 The twitter api is available in multiple versions, 1 and 1.1. Currently 1 is deprecated and it is recommended that new applications build against 1.1.  The disadvantage of the 1.1 API is that it requires a ``User Context'', ie all requests must be authenticated based on Application-User key.
 
@@ -36,3 +50,5 @@ Examples include:
     \item Search engine common searches and trends such as Google, Bing and Yahoo trends services.
     \item Network logs such as the campus search trends. It should be noted that this data is very unlikely to be accessible by malware distribution networks and might allow us to see trends before they do.
 \end{itemize}
+
+%implementation

@@ -1,29 +1,25 @@
 \subsection{Design}
-The project can be split into four phases of operation, Trend Source Analysis, Searching for Keywords, Scanning URLs and Storing those results in a database.
+The project can be split into four phases of operation, Trend Source Analysis, URL Discovery, Malware Detection and Result Storage in a persistent database.
 
 This section of the report describes the design of a framework that connects those phases of operation together in a performant manner.
 
 \subsubsection{Components}
-Keyword Finding and Trend Analysis are both simpler phases and effect how data flows through the system and as such are discussed together in this section. The malware scanning components are discussed later and each have their own section of the report.
+URL Discovery and Trend Analysis are both simpler phases and effect how data flows through the system and as such are discussed together in implementation part of this section. The design and implementation of the malware detection components are discussed later and each have their own section of the report.
 
-\subsubsection{Keyword Finding}
-Each ``keyword finding'' task should be able to query some external services and determine a set of keywords. These keywords can then be dispatched to other tasks.
+\input{trend-sources}
 
-Libraries available from PyPi likely to help with this include:
+\input{search-engine}
 
-\begin{itemize}
-    \item requests A simple API for making HTTP requests
-    \item feedparser For parsing RSS feeds
-    \item lxml.html and BeatuifulSoup. For parsing and interacting with ``real world'' HTML
-\end{itemize}
+\subsubsubsection{Malware Detection}
+The malware dection phase will accept a single URL, and optionally the keyword that resulted in the discovery of that URL, returning a confidence level that the URL resolved to malware.  This confidence can be combined with an overall confidence level for the particular malware scanning method used.
 
-It is important to note that further possibilities for keyword determination should be researched. The sources suggested here are the ones I think will be the easiest to interface to, but might not be the sources malware distribution networks actually use!
-
+\subsubsubsection{Result Storage}
+To store the results of the system the response from a malware scanner must be associated with: the URL that called the malware scanner, the keyword or trending topic that was used to discover the URL, the trend source that the topic applied to and the particular components used in forming the result.
 
 \subsubsection{A Distributed System}
 To be able to operate quickly the system can be organized into a parallel architecture.
 
-This is due to the independent nature of many components of the system: Trend Source Analysis, Searching for Keywords and Scanning URLs.
+This is due to the independent nature of many components of the system: Trend Source Analysis, URL Discovery and Malware Detection.
 
 Each trend source is not dependent on on any other trend source, however the search engine tasks cannot be dispatched without a keyword from the Trend Analysis phase to be able to operate.
 
