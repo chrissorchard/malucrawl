@@ -53,7 +53,7 @@ multiprocessing, part of the Python Standard Library, is a threading model that 
 
 Eventlet is a wrapper around either epoll or libevent both of which provide a ``mechanism to execute a callback function when a specific event occurs on a file descriptor'' such as a notification on receiving data in a TCP socket.  Potentially thousands of ``green'' threads can be spawned with minimal resource usage, but any blocking operation causes the entire pool to block also. This is more useful than the multiprocessing threading model for most phases of the system as the majority of them spend most of their execution time downloading data from the Internet.
 
-To be able to communicate to multiple workers operating on multiple, disparate and networked machines Celery requires a message broker and a result back end to make results of Tasks available to other Tasks.  The recommended message broker is RabbitMQ and the recommended result back-end is Redis.
+To be able to communicate to multiple workers operating on multiple, disparate and networked machines Celery requires a message broker and a result back end to make results of Tasks available to other Tasks.  The recommended message broker is RabbitMQ.
 
 \subsubsubsection{RabbitMQ}
 Although being one of many possible message brokers, RabbitMQ was chosen as the message broker not just because it is the system recommended by Celery.
@@ -64,11 +64,7 @@ While some of the database systems support publish and subscribe on records none
 
 Using a database as a queue is an anti-pattern because the only way to get notified of messages is to repeatedly poll the database and also because a database is difficult to share among multiple client machines while remaining synchronized.
 
-The only remaining systems after the others have been eliminated are Beanstalk and RabbitMQ, both message queue systems.  RabbitMQ was chosen over Beanstalk because it is easier to distribute the queue itself over a network of machines.
-
-\subsubsubsection{Redis}
-
-\subsubsubsection{Python}
+The only remaining systems after the others have been eliminated are Beanstalk and RabbitMQ, both message queue systems. RabbitMQ was chosen over Beanstalk because it is easier to distribute the queue itself over a network of machines.
 
 \subsubsubsection{Django ORM}
 
