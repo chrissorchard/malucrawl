@@ -6,9 +6,9 @@ This section of the report describes the design of a framework that connects tho
 \subsubsection{Components}
 URL Discovery and Trend Analysis are both simpler phases and effect how data flows through the system and as such are discussed together in implementation part of this section. The design and implementation of the malware detection components are discussed later and each have their own section of the report.
 
-\input{trend-sources}
+%\input{trend-sources}
 
-\input{search-engine}
+%\input{search-engine}
 
 \subsubsubsection{Malware Detection}
 The malware dection phase will accept a single URL, and optionally the keyword that resulted in the discovery of that URL, returning a confidence level that the URL resolved to malware.  This confidence can be combined with an overall confidence level for the particular malware scanning method used.
@@ -39,7 +39,7 @@ Each result from the ``malware finding placeholder'' should be printed to STDOUT
 % Celery basics
 \subsubsection{Tools}
 \subsubsubsection{Celery}
-Celery is a ``Distributed Task Queue'' that allows standard python functions to be converted into Tasks that can operate asynchronously and in parallel on a large cluster of machines.
+Celery is a ``Distributed Task Queue'' that allows standard python functions to be converted into Tasks that can operate asynchronously and in parallel on a large cluster of worker machines.
 
 These Tasks can be dispatched in real-time or can be scheduled to take place at a particular time in the future, or at a predictable time intervals.  This scheduling feature particularly useful for this project because it is required to process a complete flow of operation through all phases each day.
 
@@ -65,11 +65,20 @@ The only remaining systems after the others have been eliminated are Beanstalk a
 \subsubsubsection{Django ORM}
 
 \subsubsection{Parallel Crawling and Scanning Framework}
-Celery, RabbitMQ and the Django ORM
+Celery, RabbitMQ and the Django ORM.
 
-\subsubsubsection{Controlling the Phases}
+Each Task is implemented as a Celery Task.
 
-\subsubsubsection{Storing Results}
+A celerybeat task scheduled for each day.
+
+\subsubsection{Controlling the Phases and Storing the Results}
+Methods of Controlling the Phases of the System attempted:
+
+Waiting on each phase before starting the next, gradually building a python data-structure out of dictionaries and lists until finally adding it to the Database in one go.
+
+Using callbacks, passing the object through the system.
+
+\subsubsection{Considerations For ECS systems}
 
 \subsubsubsection{Future Extension}
 The system should be designed so that it is possible to avoid repeating the ``same'' task too often. Eg a ``search engine'' task for the same keyword, or ``malware finding'' task for the same URL should only be repeated once in any given time period.
