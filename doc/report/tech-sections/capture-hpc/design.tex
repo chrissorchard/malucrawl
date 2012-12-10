@@ -10,7 +10,11 @@ goes out and requests content from the Internet and attempts to detect any
 malicious activity caused by the content. Capture-HPC was developed at Victoria
 University in Wellington NZ and is maintained be the HoneyNet project(CITE).
 
+\subsubsection{Capture-HPC in Detail}
+
 %TODO: Detailed description of what capture-hpc does and how it works.
+
+\subsubsection{How Capture-HPC is used in the project}
 
 Capture-HPC is the most accurate simulation of user browsing used by the project
 as a malware scanner, and has a very low URL throughput thanks to each URL
@@ -64,11 +68,53 @@ program, written in Java, was compiled and run from this machine.
 The Capture-HPC client was compiled on a Windows XP development VM, and then
 deployed to a clean install of Windows XP. It is also possible to run the
 Capture-HPC client on a Windows Vista or Window 7 install, but was not tested in
-the prototype deployment due to time constraints.
+the prototype deployment due to time constraints. The Windows XP install used
+for the client had no anti-virus or firewall configured, with Internet Explorer
+6 installed to present an easy target for malicious sites.
 
 \subsubsection{ECS Specific Customisations}
 
+The specific network architecture meant that some customisations had to be made
+to the standard deployment, and to further reduce risk of malware escaping from
+behind the firewall. The ECS VM infrastructure uses VMware vSphere to manage its
+ESXi VM servers, and the Capture-HPC server must connect to the vSphere
+administration console to revert the VMs when malicious activity is detected.
+The VM administration API requires authentication, which uses ECS domain
+credentials. The consequence of this is that a domain password must be stored in
+a file on the VM running the Capture-HPC server, which has unacceptable
+consequences if the Capture-HPC server VM is compromised. Another issue is that
+the API is not accessible from the DMZ where the Capture-HPC server is deployed,
+again for security reasons.
+
+The solve this issue, a small RPC system was set up using AMQP message queues to
+allow a trusted client in a trusted part of the network to connect out to the
+server in the DMZ, and the message queue route revert requests out to the
+trusted server. The Capture-HPC server only holds fake password details, which
+are replaced with the real credentials on the trusted client. A diagram showing
+the design of the RPC system is shown below. 
+
+AWESOME REVERT RPC DIAGRAM
+
 \subsubsection{Framework Integration}
 
+Capture-HPC, being written in a combination of Java, C++ and C needs an
+interface module before it can be integrated with the python framework.
+Capture-HPC can be backed using a database for URLs, which is useful as it
+allows us to build Capture-HPC's database format into a Django model which can
+be used in the python code to access the database. Each Capture-HPC server has a
+celery worker running on the same machine, that communicates with the MySQL
+database also running on the same machine, and controls the Capture-HPC
+server, which needs to be restarted for each new batch of URLs to be processed.
+The database also has to be cleared of URLs, and results reported back to the
+framework.
+
 \subsubsection{Exclusion Lists}
+
+The exclusion lists used to determine what activity is judged by the Capture-HPC
+clients as malicious also needs to be maintained. The Capture-HPC server is
+capable of sending the lists to the clients, allowing easy distribution of new
+exclusion lists. The exclusion lists as of time of writing are included in
+appendix TODO, and are stored under the project version control, but the lists
+created are only tested with Windows XP, so it is quite possible that they will
+need to be modified for use under Windows 7 or Windows Vista.
 
