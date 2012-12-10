@@ -1,16 +1,20 @@
 \subsection{Design}
-Intro
-Overall Design
-Phases of the system:
-Trend Analysis, Search Engine, Multiple Malware Scanning Modules, Storage, Display/Reporting.
-Multiple Machine System
-Task dispatching
+The project can be split into four phases of operation, Trend Source Analysis, Searching for Keywords, Scanning URLs and Storing those results in a database.
 
-determine that a URL has at one point returned a malicious page
+This section of the report describes the design of a framework that connects those phases of operation together in a performant manner.
 
-Each result from the ``keyword finding'' task should result in a new ``search engine'' task.
-Each result from the ``search engine'' task should result in a new ``malware finding placeholder'' task
-Each result from the ``malware finding placeholder'' should be printed to STDOUT by the master node.
+\subsubsection{A Distributed System}
+To be able to operate quickly the system can be organized into a parallel architecture.
+
+This is due to the independent nature of many components of the system: Trend Source Analysis, Searching for Keywords and Scanning URLs.
+
+Each trend source is not dependent on on any other trend source, however the search engine tasks cannot be dispatched without a keyword from the Trend Analysis phase to be able to operate.
+
+The process of scanning and determining if a URL has at one point returned a malicious page or not is entirely independent of both any other URL or any other particular method of scanning.
+
+As such multiple sources can be queried for trends and those trends can then be used to browse for URLs using search engines, while multiple malware scanners are able to operate on multiple discovered URLs at the same time.
+
+Keyword Finding and Trend Analysis are both simpler phases and effect how data flows through the system and as such are discussed together in this section.
 
 \subsubsection{Keyword Finding}
 Each ``keyword finding'' task should be able to query some external services and determine a set of keywords. These keywords can then be dispatched to other tasks.
@@ -28,6 +32,9 @@ It is important to note that further possibilities for keyword determination sho
 \subsection{Implementation}
 This section describes how to use a set of workers to determine trending topics and sites relating to those topics
 
+Each result from the ``keyword finding'' task should result in a new ``search engine'' task.
+Each result from the ``search engine'' task should result in a new ``malware finding placeholder'' task
+Each result from the ``malware finding placeholder'' should be printed to STDOUT by the master node.
 % python, pip and PyPi
 % HTML/XML, RSS and JSON parsing
 % OAuth2
