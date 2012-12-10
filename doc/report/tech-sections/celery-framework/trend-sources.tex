@@ -1,4 +1,4 @@
-\subsubsubsection{Trend Analysis}
+\paragraph{Trend Analysis}
 Each trend analysis phase should be able to query some external services and determine a set of keywords. These keywords can then be returned, to be expanded to URLs by the URL Discovery phase.
 
 Libraries available that will be useful include:
@@ -14,7 +14,7 @@ Trend sources to be used are Twitter Trending Topics API, RSS Feeds and Trends f
 
 It is important to note that further possibilities for keyword determination should be researched. The sources suggested here are the ones I think will be the easiest to interface to, but might not be the sources malware distribution networks actually use!
 
-\subsubsubsection{Twitter}
+\paragraph{Twitter}
 The twitter api is available in multiple versions, 1 and 1.1. Currently 1 is deprecated and it is recommended that new applications build against 1.1.  The disadvantage of the 1.1 API is that it requires a ``User Context'', ie all requests must be authenticated based on Application-User key.
 
 The Twitter API provides access to global trending topics at
@@ -30,8 +30,7 @@ Topics with a \# infront are Twitter ``hashtags'', and are usually camel cased. 
 Eg. \#BrazilWantsOneDirection -> Brazil Wants One Direction
 \#XFactorPHFinale -> X Factor PH Final
 
-In the case of all capi
-    \item Use simpletals eg NIALLSAYHITOTURKEY, it's probably best to drop it.
+In the case of all capitals eg NIALLSAYHITOTURKEY, it's probably best to drop it.
 
 \subsubsection{RSS}
 A set of RSS feeds should be collected and parsed, ``feedparser'' is likely to be useful for this.
