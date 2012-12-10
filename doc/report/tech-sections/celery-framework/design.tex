@@ -3,20 +3,8 @@ The project can be split into four phases of operation, Trend Source Analysis, S
 
 This section of the report describes the design of a framework that connects those phases of operation together in a performant manner.
 
-\subsubsection{A Distributed System}
-To be able to operate quickly the system can be organized into a parallel architecture.
-
-This is due to the independent nature of many components of the system: Trend Source Analysis, Searching for Keywords and Scanning URLs.
-
-Each trend source is not dependent on on any other trend source, however the search engine tasks cannot be dispatched without a keyword from the Trend Analysis phase to be able to operate.
-
-The process of scanning and determining if a URL has at one point returned a malicious page or not is entirely independent of both any other URL or any other particular method of scanning.
-
-As such multiple sources can be queried for trends and those trends can then be used to browse for URLs using search engines, while multiple malware scanners are able to operate on multiple discovered URLs at the same time.
-
-\subsubsection{}
-
-Keyword Finding and Trend Analysis are both simpler phases and effect how data flows through the system and as such are discussed together in this section.
+\subsubsection{Components}
+Keyword Finding and Trend Analysis are both simpler phases and effect how data flows through the system and as such are discussed together in this section. The malware scanning components are discussed later and each have their own section of the report.
 
 \subsubsection{Keyword Finding}
 Each ``keyword finding'' task should be able to query some external services and determine a set of keywords. These keywords can then be dispatched to other tasks.
@@ -30,6 +18,18 @@ Libraries available from PyPi likely to help with this include:
 \end{itemize}
 
 It is important to note that further possibilities for keyword determination should be researched. The sources suggested here are the ones I think will be the easiest to interface to, but might not be the sources malware distribution networks actually use!
+
+
+\subsubsection{A Distributed System}
+To be able to operate quickly the system can be organized into a parallel architecture.
+
+This is due to the independent nature of many components of the system: Trend Source Analysis, Searching for Keywords and Scanning URLs.
+
+Each trend source is not dependent on on any other trend source, however the search engine tasks cannot be dispatched without a keyword from the Trend Analysis phase to be able to operate.
+
+The process of scanning and determining if a URL has at one point returned a malicious page or not is entirely independent of both any other URL or any other particular method of scanning.
+
+As such multiple sources can be queried for trends and those trends can then be used to browse for URLs using search engines, while multiple malware scanners are able to operate on multiple discovered URLs at the same time.
 
 \subsection{Implementation}
 This section describes how to use a set of workers to determine trending topics and sites relating to those topics
