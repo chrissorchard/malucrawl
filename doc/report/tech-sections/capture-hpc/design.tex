@@ -31,7 +31,7 @@ use of Internet Explorer is prioritised as a starting point for malware scanning
 that can be easily extended to cover the other applications. To detect any
 malicious activity that may be caused by visiting a website, or opening a
 downloaded file, a collection of kernel drivers are used. The kernel drivers
-watch filesystem, network and process activity at a low level, enusring that
+watch filesystem, network and process activity at a low level, ensuring that
 unusual activity can be detected despite attempts from any malware to conceal
 its actions. This isn't a technique that works in general on a PC where the user
 may be performing any number of other actions whilst using the machine, but
@@ -64,7 +64,21 @@ the options available for providing Capture-HPC with data, and retrieving the
 results. Unfortunately the Capture-HPC server also has to be restarted to
 consume new URLs from the database, with any finished URLs that are left in the
 database processed again. The Capture-HPC server is configured using an XML
-configuration file that can be found in Appendix X.
+configuration file that can be found in Appendix TODO.
+
+The version of Capture-HPC to be used in the project supports VMware as its
+virtualisation platform, and the ECS VM infrastructure also runs on VMware
+products. Most VMWare products offer an API for programmatically interacting
+with the Virtual Machines being hosted, known as VIX, and Capture-HPC uses this
+API to reset suspicious VMs. The API however only has bindings in perl and C,
+so a bridging program written in C is supplied with Capture-HPC and must be
+compiled independently of the server. Each virtual machine being used as a
+Capture-HPC client needs to have the client software installed, and then a
+snapshot taken. A VM Snapshot is a method of backing up the VM in manner that
+preserves all information about the state of the VM, including the memory,
+meaning that the state of the machine can quickly be restored to its original
+after a malware detection. The bridging utility simply reverts the VM to the
+first snapshot it can find, and then re-starts the Capture-HPC client.
 
 \subsubsection{How Capture-HPC is used in the project}
 
