@@ -54,7 +54,7 @@ multiprocessing and Eventlet.
 
 multiprocessing, part of the Python Standard Library, is a threading model that spawns separate processes in which to consume execution units.  This means that each thread is very resource intensive because it is a full process and requires all of the code and a complete instance of the Python environment.
 
-Eventlet is a wrapper around either epoll or libevent both of which provide a ``mechanism to execute a callback function when a specific event occurs on a file descriptor'' such as receiving data in a TCP socket.  This is more useful than the multiprocessing threading model for most phases of the system as the majority of them spend most of their execution time downloading data from the Internet.
+Eventlet is a wrapper around either epoll or libevent both of which provide a ``mechanism to execute a callback function when a specific event occurs on a file descriptor'' such as receiving data in a TCP socket.  Potentially thousands of ``green'' threads can be spawned with minimal resource usage, but any blocking operation causes the entire pool to block also. This is more useful than the multiprocessing threading model for most phases of the system as the majority of them spend most of their execution time downloading data from the Internet.
 
 \subsubsubsection{RabbitMQ}
 
