@@ -14,6 +14,8 @@ The process of scanning and determining if a URL has at one point returned a mal
 
 As such multiple sources can be queried for trends and those trends can then be used to browse for URLs using search engines, while multiple malware scanners are able to operate on multiple discovered URLs at the same time.
 
+\subsubsection{}
+
 Keyword Finding and Trend Analysis are both simpler phases and effect how data flows through the system and as such are discussed together in this section.
 
 \subsubsection{Keyword Finding}
@@ -40,10 +42,19 @@ Each result from the ``malware finding placeholder'' should be printed to STDOUT
 % OAuth2
 % Celery basics
 \subsubsection{Tools}
-\subsubsubsection{Celery}
-Celery provides a basic interface for running tasks on a cluster of workers. This could be one worker per core of a machine, or of many machines on a network.
+\subsubsubsection{Python}
 
-Eventlet and Requests, Multiprocessing
+\subsubsubsection{Celery}
+Celery is a ``Distributed Task Queue'' that allows standard python functions to be converted into Tasks that can operate asynchronously and in parallel on a large cluster of machines.
+
+These Tasks can be dispatched in real-time or can be scheduled to take place at a particular time in the future, or at a predictable time intervals.  This scheduling feature particularly useful for this project because it is required to process a complete flow of operation through all phases each day.
+
+Celery supports multiple threading models including 
+multiprocessing and Eventlet.
+
+multiprocessing, part of the Python Standard Library, is a threading model that spawns separate processes in which to consume execution units.  This means that each thread is very resource intensive because it is a full process and requires all of the code and a complete instance of the Python environment.
+
+Eventlet is a wrapper around either epoll or libevent both of which provide a ``mechanism to execute a callback function when a specific event occurs on a file descriptor'' such as receiving data in a TCP socket.  This is more useful than the multiprocessing threading model for most phases of the system as the majority of them spend most of their execution time downloading data from the Internet.
 
 \subsubsubsection{RabbitMQ}
 
