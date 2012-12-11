@@ -65,11 +65,12 @@ applying regular expression substitution: \\
 \newline
 \verb`re.sub(r'((?<=[a-z])[A-Z]|(?<!\A)[A-Z](?=[a-z]))',r' \1',camelCaseString)`
 \newline
-Before the conversion happens the keyword is also decoded into unicode to 
-avoid dodgy encodings. 
+Before the conversion happens the keyword is also decoded into unicode. The 
+reason is to avoid character loss when Celery serializing and sending them to 
+RabbitMQ. 
 \paragraph{}
 We also hard coded a list of famous news websites' RSS feed addresses in the 
-program, the website list include BBC, NewYork Times, Guardian, The Washington 
+program, the website list includes BBC, NewYork Times, Guardian, The Washington 
 Post and so on. Our RSS parser downloads every feeds, parses them into list 
 then extracts news titles in them. Characters require encodings other than 
 UTF-8 are ignored. The downloading is achieved with requests and any network 
