@@ -27,6 +27,7 @@ report_files = [
     "doc/report/conclusion.tex",
     "doc/report/description.tex",
     "doc/report/control.tex",
+    "doc/report/problem-definition.tex",
     "doc/report/evaluation.tex",
     "doc/report/review.tex",
     "doc/report/testing.tex",
@@ -50,10 +51,13 @@ report_files = [
     "doc/report/tech-sections/malware-lists/design.tex",
     "doc/report/tech-sections/malware-lists/results.tex",
     "doc/report/tech-sections/malware-lists/testing.tex",
+    "doc/report/Evaluation(classifer+HTML).tex",
     "doc/report/tech-sections/Classification/design.tex",
     "doc/report/tech-sections/Classification/implementation.tex",
+    "doc/report/tech-sections/Classification/evaluation.tex",
     "doc/report/tech-sections/HTML-malware/design.tex",
-    "doc/report/tech-sections/HTML-malware/implementation.tex"
+    "doc/report/tech-sections/HTML-malware/implementation.tex",
+    "doc/report/tech-sections/Classification/evaluation.tex",
     ]
 
 github_url = "https://api.github.com/"
