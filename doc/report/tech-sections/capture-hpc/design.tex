@@ -7,12 +7,11 @@ realistically emulating a user browsing to a given URL in a real web browser.
 Capture-HPC is designed as a client honeypot, where in contrast to the usual and
 more common form of passive honeypots that simply wait for incoming attacks,
 goes out and requests content from the Internet and attempts to detect any
-malicious activity caused by the content. Capture-HPC was developed at Victoria
+malicious actions performed by the content. Capture-HPC was developed at Victoria
 University in Wellington NZ and is maintained be the HoneyNet project(CITE).
 
 \subsubsection{Capture-HPC in Detail}
 
-%TODO: Detailed description of what capture-hpc does and how it works.
 Capture-HPC uses virtualisation to simulate user browsing, using a web browser
 running in a monitored and externally controlled Virtual Machine. There are two
 distinct pieces of software used to do this, a client to run the web browser on
@@ -20,9 +19,10 @@ the virtual machine and monitor for malicious activity, and a server to
 orchestrate URL scanning between however many clients are being used and to
 reset client VMs when malicious activity is detected. The client and server
 components communicate over a network connection.
-
+\paragraph{The Client}
 The Capture-HPC client is a C++ program that runs on Windows XP, Vista, or 7.
-It's role is to automatically browse the web and to monitor the VM for any
+Its role is to automatically download content from the internet and to monitor
+the VM for any
 suspicious activity, reporting the outcome rendering URLs to the server. The
 client is capable of driving a number of applications using URLS, from web
 browsers such as Microsoft Internet Explorer and Mozilla Firefox, to downloading and opening
@@ -31,7 +31,8 @@ use of Internet Explorer is prioritised as a starting point for malware scanning
 that can be easily extended to cover the other applications. To detect any
 malicious activity that may be caused by visiting a website, or opening a
 downloaded file, a collection of kernel drivers are used. The kernel drivers
-watch filesystem, network and process activity at a low level, ensuring that
+watch filesystem, network and process activity at a low level inside the
+operating system, ensuring that
 unusual activity can be detected despite attempts from any malware to conceal
 its actions. This isn't a technique that works in general on a PC where the user
 may be performing any number of other actions whilst using the machine, but
@@ -42,35 +43,41 @@ malware detection, Capture-HPC uses a set of "exclusion lists" that specify
 actions for each monitoring tool that should be considered as safe. It is also
 possible to specify precisely which actions should cause the monitoring tool to
 report suspected malicious activity.
-
+\paragraph{The Server}
 The Capture-HPC server program that controls the clients is a Java program that
 will run on most platforms (platform compatibility is limited by the VM revert
 script detailed below). The role of the server is to communicate the exclusion
 lists and URLs to be tested to the clients, and then collect the results of the
-analysis. The server also uses and external script to reset the virtual machine
+analysis. The server also uses an external script to reset the virtual machine
 if malicious activity is detected by the client. The server also resets the
 client if it does not respond to keepalive packets, so the client does not get
-stuck on a URL that errors. There exists two options for supplying URLs to the
+stuck on a URL that errors or a very large file such as a DVD. There exists two
+options for supplying URLs to the
 Capture-HPC server, using a plaintext input file with one URL on each line (the
 line can also contain options controlling which client application is used to
 open the URL) or a MySQL database with a schema provided with the application.
-The server stores the results in text files labelled for safe, error, and
+The server stores the results in text files labelled for safe URLs, URLs that
+cause an error, dangerous URLS and the current
 progress by default, with additional detail for suspicious URLs stored in a file
-named with the suspicious URL (URL encoded). This is not ideal for use within
+with the name of the suspicious URL (URL encoded). This is not ideal for use within
 the project, but fortunately Capture-HPC will store all results in the
-relational database if one is configured. The use of a MySQL table for a queue
+relational database if one is configured. URLs can be inserted into the
+database, and when the server is run, the URLs are annotated with the results of
+the scanning, with additional detail stored in other tables.
+The use of a MySQL table for a queue
 could be considered an anti-pattern as discussed in (CITE), but is the best of
 the options available for providing Capture-HPC with data, and retrieving the
 results. Unfortunately the Capture-HPC server also has to be restarted to
 consume new URLs from the database, with any finished URLs that are left in the
 database processed again. The Capture-HPC server is configured using an XML
 configuration file that can be found in Appendix TODO.
-
+\paragraph{VM Integration}
 The version of Capture-HPC to be used in the project supports VMware as its
 virtualisation platform, and the ECS VM infrastructure also runs on VMware
 products. Most VMWare products offer an API for programmatically interacting
 with the Virtual Machines being hosted, known as VIX, and Capture-HPC uses this
-API to reset suspicious VMs. The API however only has bindings in perl and C,
+API to reset VMs that detect any suspicous activity. The API however only has
+bindings in perl and C,
 so a bridging program written in C is supplied with Capture-HPC and must be
 compiled independently of the server. Each virtual machine being used as a
 Capture-HPC client needs to have the client software installed, and then a
@@ -78,16 +85,20 @@ snapshot taken. A VM Snapshot is a method of backing up the VM in manner that
 preserves all information about the state of the VM, including the memory,
 meaning that the state of the machine can quickly be restored to its original
 after a malware detection. The bridging utility simply reverts the VM to the
-first snapshot it can find, and then re-starts the Capture-HPC client.
+first snapshot it can find, and then re-starts the Capture-HPC client. The
+separation of the VM API component from the rest of the server proved to be
+usefil in the project, as some modifications needed to be made to how VMs are
+reverted, as detailed below.
 
 \subsubsection{How Capture-HPC is used in the project}
 
 Capture-HPC is the most accurate simulation of user browsing used by the project
 as a malware scanner, and has a very low URL throughput thanks to each URL
 needing to be rendered in a web browser. The throughput is further reduced be
-the need to rebuild the VM every time malicious activity is detected. Therefore
+the need to revert the VM every time malicious activity is detected. Therefore
 it is necessary to limit the number of URLs that Capture-HPC is required to
-process. As discussed previously, limiting of the URLs processed by Capture-HPC
+process. As discussed previously, limiting of the URLs processed by the
+high-interaciton malware scanners 
 is done by a classification system, and only URLS that are strongly suspected to
 harbour malware are submitted for scanning. In addition to the confidence factor
 that each malware analyser in the framework must return, Capture-HPC is also
@@ -97,9 +108,10 @@ these details are returned to the framework for optional in-depth analysis.
 \subsubsection{Security Considerations}
 
 As Capture-HPC renders web pages, there is a significant risk that any malicious
-content will take over the VM and try to exploit other machines connected to it
-or send spam. To mitigate this threat, a set of preventative measures are taken
-as shown in the diagram below.
+content will take over the client VM and try to exploit any other computers
+connected to the VM or abuse resources in other ways such as sending spam.
+To mitigate this threat, a set of preventative measures are taken
+as illustrated in the diagram, and discssed further below.
 
 AWESOME SECURITY ARCH DIAGRAM
 
@@ -107,13 +119,16 @@ To secure the virtual machine(s) running the Capture-HPC client, a Linux
 firewall is placed between the VMs and the network, with the client VMs only
 able to communicate with the outside network via the firewall. The firewall
 blocks all ports by default, only proxying a small selection of ports and
-forwarding no ports. To allow the Capture-HPC client to request web pages, DNS
+forwarding no ports. To allow the Capture-HPC client to resolve URLs to IP
+addressed, DNS
 queries are proxied through the firewall, with all requests logged. All HTTP and
-HTTPS traffic is also proxied and logged using a rolling log so any suspicious
+HTTPS requests are also proxied and logged using a weekly/monthly rolling log
+so that any suspicious
 activity can be investigated. A self-signed SSL certificate will be installed on
-the client VM so that HTTPS connections still appear valid despite interception.
+the client VMs so that HTTPS connections still appear valid despite interception.
 A small selection of ports will also be open into and out of the firewall to
-allow control of Capture-HPC and reporting of results.
+allow control of Capture-HPC and reporting of results, and to allow the
+Capture-HPC server to communicate with the Capture-HPC clients.
 
 \subsection{Implementation}
 
@@ -124,18 +139,27 @@ allow control of Capture-HPC and reporting of results.
 
 When deploying Capture-HPC in ECS to form part of our prototype deployment of
 the framework, a small group of VMs were used host the security architecture
-discussed above. The gateway VM had RHEL 6 installed for stability and security,
+discussed above. The gateway VM used Red Hat Enterprise Linux 6 for its
+stability and security,
 with iptables used to provide a firewall. An annotated version of the iptables
 rules used for running Capture-HPC is listed in Appendix TODO, explaining the
 function of each rule. Squid was used as a HTTP and HTTPS proxy, compiled with
-support for dynamically generating certificates for HTTPS websites. To ease 
-development on the system, a small tool was written to allow a number of
+support for dynamically generating certificates for HTTPS websites. To reduce
+the amount of effort needed to manually configure the firewall to allow/disallow
+different types of traffic during
+development of the system, a small tool was written to allow a number of
 iptables "profiles" to be created, and then changed using a small shell script,
-the source of which can be found in Appendix TODO. The Capture-HPC Server
-program was compiled and run from this machine.
+the source of which can be found in Appendix TODO. Profiles were written for
+development mode with little to no firewall restrictions but with NAT and
+forwarding enabled, maintenance mode with restricted ports but forwarding with
+NAT instead of proxying, and full mode with proxying and the minimum number of
+open ports. The Capture-HPC Server program was also compiled and run from this machine.
 
 The Capture-HPC client was compiled on a Windows XP development VM, and then
-deployed to a clean install of Windows XP. It is also possible to run the
+deployed to a clean install of Windows XP. Due to the complexity of compiling
+the binaries, the installer generated in the build process is included with the
+accompanying data package, but would unfortunately still need to be rebuild for
+use on versions of Windows other than XP. It is possible to run the
 Capture-HPC client on a Windows Vista or Window 7 install, but was not tested in
 the prototype deployment due to time constraints. The Windows XP install used
 for the client had no anti-virus or firewall configured, with Internet Explorer
@@ -155,12 +179,15 @@ consequences if the Capture-HPC server VM is compromised. Another issue is that
 the API is not accessible from the DMZ where the Capture-HPC server is deployed,
 again for security reasons.
 
-The solve this issue, a small RPC system was set up using AMQP message queues to
+The solve this issue, a small RPC tool was written in python using AMQP message
+ queues to
 allow a trusted client in a trusted part of the network to connect out to the
 server in the DMZ, and the message queue route revert requests out to the
-trusted server. The Capture-HPC server only holds fake password details, which
+trusted server. RabbitMQ was used as the message passing server as it was being
+used elsewhere in the project. The Capture-HPC server only holds fake password details, which
 are replaced with the real credentials on the trusted client. A diagram showing
-the design of the RPC system is shown below. 
+the design of the RPC system is shown below. The Capture-HPC server only sees a
+revert command that takes the same arguments as the real version. 
 
 AWESOME REVERT RPC DIAGRAM
 
