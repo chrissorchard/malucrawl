@@ -50,7 +50,11 @@ This section describes how to use a set of workers to determine trending topics 
 \paragraph{Celery}
 Celery is a ``Distributed Task Queue'' that allows standard python functions to be converted into Tasks that can operate asynchronously and in parallel on a large cluster of worker machines.
 
-These Tasks can be dispatched in real-time or can be scheduled to take place at a particular time in the future, or at a predictable time intervals.  This scheduling feature particularly useful for this project because it is required to process a complete flow of operation through all phases each day.
+These Tasks can be dispatched in real-time or can be scheduled to take place at a particular time in the future, or at a predictable time intervals.  This scheduling feature is particularly useful for this project because it is required to schedule a complete flow through all phases of operation each day.
+
+Celery Tasks can either be executed: while the calling thread waits until the Task has finished,  asynchronously by the calling thread that then ignores the result (useful in cases such as adding information to a database) or the calling thread can add a new Subtask to be called with the result of the previous as its argument.
+
+This Subtask is a serialize-able version of a Task and describes the arguments, and the function name so that it can be sent to another worker to be called later.  The Subtask can also be used in a similar way to partial functions, so that more arguments can be added to a Subtask in different steps before it is finally called.  This is useful because it means that a range of Subtasks can be created that all share a predefined value: a particular Trend Source and then can be added as an asynchronous callback to be later given a specific argument: the particular Trending Topic from that Trend Source.
 
 Celery supports multiple threading models including multiprocessing and Eventlet.
 \subparagraph{multiprocessing}
