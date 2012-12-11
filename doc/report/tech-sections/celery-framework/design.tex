@@ -91,7 +91,7 @@ The second approach used, making use of a Celery a Task for each phase of operat
 
 This effectively results in the \emph{phase controlling tasks} passing Django ORM database objects through the system, finally writing each result into the database at the end of the task.
 
-Tasks which call the database using the Django ORM block and will therefore block the operation of all Eventlet tasks on the worker because the Djanogo ORM was not written with green threads in mind.  Therefore the multiprocessing threading model is required, so all of the \emph{phase controlling tasks} must be routed to a worker using multiprocessing.
+Tasks which call the database using the Django ORM block and will therefore block the operation of all Eventlet tasks on the worker because the Django ORM was not written with green threads in mind.  Therefore the multiprocessing threading model is required, so all of the \emph{phase controlling tasks} must be routed to a worker using multiprocessing.
 
 The second approach was chosen as the final approach and is justified in the Testing section.
 
