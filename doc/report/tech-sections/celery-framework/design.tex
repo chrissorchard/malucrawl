@@ -27,12 +27,21 @@ The process of scanning and determining if a URL has at one point returned a mal
 
 As such multiple sources can be queried for trends and those trends can then be used to browse for URLs using search engines, while multiple malware scanners are able to operate on multiple discovered URLs at the same time.
 
+\subsubsection{Future Extensions}
+The system should be designed so that it is possible to avoid repeating the ``same'' task too often. Eg a ``search engine'' task for the same keyword, or ``malware finding'' task for the same URL should only be repeated once in any given time period.
+
+To implement this a set of keywords and URLs should be maintained. Each item should be dropped from the set after a certain time. This could be in a database eg. the existing Redis instance used for the result backend:
+
+\verb/{"task:(keyword|url):#{data}":{"result":taskid, "requested":time_stamp}}/
+
+The simplest solution is that: each time a task is called it checks in Redis for its task key, eg ``task:keyword:foo'' and returns the result at ``taskid'' if the time is recent enough. Otherwise it adds itself to Redis and returns normally.
+
+Despite being conceptually to check the sets each time, this is a waste of bandwidth. As such the controlling node should be able to check in most cases.
+
+In the end it might not be worth it, as we will only be checking the keyword sources as often as they claim to update and checking for duplicate scanned URLs could be done later in the stack eg. before they are dispatched to the Windows vms.
+
 \subsection{Implementation}
 This section describes how to use a set of workers to determine trending topics and sites relating to those topics
-
-Each result from the ``keyword finding'' task should result in a new ``search engine'' task.
-Each result from the ``search engine'' task should result in a new ``malware finding placeholder'' task
-Each result from the ``malware finding placeholder'' should be printed to STDOUT by the master node.
 % python, pip and PyPi
 % HTML/XML, RSS and JSON parsing
 % OAuth2
@@ -65,30 +74,27 @@ The only remaining systems after the others have been eliminated are Beanstalk a
 \paragraph{Django ORM}
 
 \subsubsection{Parallel Crawling and Scanning Framework}
-Celery, RabbitMQ and the Django ORM.
-
-Each Task is implemented as a Celery Task.
-
-A celerybeat task scheduled for each day.
+Each Task is implemented as a Celery Task in its own module, \verb`source`, \verb`search` and \verb`scan` depending on the phase of that Task: Trend Source Analysis, URL Discovery and Malware Detection respectively. Each phase module exposes the Task entry points with a list of functions.
 
 \subsubsection{Controlling the Phases and Storing the Results}
-Methods of Controlling the Phases of the System attempted:
+The general approach to controlling the system is to allow data to flow from the source tasks via the the search tasks to discover URLs to be dispatched to scan tasks. Ensuring that:
 
-Waiting on each phase before starting the next, gradually building a python data-structure out of dictionaries and lists until finally adding it to the Database in one go.
+Each result from the ``keyword finding'' task s in a new ``search engine'' task.
+Each result from the ``search engine'' task should results in a new ``malware finding'' task
+And Each result from the ``malware finding placeholder'' is stored 
 
-Using callbacks, passing the object through the system.
+However two different technical approaches were applied to control the flow of the system.
+
+One in which each phase completed and waited before before starting the next, gradually building a python data-structure out of dictionaries and lists until finally returning it, in a single Celery Task. Then writing it to the Database in one go.
+
+Another using callbacks, passing Django database objects through the system, until finally hitting a batching task.
+
+\subsection{Testing}
+\subsubsection{Placeholder Tasks}
+A simple Twitter source Task and Dogpile search Task could be developed very early on in the project, however malware scanning Tasks require more in depth technical work before they become operational. Therefore 
+before being able to demonstrate and test the distributed framework a placeholder malware scanning task was produced. This task downloaded the contents of the page referenced by the given URL using \emph{requests}, loaded the document into an \emph{lxml.html} object and returned the contents of the \verb`<title>` element of the document or ``Failed'' if there was no title, or an \emph{Exception} was thrown.
+
+Despite this process being unable to give a useful result, due to the title of the returned document having little to no bearing on whether or not that page is malicious, it served to both allow the system as a whole to operate and act as a template for other group members when developing parts of their code.
 
 \subsubsection{Considerations For ECS systems}
-
-\paragraph{Future Extension}
-The system should be designed so that it is possible to avoid repeating the ``same'' task too often. Eg a ``search engine'' task for the same keyword, or ``malware finding'' task for the same URL should only be repeated once in any given time period.
-
-To implement this a set of keywords and URLs should be maintained. Each item should be dropped from the set after a certain time. This could be in a database eg. the existing Redis instance used for the result backend:
-
-\verb/{"task:(keyword|url):#{data}":{"result":taskid, "requested":time_stamp}}/
-
-The simplest solution is that: each time a task is called it checks in Redis for its task key, eg ``task:keyword:foo'' and returns the result at ``taskid'' if the time is recent enough. Otherwise it adds itself to Redis and returns normally.
-
-Despite being conceptually to check the sets each time, this is a waste of bandwidth. As such the controlling node should be able to check in most cases.
-
-Note: In the end it might not be worth it, as we will only be checking the keyword sources as often as they claim to update and checking for duplicate scanned URLs could be done later in the stack eg. before they are dispatched to the Windows vms.
+Thanks to Celery the system can scale to very large clusters of machines, however the implementation used to test the system was the minimum required to demonstrate the ability to work over some number of machines: Two Virtual Machines, one controlling node hosting a RabbitMQ server and another purely worker node. While both machines are available as workers only the controlling node has access to the Django ORM Database.
