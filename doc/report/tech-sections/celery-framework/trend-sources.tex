@@ -51,3 +51,34 @@ Examples include:
 \end{itemize}
 
 %implementation
+\subsection{Implementation}
+The most popular Twitter library for Python is called Tweepy, which is also 
+our choice. This library provides access to Twitter version 1.1 API, which 
+requires OAuth authentication. Therefore we created a Twitter account 
+dedicated for this program, which provides consumer key and access token in 
+order to pass the authentication. \\
+The program then retrieves global trending keywords from the Twitter's {\em 
+trends/place} API. As previous described, in order to cope with keywords with 
+hashtags, we implemented a hashtag handler, who's role is to remove the hash 
+tag and convert the camel case word to sentence case. This is achieved by 
+applying regular expression substitution: \\
+\newline
+\verb`re.sub(r'((?<=[a-z])[A-Z]|(?<!\A)[A-Z](?=[a-z]))',r' \1',camelCaseString)`
+\newline
+Before the conversion happens the keyword is also decoded into unicode to 
+avoid dodgy encodings. 
+\paragraph{}
+We also hard coded a list of famous news websites' RSS feed addresses in the 
+program, the website list include BBC, NewYork Times, Guardian, The Washington 
+Post and so on. Our RSS parser downloads every feeds, parses them into list 
+then extracts news titles in them. Characters require encodings other than 
+UTF-8 are ignored. The downloading is achieved with requests and any network 
+errors will be handled gracefully. 
+\paragraph{}
+The top 200 commented articles from Sun JSON API are handled in a similar way 
+as that of RSS feeds. Due to good compatibility between Python and JSON we 
+were able to extract article titles without any difficulties. 
+\paragraph{}
+Twitter trends, RSS feeds and Sun JSON are implemented as three different 
+functions which are going to be run as separate Celery tasks. All of them 
+return a list of keywords or sentences to the main system. 
