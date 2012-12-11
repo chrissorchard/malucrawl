@@ -1,0 +1,53 @@
+\paragraph{Trend Analysis}
+Each trend analysis phase should be able to query some external services and determine a set of keywords. These keywords can then be returned, to be expanded to URLs by the URL Discovery phase.
+
+Libraries available that will be useful include:
+
+\begin{itemize}
+    \item requests A simple API for making HTTP requests
+    \item feedparser For parsing RSS feeds
+\end{itemize}
+
+Trend sources to be used are Twitter Trending Topics API, RSS Feeds and Trends from the Sun JSON Feed.
+
+
+
+It is important to note that further possibilities for keyword determination should be researched. The sources suggested here are the ones I think will be the easiest to interface to, but might not be the sources malware distribution networks actually use!
+
+\paragraph{Twitter}
+The twitter api is available in multiple versions, 1 and 1.1. Currently 1 is deprecated and it is recommended that new applications build against 1.1.  The disadvantage of the 1.1 API is that it requires a ``User Context'', ie all requests must be authenticated based on Application-User key.
+
+The Twitter API provides access to global trending topics at
+
+\verb`https://api.twitter.com/1.1/trends/place.json`
+
+Documented at \verb`https://dev.twitter.com/docs/api/1.1/get/trends/place`
+
+The keyword information is available at [0].trends[].name.
+
+Topics with a \# infront are Twitter ``hashtags'', and are usually camel cased. The system should be able to convert from camel cased to space delimited. As in \verb`http://commons.apache.org/lang/api-3.0.1/org/apache/commons/lang3/StringUtils.html#splitByCharacterTypeCamelCase%28java.lang.String%29`
+
+Eg. \#BrazilWantsOneDirection -> Brazil Wants One Direction
+\#XFactorPHFinale -> X Factor PH Final
+
+In the case of all capitals eg NIALLSAYHITOTURKEY, it's probably best to drop it.
+
+\subsubsection{RSS}
+A set of RSS feeds should be collected and parsed, ``feedparser'' is likely to be useful for this.
+
+Each item from a feed should be entered into a corpus, to calculate keywords from items in the corpus algorithms such as TFIDF should be used. The natural language library ``metanl'' is likely to be helpful.
+
+Note that each feed can be processed separately. Ie one corpus per feed.
+
+\subsubsection{A note on the Sun}
+The Sun provides a JSON API for the top 200 most commented on articles at \verb`http://bootstrap.thesun.fyre.co/api/cust/ni/todays_hottest/200.json`. In most cases the content of this JSON file can be treated exactly the same as an RSS feed however care should be taken to deal with the dodgy encoding of some of the returned headlines: ``Terry a â\\u0080\\u0098liarâu\\0080\\u0099'' should be ``Terry a \"liar\"''.
+
+\subsubsection{Even More Sources}
+Examples include:
+\begin{itemize}
+    \item Link aggregation sites such as Reddit and Digg.
+    \item Search engine common searches and trends such as Google, Bing and Yahoo trends services.
+    \item Network logs such as the campus search trends. It should be noted that this data is very unlikely to be accessible by malware distribution networks and might allow us to see trends before they do.
+\end{itemize}
+
+%implementation

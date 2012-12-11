@@ -1,0 +1,14 @@
+\paragraph{URL Discovery}
+The URL discovery phase is called with a keyword from the Trend Analysis phase and should query a search engine to determine a set of pages related to those URLs. This phase is designed to emulate a user searching for pages.
+
+To determine URLs to investigate a search engine of some sort is required, the best I have found that can be used by automata is http://dogpile.co.uk.
+
+\paragraph{Dogpile}
+
+A handy code snippet for retrieving URLs from dogpile:
+
+map(lambda link: link.get('href'),lxml.html.fromstring(requests.get("http://www.dogpile.co.uk/search/web?q=foo").text).cssselect(".webResult .resultDisplayUrl"))
+
+Because each of the links we want is wrapped in a ``ClickHandler'' \verb`http://cs.infospace.com/ClickHandler.ashx?du=http%3a%2f%2fwww.ietf.org%2frfc%2frfc3092.txt&ru=http%3a%2f%2fwww.ietf.org%2frfc%2frfc3092.txt&ld=20121006&ap=10&app=1&c=uk.dogpl&s=dogpileuk&coi=239138&cop=main-title&euip=94.193.128.47&npp=10&p=0&pp=0&pvaid=1351848139fc4226b6b6a0f6e0eed58b&ep=8&mid=9&hash=22AE450C7F5B9FA7C51FE2CEA7841093`
+
+The URLs returned must be parsed, eg using ``urlparse'' to retrieve the unwrapped URL available in the ``du'' or ``ru'' GET parameter, in this case\cite{rfc3092}
