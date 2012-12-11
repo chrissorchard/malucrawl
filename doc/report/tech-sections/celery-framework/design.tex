@@ -79,15 +79,19 @@ Each Task is implemented as a Celery Task in its own module, \verb`source`, \ver
 \subsubsection{Controlling the Phases and Storing the Results}
 The general approach to controlling the system is to allow data to flow from the source tasks via the the search tasks to discover URLs to be dispatched to scan tasks. Ensuring that:
 
-Each result from the ``keyword finding'' task s in a new ``search engine'' task.
+Each result from the ``keyword finding'' task results in a new ``search engine'' task.
 Each result from the ``search engine'' task should results in a new ``malware finding'' task
-And Each result from the ``malware finding placeholder'' is stored 
+And Each result from the ``malware finding placeholder'' is stored and related to the relevant Keyword and URL.
 
-However two different technical approaches were applied to control the flow of the system.
+However two different technical approaches were applied to control the flow of the system:
 
-One in which each phase completed and waited before before starting the next, gradually building a python data-structure out of dictionaries and lists until finally returning it, in a single Celery Task. Then writing it to the Database in one go.
+One in which a single task, the scheduled task, controlled the entire process.  Ensuring that each phase completed and waited before before starting the next, gradually building a python data-structure out of dictionaries and lists until finally returning it.  This structure can then be validated and finally written to the database in one go.
 
-Another using callbacks, passing Django database objects through the system, until finally hitting a batching task.
+The second approach used, making use of a Celery a Task for each phase of operation.  In which each \emph{phase controlling task}: inserts the results from the previous phase into the database, manages the dispatch of the different types of Task of that relevant phase, and passes on those database objects as a parameter to a partial task of the next phase to be used as a callback. 
+
+This effectively results in the \emph{phase controlling tasks} passing Django ORM database objects through the system, finally writing each result into the database at the end of the task.
+
+Tasks which call the database using the Django ORM block will block the operation of Eventlet tasks because they have not been customized into \emph{green threads}, and as such use are directed to a multiprocessing worker.
 
 \subsection{Testing}
 \subsubsection{Placeholder Tasks}
