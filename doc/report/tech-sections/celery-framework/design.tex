@@ -91,9 +91,16 @@ The second approach used, making use of a Celery a Task for each phase of operat
 
 This effectively results in the \emph{phase controlling tasks} passing Django ORM database objects through the system, finally writing each result into the database at the end of the task.
 
-Tasks which call the database using the Django ORM block will block the operation of Eventlet tasks because they have not been customized into \emph{green threads}, and as such use are directed to a multiprocessing worker.
+Tasks which call the database using the Django ORM block and will therefore block the operation of all Eventlet tasks on the worker because the Djanogo ORM was not written with green threads in mind.  Therefore the multiprocessing threading model is required, so all of the \emph{phase controlling tasks} must be routed to a worker using multiprocessing.
+
+The second approach was chosen as the final approach and is justified in the Testing section.
 
 \subsection{Testing}
+\subsubsection{Smaller}
+
+\subsubsection{Creating A Demonstration}
+As part of the first presentation it was decided that a demo should be used to show how the project had developed.  In this demo the first approach was used to generate a JSON file representing the data that would be inserted into the database. While this approach worked fine for a small number of tasks
+
 \subsubsection{Placeholder Tasks}
 A simple Twitter source Task and Dogpile search Task could be developed very early on in the project, however malware scanning Tasks require more in depth technical work before they become operational. Therefore 
 before being able to demonstrate and test the distributed framework a placeholder malware scanning task was produced. This task downloaded the contents of the page referenced by the given URL using \emph{requests}, loaded the document into an \emph{lxml.html} object and returned the contents of the \verb`<title>` element of the document or ``Failed'' if there was no title, or an \emph{Exception} was thrown.
