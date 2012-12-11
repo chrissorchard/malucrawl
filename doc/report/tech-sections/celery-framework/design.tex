@@ -96,17 +96,17 @@ Tasks which call the database using the Django ORM block and will therefore bloc
 The second approach was chosen as the final approach and is justified in the Testing section.
 
 \subsection{Testing}
-\subsubsection{Smaller Amount of Tasks}
-To allow the system to execute in a smaller amount of time, only the first page of results from the Dogpile search engine task were requested and processed.
-
-\subsubsection{Creating A Demonstration}
-As part of the first presentation it was decided that a demo should be used to show how the project had developed.  In this demo the first approach was used to generate a JSON file representing the data that would be inserted into the database. While this approach worked fine for a small number of tasks.
-
 \subsubsection{Placeholder Malware Scanning Task}
-A simple Twitter source Task and Dogpile search Task could be developed very early on in the project and as discussed are possible to reduce the amount of work that they result in, however malware scanning Tasks require more in depth technical work before they become operational. Therefore 
-before being able to demonstrate and test the distributed framework a placeholder malware scanning task was produced. This task downloaded the contents of the page referenced by the given URL using \emph{requests}, loaded the document into an \emph{lxml.html} object and returned the contents of the \verb`<title>` element of the document or ``Failed'' if there was no title, or an \emph{Exception} was thrown.
+A simple Twitter source Task and Dogpile search Task could be developed very early on in the project and it is also possible to reduce the workload of the system by changing the Dogpile search engine to only query for the first page of results, as such significantly less URLs will be processed.
+
+Malware detection Tasks, however, require significantly more in depth technical work before they become operational and would not be expected to be complete before nearer the end of the project. Therefore before being able to demonstrate and test the distributed framework a placeholder malware scanning task was produced. This task downloaded the contents of the page referenced by the given URL using \emph{requests}, loaded the document into an \emph{lxml.html} object and returned the contents of the \verb`<title>` element of the document or ``Failed'' if there was no title, or an \emph{Exception} was thrown.
 
 Despite this process being unable to give a useful result, due to the title of the returned document having little to no bearing on whether or not that page is malicious, it served to both allow the system as a whole to operate and act as a template for other group members when developing parts of their code.
+
+\subsubsection{Creating A Demonstration}
+As part of the first presentation it was decided that a demo should be used to show how the project had developed.  In this demo the first approach was used to generate a JSON file representing the data that would be inserted into the database.
+
+While this approach is acceptable for a small number of tasks, the speed of operation when scanning many 
 
 \subsubsection{Considerations For ECS systems}
 Thanks to Celery the system can scale to very large clusters of machines, however the implementation used to test the system was the minimum required to demonstrate the ability to work over some number of machines: Two Virtual Machines, one controlling node hosting a RabbitMQ server and another purely worker node. While both machines are available as workers only the controlling node has access to the Django ORM Database.
