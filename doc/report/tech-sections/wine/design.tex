@@ -1,0 +1,104 @@
+\section{High interaction malware detection with Wine}
+\subsection{Design}
+In this section we discuss one of our high interaction malware detection 
+approach in details. High interaction requires completely functionable systems 
+and realistic user interaction with the target malicious websites, which means 
+it will certainly consume more system resources and demands more complicated 
+framework compared to low interation and no interaction methods. The major 
+feature of this approach is the capability of detecting unknown malicious 
+actions. In this project we developed our own system called Wine Explorer 
+which complys this approach. It uses Wine as a compatibility layer to run 
+Internet Explorer 6 in our Linux environment and is capable to scan for 
+possible file operations performed by malicious websites. 
+
+\subsubsection{Wine Is Not an Emulator}
+Wine is a widely used free software which acts as a compatibility layer 
+capable of running Windows applications on non-Windows operating 
+systems.\cite{wikiwine} Not like virtual machines and emulators which simulate 
+internal Windows logic, ``Wine translates Windows API calls into POSIX calls 
+on-the-fly, eliminating the performance and memory penalties of other methods 
+and allowing you to cleanly integrate Windows applications into your 
+desktop.''\cite{aboutwine} Hence the acronym Wine stands for ``Wine Is Not an 
+Emulator''. The fact is that Wine is able to run most Windows applications 
+without any performance drop as long as there is no performance related bugs, 
+especially for 2D applications. Although technically say, Wine requires an 
+extra layer on the top of the system, there is no differences to programs that 
+uses extra libraries. An exact example of such software is the compatibility 
+mode in new versions of Windows for running legacy 
+software.\cite{wineperformance} \\
+Wine is definitely better than conventional virtual machines as well. Although 
+virtual machines have advantages in simulating programs which give more 
+realistic environments, they are certainly not resource saving. In most of the 
+case, a virtual machine consumes significantly more memory, disk space and 
+CPU, as it needs to simulate the whole operating system instead of a single 
+program like Wine does. Wine treats Windows applications as first-class 
+citizens, which run at full speed.\cite{wineperformance} \\
+Wine uses a working directory as a complete Windows system which stores all 
+information about the specific system's configurations and files in its virtual 
+hard drive. Moreover, the active working directory is known as the Wine prefix. 
+One of our discoveries about Wine is that the creation of Wine prefix is 
+lightweight and resource saving compared to that of a virtual machine or
+emulator, while the Wine prefix itself also conforms to the nature of a 
+sandbox, which means all kind of behaviours performed by programms inside the 
+Wine prefix cannot affect the underlying system. Therefore we conclude that 
+Wine is a suitable tool to create a client honeypot in high interaction 
+malware detection. \\
+
+\subsubsection{Execution Flow}
+Wine Explorer is a straightforward program, and the following graph 
+illustrates the execution flow of detecting a single URL. \\
+% Flow chart here
+With Wine Explorer we open the URLs given by the URL classifier introduced 
+previously with the specific instance of Internet Explorer inside the Wine 
+prefix. 
+Those URLs are said to be strongly suspecious of containing malware and are 
+supposed to be investigated in depth. 
+In order to speed up Wine prefix creation, we pack a clean Wine prefix with 
+Internet Explorer 6 installed. Therefore whenever a new Wine prefix is needed, 
+we just unpack it to a desired location. 
+The package's SHA-256 hash is calculated and stored in Wine Explorer such that 
+its validity can be ensured. 
+The package is then uploaded into a web drive and can be downloaded in 
+order to increase the system's portability. \\
+The system should also be able to store multiple instances of Wine prefixes 
+and execute Internet Explorers in them concurrently. 
+After an execution is completed a scan is performed to check file system 
+modifications inside that Wine prefix. 
+Due to various reasons the file system might have changes performed by normal 
+operations such as cache files. 
+Therefore at this step we provide a white list which describes the kind of 
+files that should be ignored, which is applied to filter the results. 
+The results are then returned to the main system and the Wine prefixes after 
+scanning should be removed in order to save disk space. 
+
+\subsection{Implementation}
+We use Python to implement this program just as other parts of our project. 
+In the program an instance of Wine prefix running Internet Explorer is called 
+a WineBrowser, which is a threaded class manages all operations with a single 
+given URL. This is how the program work in details:
+\begin{enumerate}
+\item
+Check cache for the package containing the predefined Wine prefix, if not 
+exist download it, then perform a hash check.
+If success the package is unpacked to a temporary directory. 
+In the file system there should also be a clean Wine prefix unpacked from the 
+package, which is used for checking file system changes later. 
+\item
+The active Wine prefix is set to the temporary directory, and the Internet 
+Explorer is run with the given URL under Wine. 
+\item
+Wait for 30 seconds.
+\item
+Check the file system changes. This is achieved by running filecmp recursively 
+for all files between the clean Wine prefix and the active one. The results 
+are filtered against a white list then returned to the main system. The white 
+list is included in the appendix TODO. 
+\item
+The temporary directory is removed. 
+\end{enumerate}
+We choose 30 seconds as the waiting interval is because of possible network 
+latency. Any webpages take more than 30 seconds to load will be discarded 
+as if not they will significantly lower the system's throughput. \\
+The main system runs WineBrowser instances with Celery, one per task, in order 
+to achieve concurrent execution of multiple Wine programs at the same time, 
+which increases the overall throughput dramatically. 
