@@ -42,13 +42,13 @@ In the end it might not be worth it, as we will only be checking the keyword sou
 
 \subsection{Implementation}
 This section describes how to use a set of workers to determine trending topics and sites relating to those topics
-% python, pip and PyPi
+% Python, pip and PyPi
 % HTML/XML, RSS and JSON parsing
 % OAuth2
 % Celery basics
 \subsubsection{Tools}
 \paragraph{Celery}
-Celery is a ``Distributed Task Queue'' that allows standard python functions to be converted into Tasks that can operate asynchronously and in parallel on a large cluster of worker machines.
+Celery is a ``Distributed Task Queue'' that allows standard Python functions to be converted into Tasks that can operate asynchronously and in parallel on a large cluster of worker machines.
 
 These Tasks can be dispatched in real-time or can be scheduled to take place at a particular time in the future, or at a predictable time intervals.  This scheduling feature is particularly useful for this project because it is required to schedule a complete flow through all phases of operation each day.
 
@@ -63,7 +63,7 @@ Part of the Python Standard Library, multiprocessing, is a threading model that 
 \subparagraph{Eventlet}
 Eventlet is a wrapper around either epoll or libevent both of which provide a ``mechanism to execute a callback function when a specific event occurs on a file descriptor'' such as a notification on receiving data in a TCP socket. 
 
-For programs to be able to take advantage of Eventlet's support for fast non-blocking IO operations they must be written specifically with Eventlet in mind by using ``green'' threads, or ``coroutines''.  Usefully as part of the Eventlet library versions of python libraries that can be used to make HTTP requests have been created that are built to work co-operatively in an Eventlet environment: \emph{urllib} and \emph{urllib2}. The \emph{requests} library which uses \emph{urlib3} has support for Eventlet built in already.
+For programs to be able to take advantage of Eventlet's support for fast non-blocking IO operations they must be written specifically with Eventlet in mind by using ``green'' threads, or ``coroutines''.  Usefully as part of the Eventlet library versions of Python libraries that can be used to make HTTP requests have been created that are built to work co-operatively in an Eventlet environment: \emph{urllib} and \emph{urllib2}. The \emph{requests} library which uses \emph{urlib3} has support for Eventlet built in already.
 
 Potentially thousands of ``green'' threads can be spawned with minimal resource usage, but any blocking operation causes the entire pool to block also. This is more useful than the multiprocessing threading model for most phases of the system as the majority of them spend most of their execution time downloading data from the Internet.
 
@@ -80,7 +80,10 @@ Using a database as a queue is an anti-pattern because the only way to get notif
 
 The only remaining systems after the others have been eliminated are Beanstalk and RabbitMQ, both message queue systems. RabbitMQ was chosen over Beanstalk because it is easier to distribute the queue itself over a network of machines.
 
-\paragraph{Django ORM}
+\paragraph{Django Object-relational Mapper} %TODO bug chris about Django ORM not Django database lib
+An Object-relational Mapper or ORM creates an object orientated interface to relational database systems.  This means that rows in a database can be created and interacted with in a way similar to native Python objects
+
+Popular libraries in Python include SQLAlchemy and the Django Object-relational Mapper. Because the system should be able to interface with a Django web interface to display results the Django ORM is an obvious choice.
 
 \subsubsection{Parallel Crawling and Scanning Framework}
 Each Task is implemented as a Celery Task in its own module, \verb`source`, \verb`search` and \verb`scan` depending on the phase of that Task: Trend Source Analysis, URL Discovery and Malware Detection respectively. Each phase module exposes the Task entry points with a list of functions.
@@ -94,7 +97,7 @@ And Each result from the ``malware finding placeholder'' is stored and related t
 
 However two different technical approaches were applied to control the flow of the system:
 
-One in which a single task, the scheduled task, controlled the entire process.  Ensuring that each phase completed and waited before before starting the next, gradually building a python data-structure out of dictionaries and lists until finally returning it.  This structure can then be validated and finally written to the database in one go.
+One in which a single task, the scheduled task, controlled the entire process.  Ensuring that each phase completed and waited before before starting the next, gradually building a Python data-structure out of dictionaries and lists until finally returning it.  This structure can then be validated and finally written to the database in one go.
 
 The second approach used, making use of a Celery a Task for each phase of operation.  In which each \emph{phase controlling task}: inserts the results from the previous phase into the database, manages the dispatch of the different types of Task of that relevant phase, and passes on those database objects as a parameter to a partial task of the next phase to be used as a callback. 
 
