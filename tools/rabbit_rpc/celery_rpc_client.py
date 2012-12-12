@@ -43,7 +43,7 @@ class RevertRpcClient(object):
 if __name__ == "__main__":
     revert_rpc = RevertRpcClient()
 
-    op = sys.argv[2]
+    op = sys.argv[1]
 
     print " [x] Requesting remote Capture-HPC server start..."
     response = revert_rpc.call(op)
