@@ -94,8 +94,7 @@ def lacount(counttext):
         res = int(lines_result[0])
 
     except ValueError:
-        print lines_result
-        raise
+        return -1
 
     return res
 
@@ -160,6 +159,8 @@ for commit in sortcommits:
                     filecount[filefromraw(changedf["raw_url"])] = 0
                 else:
                     filecount[fn] = lacount(rcf.text)
+                    if filecount[fn] == -1:
+                        filecount[fn] = oldcount[fn]
     #except ValueError:
     #    print json.dumps(rc.json, sort_keys=True, indent=2)
         #print lines_result
