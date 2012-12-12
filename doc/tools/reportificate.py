@@ -31,6 +31,7 @@ report_files = [
     "doc/report/evaluation.tex",
     "doc/report/review.tex",
     "doc/report/testing.tex",
+    "doc/report/Literature research.tex",
     "doc/report/tech-sections/capture-hpc/design.tex",
     "doc/report/tech-sections/capture-hpc/results.tex",
     "doc/report/tech-sections/capture-hpc/testing.tex",
@@ -42,6 +43,7 @@ report_files = [
     "doc/report/tech-sections/wine/evaluation.tex",
     "doc/report/tech-sections/wine/testing.tex",
     "doc/report/tech-sections/wine/results.tex",
+    "doc/report/lit-review.tex",
     "doc/report/group-approach.tex",
     "doc/report/tech-sections/celery-framework/design.tex",
     "doc/report/tech-sections/celery-framework/results.tex",
@@ -51,6 +53,7 @@ report_files = [
     "doc/report/tech-sections/malware-lists/design.tex",
     "doc/report/tech-sections/malware-lists/results.tex",
     "doc/report/tech-sections/malware-lists/testing.tex",
+    "doc/report/Evaluation(classifer+HTML).tex",
     "doc/report/tech-sections/Classification/design.tex",
     "doc/report/tech-sections/Classification/implementation.tex",
     "doc/report/tech-sections/Classification/evaluation.tex",
@@ -58,11 +61,10 @@ report_files = [
     "doc/report/tech-sections/HTML-malware/implementation.tex",
     "doc/report/tech-sections/HTML-malware/evaluation.tex",
     "doc/report/tech-sections/Classification/evaluation.tex",
-    "doc/report/conclusion-nafiseh.tex",
-    "doc/report/future-development.tex",
-    "doc/report/literature-nafiseh.tex",
-    "doc/report/related-work.tex"
-    "doc/report/conclusion-weike.tex"
+    "doc/report/Conclusion(Nafiseh).tex",
+    "doc/report/Future development.tex",
+    "doc/report/Liteature(Nafiseh).tex",
+    "doc/report/Related work.tex"
     ]
 
 github_url = "https://api.github.com/"
