@@ -67,7 +67,9 @@ the scanning, with additional detail stored in other tables.
 The use of a MySQL table for a queue
 could be considered an anti-pattern as discussed in (CITE), but is the best of
 the options available for providing Capture-HPC with data, and retrieving the
-results. Unfortunately the Capture-HPC server also has to be restarted to
+results, presenting an easiliy accessible interface for framework components to
+integrate with wither locally or remotely. Unfortunately the Capture-HPC server
+also has to be restarted to
 consume new URLs from the database, with any finished URLs that are left in the
 database processed again. The Capture-HPC server is configured using an XML
 configuration file that can be found in Appendix TODO.
@@ -103,7 +105,10 @@ is done by a classification system, and only URLS that are strongly suspected to
 harbour malware are submitted for scanning. In addition to the confidence factor
 that each malware analyser in the framework must return, Capture-HPC is also
 capable of returning a description of the actions taken by a malicious page, and
-these details are returned to the framework for optional in-depth analysis.
+these details are returned to the framework for optional in-depth analysis. It
+is also possible to calculate the ideal confidence value for a given classifier
+and set of malware analysers working alongside Capture-HPC so that an optimal
+set of URLs provided for time versus detection rate.
 
 \subsubsection{Security Considerations}
 
@@ -158,7 +163,7 @@ open ports. The Capture-HPC Server program was also compiled and run from this m
 The Capture-HPC client was compiled on a Windows XP development VM, and then
 deployed to a clean install of Windows XP. Due to the complexity of compiling
 the binaries, the installer generated in the build process is included with the
-accompanying data package, but would unfortunately still need to be rebuild for
+accompanying data package, but would unfortunately still need to be rebuilt for
 use on versions of Windows other than XP. It is possible to run the
 Capture-HPC client on a Windows Vista or Window 7 install, but was not tested in
 the prototype deployment due to time constraints. The Windows XP install used
@@ -196,13 +201,21 @@ AWESOME REVERT RPC DIAGRAM
 Capture-HPC, being written in a combination of Java, C++ and C needs an
 interface module before it can be integrated with the python framework.
 Capture-HPC can be backed using a database for URLs, which is useful as it
-allows us to build Capture-HPC's database format into a Django model which can
-be used in the python code to access the database. Each Capture-HPC server has a
-celery worker running on the same machine, that communicates with the MySQL
-database also running on the same machine, and controls the Capture-HPC
-server, which needs to be restarted for each new batch of URLs to be processed.
-The database also has to be cleared of URLs, and results reported back to the
-framework.
+allows us to build Capture-HPC's database format into a Django ORM which can
+be used in the python code to access the database. Due to issues with the
+version of Python on the locked-down Red Hat VM, most of the control happens
+remotely, aided by the accessiblity of the database server on the network. Each
+Capture-HPC server has an RPC server and database server on it, which a remote
+celery worker can connect to. Once the worker has loaded the URLs into the
+databse, it starts the Capture-HPC server and waits for the server to finish
+processing URLs by periodically checking the database. Once the database
+indicates all of the URLs have been scanned, the URLs are deleted from the
+database and the RPC server is instructed to terminate the Capture-HPC server.
+%TODO: DB stuff might be wrong
+The results are returned by the celery worker to the framework for storage in
+the framework's result storage database. Tasks for Capture-HPC are routed
+specially through the framework, as only explicitly configured workers can
+interface with the Capture-HPC server.
 
 \subsubsection{Exclusion Lists}
 

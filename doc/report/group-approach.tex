@@ -4,24 +4,25 @@
 
 During the first couple of weeks of the project the group members formed into a
 working team,
-and after receiving a detailed brief from the customer via video-call, quickly
+and after receiving a detailed brief from the customer via video-call quickly
 went about setting up ground rules about how the project should be executed. It
 was decided that weekly meetings with the project supervisor would be
 appropriate, with one to two more group meetings during each week, as required.
-It was decided that meetings should be informal in general, with loose notes
-taken if required, to try and cut down on any unnecessary overhead.
+It was decided that meetings should be informal in general, with rough minutes
+taken in a log book for furutre reference, to try and cut down on any unnecessary
+ overhead.
 
 %TODO: link to appendix using latex foo
-The group established an understanding of the task, and duly created a project
+The group established an understanding of the task, and created a project
 brief in response to the first customer meeting. This contained a rough overview
 of the group's understanding of the task, and can be found attached in appendix
 A. The Gantt chart in the project brief is an elaboration on a project lifecycle
-shown in the diagram shown below, chosen to fit in with the two customer
+shown in the diagram below, chosen to fit in with the two customer
 presentations over the course of the project so that a presentable work package
 could be shown to the customer at each milestone. This approach also gives as
 much room as possible
 for using agile methods in the underlying development approach (discussed in
-more detail later in the section). Further discussion of the time management
+more detail below). Further discussion of the time management
 methods used by the group, with a more detailed evaluation of the Gantt charts
 produced over the course of the project can be found in the evaluation section
 of this report.
@@ -29,9 +30,10 @@ of this report.
 AWESOME L1 PLAN DIAGRAM.
 
 Once the group had established an initial breakdown of the tasks involved with the
-project, a skills audit was held to discuss which team members were best
+project and a general idea of the approaches the group could take,
+ a skills audit was held to discuss which team members were best
 qualified for the various roles required by the project. The table below shows
-a summary of the audit, including the roles derived during the audit.
+a summary of the audit including the skills relevant to the approach taken.
 
 \begin{center}
 %\begin{table}
@@ -56,9 +58,12 @@ Nafiseh Vahabi & AI & 5 \\
 %maybe more stuff about streams of work?
 After some background research had been performed, the group decided to split
 the development tasks into discrete components allowing members of the group to
-work in the areas of most experience, researching and developing independently
-with progress and code produced periodically reviewed by other members of the
-group.
+work in the areas of most experience, using their specialist understanding of a
+given area to research and develop in an automomous fashion with progress and
+code produced periodically reviewed by the other members of the group. The
+individual streams of work should meet at the customer milestones to allow some
+integration testing and to present some new working functionality to the
+customer.
 
 \subsection{Group-work Approach}
 %TODO: elaborate to an appropriate extent
@@ -66,10 +71,14 @@ The development approach used for the project draws inspiration from agile
 methods, with two
 development iterations over the 10 week life of the project. Whilst ideally more
 iterations would be made, allowing more customer involvement, the
-structure and timescale of the project meant that this was not possible.  
+structure and timescale of the project meant that this was not possible. If
+there had been more available development time, the project would have defined
+phases for the inception and elaboration of the project following a Unified
+Process approach (CITE), instead the inception and elaboration tasks are
+interleaved into the first development iteration as shown on the Gantt charts. 
 
 At the time of the skills audit, the group also investigated appropriate tooling
-for the development to be carried out. The language chosen to implement the
+for the development to be carried out. The programming language chosen to implement the
 solution in was python, as all of the group members had some experience
 with the language, and it was also noted that python code was generally easier to
 read than some of the other options available, making code review somewhat
@@ -86,7 +95,8 @@ process of reviewing committed code much quicker. GitHub also presents a
 RESTful API that the group
 found useful for developing metrics tools. This report is written in LaTeX,
 mainly to ease the burden of version control and collaborative editing by using
-multiple files.
+multiple files, but also to enable metrics to be generated for report progress
+during the write up.
 
 %adjust to say less not-production-ready?
 Choosing and enforcing an appropriate level of quality control for the code
@@ -100,15 +110,16 @@ just that testing and review were not enforced as vigorously as might be
 required for direct production use.
 
 %example of use cases, use cases??!
-The group decided to use a distributed task framework long before development
-began, and this design decision was made for a variety of technical reasons
+At a very early stage of the project, the use of a distributed task framework as
+a platform for the project was considered the preferred way to construct the
+project, and this design decision was made for a variety of technical reasons
 detailed in the technical approach section of this report. There are also some
 benefits for managing the development effort from using such a framework. The
 framework allows each component to be developed in relative isolation from the
 other components, with low coupling between the different parts of the system.
 This also served as a method for mitigating some of the risks associated with
 individual components in the system either not working, or not being suitable
-for a given use case.
+for a given use case when deployed by the customer.
 
 During the development of the project, the group had to make two presentations
 detailing the progress made up to that point, addressed to the supervisor,
@@ -140,15 +151,17 @@ finished by the deadline.
     %\begin{tabularx}{1.5\textwidth}{|p{5cm}XXp{5cm}XXl|}
         \hline
         Risk & Impact (1-5) & Probability (1-5) & Mitigation & Risk Score (1-25) & Mitigated Risk Score & Status \\ \hline
-        The delivered project does not meet the provide specification. & 5 & 2 & Ensure that progress is monitored throughout the project and that any necessary change in specification is discussed with the customer. & 10 & 8 & Not Impacted \\
+        The delivered project does not meet the provided specification. & 5 & 2 & Ensure that progress is monitored throughout the project and that any necessary change in specification is discussed with the customer. & 10 & 8 & Not Impacted \\
         \hline 
         The delivered project does not meet customer expectations & 5 & 2 & Ensure customer is aware of the status of the project and likely outcome throughout the course of the project lifecycle & 10 & 4 & Mitigated \\ 
         \hline
-        A tool or library chosen for use in the development of the project does not meet its requirements. & 4 & 3 & Chose tools and libraries that group members are familiar with, and preferably those which can be patch by group members where possible. & 12 & 6 & Mitigated \\ 
+        A tool or library chosen for use in the development of the project does not meet its requirements. & 4 & 3 & Chose tools and libraries that group members are familiar with, and preferably those which can be patched by group members where possible. & 12 & 6 & Mitigated \\ 
         \hline
         Integration takes much longer than planned due to conflicting styles of coding in software components developed be different group members & 3 & 4 & Discuss and enforce a single style of coding for all software, reviewing code as it is written. & 12 & 3 & Mitigated \\
         \hline
         The code contributed by a team member does not perform as expected or is not completed to the necessary quality & 4 & 2 & Review all code committed to the source repository, use pair coding if possible. & 8 & 4 & Not Impacted\\
+        \hline
+        A group member struggles with a task due to not having the necessary skills to perform the task & 4 & 2 & Use a skills audit to determine the confidence of the group members in various tasks, and allocate work accordingly. Monitor progress throughout the project and re-allocate work if necessesary & 8 & 4 & Mitigated \\
         \hline
         Interaction with the customer leads to a significant expansion of scope of the project, causing the project not to be delivered on time. & 5 & 2 & Be vigilant of any possible scope creep, and discuss the implementation time of any requested changes with the customer. & 10 & 6 & Not Impacted\\ 
         \hline
@@ -158,7 +171,7 @@ finished by the deadline.
         \hline
         The group is not given the necessary permissions from iSolutions and JANET to operate the project on university systems. & 4 & 3 & Communicate the intent and reasoning for the project at an early stage, ensure suitable preventative measures are implemented to prevent adverse effects from the malware scanning component of the project. If possible, keep a group member's personal computer as a contingency. & 12 & 6 & Mitigated\\
         \hline
-        ECS are not able to provide the project with the resources necessary to run the project. & 4 & 1 & Request sufficient resources at an early stage, track the resource usage of the project during development and attempt to keep resources used during scanning to the minimum necessary & 4 & 2 & Not Impacted\\
+        ECS are not able to provide the group with the resources necessary to run the project. & 4 & 1 & Request sufficient resources at an early stage, track the resource usage of the project during development and attempt to keep resources used during scanning to the minimum necessary & 4 & 2 & Not Impacted\\
         \hline
     %\end{tabularx}
 \end{longtable}
