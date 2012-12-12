@@ -1,9 +1,11 @@
 \paragraph{URL Discovery}
-The URL discovery phase is called with a keyword from the Trend Analysis phase and should query a search engine to determine a set of pages related to those URLs. This phase is designed to emulate a user searching for pages.
+The URL discovery phase is called with a keyword or trending topic from the Trend Analysis phase and should be able to determine URLs related to that keyword.  Search engines are designed specifically for this task, as such this Task should is designed to query a search engine to determine a set of pages related to those URLs. This phase is therefore designed to emulate a user searching for pages given a keyword.
 
-To determine URLs to investigate a search engine of some sort is required, the best I have found that can be used by automata is http://dogpile.co.uk.
+\paragraph{implementation}
+\subparagraph{Dogpile}
+Each of the popular search engine like the Google Search, Yahoo Search and Microsoft Bing search engines employ techniques to prevent the scraping of their results because of the commercial interest to keep those results proprietary so as to gain advertising revenue.
 
-\paragraph{Dogpile}
+The Dogpile search engine provides no protection from automated access.
 
 A handy code snippet for retrieving URLs from dogpile:
 

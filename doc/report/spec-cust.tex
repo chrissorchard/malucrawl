@@ -11,6 +11,8 @@ To aid in the task of designing the solution, a set of requirements have been dr
     \item The system \textbf{could} be able to discover target web pages using Twitter
     
     \item The system \textbf{must} be able to determine if a page is malicious or not
+    \item The system \textbf{wont} detect ad-ware and made for ad-sense pages
+    \item The system \textbf{wont} detect Phishing
     \item The system \textbf{must} be able to control multiple different malware scanning components
     \item The system \textbf{must} use High Interaction malware Scanning
     \item The system \textbf{must} use Zero Interaction malware Scanning
@@ -61,6 +63,8 @@ After the first presentation an informal meeting was held to discuss progress on
     \item Lowered the requirement of a web based reporting interface from \textbf{should} to \textbf{could}, as being able to manually query the database would be acceptable.
 
     \item A requirement to be able to monitor the system, components and workers specifically mentioning Nagios, however it was chosen to use Celery's own monitoring tools instead
+
+    \item A requirement that the system must not focus on different types of malicious content such as ad-ware, made for ad-sense pages or Phishing sites and should instead only focus on drive by download systems.
 \end{enumerate}
 
 One further meeting was to be held after the second presentation, but Chas was not available.
