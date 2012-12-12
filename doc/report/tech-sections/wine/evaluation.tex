@@ -10,14 +10,14 @@ means the overhead for honeypot reset is also minimal. \\
 However disadvantages still exists. We explained that we treat a Wine prefix 
 as a sandbox, and the reason is almost all Windows applications do not operate 
 with Linux environment. Imaging if attackers predicted our Wine Explorer 
-environment, then they could easily develop Windows applications which injects 
+environment, then they could easily develop Windows applications which inject 
 Linux shell commands, which means, they will have access to the file system 
 outside of Wine prefix. Also, the suspicious behaviour detection functions of 
 this program is really naive which cannot cover all situations we can think 
 of. An example could
-be a downloaded virus which is able to delete itself before the scan begins. 
-In that time it is sufficient to perform illegal behaviours such as sensitive 
-information collection. The modification of system 
+be a downloaded virus that is able to delete itself before the scan begins. 
+During that time it is sufficient to perform illegal behaviours such as 
+sensitive information collection. The modification of system 
 registry is also not considered in this application. According to the project 
-schedule we are unable to achieve everything perfectly due to approaching 
+schedule we are unable to achieve everything perfectly due to the approaching 
 deadline. 

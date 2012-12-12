@@ -1,0 +1,22 @@
+\subsection{Testing}
+After the first draft of implementation of the Wine Explorer, we test its 
+functions individually before going to module unit testing. This is a sample 
+output from \verb'check_change' when comparing a modified Wine prefix with 
+the clean one:
+\begin{verbatim}
+(['wineprefix_ie6', 'user.reg~'], 
+['winetricks.log'], 
+['user.reg'], 
+[])
+\end{verbatim}
+Where each array in the record stores newly created files, removed files, 
+modified files and files unable to check respectively. \\
+By conclusion, all functions 
+explained in the implementation section are ensured to work separately, 
+however we do not have the time to search for websites that affect file 
+systems. This program will be further polished when we produce a demo 
+of the whole project in the future. 
+
+
+
+

@@ -80,23 +80,23 @@ In the program an instance of Wine prefix running Internet Explorer, which is ca
 a WineBrowser, is a threaded class manages all operations with a single 
 given URL. This is how the program work in details:
 \begin{enumerate}
-\item
+\item \verb`create_wine_prefix(template_spec)` \\
 Check cache for the package containing the predefined Wine prefix, if not 
 exist download it, then perform a hash check.
 If success the package is unpacked to a temporary directory. 
 In the file system there should also be a clean Wine prefix unpacked from the 
 package, which is used for checking file system changes later. 
-\item
+\item \verb`WineBrowser.__init__()` and \verb`WineBrowser.run()`\\
 The active Wine prefix is set to the temporary directory, and the Internet 
 Explorer is run with the given URL under Wine. 
 \item
 Wait for 30 seconds.
-\item
+\item \verb`check_change(dir1,dir2)`\\
 Check the file system changes. This is achieved by running {\em filecmp} recursively 
 for all files between the clean Wine prefix and the active one. The results 
 are filtered against a white list then returned to the main system. The white 
 list is included in the appendix TODO. 
-\item
+\item \verb`WineBrowser.close()`\\
 The temporary directory is removed. 
 \end{enumerate}
 We choose 30 seconds as the waiting interval is because of possible network 
