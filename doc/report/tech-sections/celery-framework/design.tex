@@ -11,7 +11,11 @@ URL Discovery and Trend Analysis are both simpler phases and effect how data flo
 \input{tech-sections/celery-framework/search-engine}
 
 \paragraph{Malware Detection}
-The malware dection phase will accept a single URL, and optionally the keyword that resulted in the discovery of that URL, returning a confidence level that the URL resolved to malware.  This confidence can be combined with an overall confidence level for the particular malware scanning method used.
+The malware dection phase will accept a single URL, and optionally the keyword that resulted in the discovery of that URL, returning a confidence level that the URL resolved to malware.  This confidence can be combined with a static overall confidence level for the particular malware scanning method used.
+
+Originally the system was designed with multiple different types of malicious content in mind and so each malware scanner should return a ``type'' of malware as well as a confidence level. 
+
+After a meeting with the customer, however, in which it was clarified that only drive by download malicious content should be focused on the only valid ``type'' is ``generic''.
 
 \paragraph{Result Storage}
 To store the results of the system the response from a malware scanner must be associated with: the URL that called the malware scanner, the keyword or trending topic that was used to discover the URL, the trend source that the topic applied to and the particular components used in forming the result.
