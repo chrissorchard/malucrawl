@@ -3,9 +3,8 @@ import os
 import socket
 import djcelery
 import requests
-#from malware_crawl.scan.capture_hpc import CaptureRouter
 
-DEPLOYED = False
+DEPLOYED = True
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 COMPRESS_ENABLED = True
@@ -127,9 +126,9 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
     'django.contrib.auth',
-    'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
@@ -199,7 +198,7 @@ MALUCRAWL_REDIS = {
 
 CELERY_RESULT_BACKEND = MALUCRAWL_REDIS["master"]
 CELERYD_PREFETCH_MULTIPLIER = 0
-#CELERY_ROUTES = (CaptureRouter(), )
+CELERY_ROUTES = {'malware_crawl.scan.capture_hpc': {'queue': 'capturehpc'}}
 
 requests.defaults.defaults["base_headers"]["User-Agent"] += " +http://git.io/cso_malucrawl"
 
