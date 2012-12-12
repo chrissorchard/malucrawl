@@ -8,6 +8,7 @@ An important part of the classification algorithm is the dataset used for the pu
 
 %Diagram 2.1 The Snapshot of Dataset in the classification.
 
+\paragraph{} 
 The results from the five malware scanners along with the associated confidence rate is saved to the classification database. Therefore, after running the detection system, the database is updated and the new URLs are added to the database. For the purpose of pattern matching, the system developed included the capability of converting the contents of the database into the Python dictionary.
 
 \subsubsection{Classification Unit}
@@ -45,6 +46,8 @@ Suppose x and y are two given strings, the Levenshtien distance between x and y 
 %\label{Levenshtien formula}
 %\end{equation}
 %
+
+\paragraph{} 
 In the above definition, there are three cases corresponding to minimum. The first element is for deletion from x to y, the middle case is for insertion and the last element relates to whether x and y match or mismatch\cite{Levenshtein}.  
 
 For example, the Levenshtien distance between “http://www.bbc.co.uk/news/world/” and “http://www.bbc.co.uk/news/wales/” involves four steps before the first URL is converted to the second, as shown below:
@@ -61,7 +64,9 @@ http://www.bbc.co.uk/news/wald/-> http://www.bbc.co.uk/news/wale/
 4-	(Insertion of "s" at the end)
 http://www.bbc.co.uk/news/wale/ -> http://www.bbc.co.uk/news/wales/
 
+\paragraph{} 
 According to the Levenshtien distance, it is not possible to transform the first URL to the second one with fewer than four edits. The main advantage of using this method is that two URLs do not need to have same number of characters. Hence, a URL with any structure is acceptable as an input for the classification. However, adapting the Levenshtien distance for pattern matching can reduce the speed of the system.
 
+\paragraph{} 
 After analysing different methods for pattern matching and considering their advantages and drawbacks, the Levenshtien distance was selected and implemented in the classification.  Therefore, when a new URL enters the system, the classification unit searches the database to find a match to the new URL. There are three possibilities as a result of this matching. Firstly the new URL may already exist in the system; in which case a result is immediately returned with a one hundred percent confidence rate. The latter result determines whether the new URL is malicious or benign. The second possible outcome of the classification unit is that a result is returned with a poor confidence rate. In this case the new URL will be sent to the heavyweight scanning module to undertake more scanning processes. Thirdly, a pattern matching result showing a high confidence rate would follow the lightweight scanning process.
 The advantage of incorporating a classification module within the malware detection system is increased efficiency. More importantly, the system is capable of identifying unknown URLs, which many commercial virus scanners are not able to detect. 
