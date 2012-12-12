@@ -16,28 +16,35 @@ The classification unit is where the data clustering is performed. Initially, th
 However, despite the initial plan and advantage of using machine learning methods for the classification, it was not possible to apply such methods for this project for to the following reasons:
 1-	The project is time limited  
 2-	The result of malware scanner modules will not be available until the end of the project.
+
 Therefore, an alternative approach was adopted for the classification unit. This relies on pattern matching between two URLs, one being the new URL and the other the database URLs. For pattern matching, each URL is deemed to be a string, so an algorithm is required to perform the matching between the two strings. A few string measurement algorithms were attempted with the most suitable being selected. A brief description of the attempted algorithms is as follows;
 
-\subsubsection{Fuzzy String Searching}
+\paragraph{Fuzzy String Searching}
 			
 This is a technique used to search for the closest match for a given string. It is also called Approximate String matching. As its definition suggests, this technique does not produce an exact match for a given sequence. Furthermore, its implementation is complex and the algorithm is quite slow \cite{String-match}.
 
-\subsubsection{Sequence mining}
+\paragraph{Sequence mining}
 
 Sequence mining is a popular algorithm used in data mining. Data mining is a process to find a pattern in a dataset. This algorithm tries to find similar patterns between two sequences and is used in Bioinformatics and for predicting DNA sequences. Sequence mining algorithm is remarkably efficient, and this attribute makes the algorithm suitable for implementing in other applications. However, the algorithm is used for sequences that have a restricted number of alphabet characters. Therefore, given the variation of URLs in the dataset, this algorithm is not appropriate for this project\cite{Sequence-mining}  
 
-\subsubsection{Jaro–Winkler distance}
+\paragraph{Jaro–Winkler distance}
 
 The Jaro-Winkler distance algorithm is popular in computer science and is also applied in statistics. This algorithm aims to find similarities between two strings by assigning a confidence rate ranging from zero to one to the result of the algorithm. If the result is zero, there is no similarity between two strings, whilst a result of one means there is an exact match for the two strings. This method gives an accurate result when comparing short strings such as a person’s name. However, for lengthy URLs, the application of this method produces a poor result. Therefore, this method is rejected for use in the implementation stage because the result would only be reliable for short URLs\cite{Jargo-winkle}. 
 
-\subsubsection{Levenshtien Distance}
+\paragraph{Levenshtien Distance}
 	
 Levenshtien distance is one of the strings metrics that measures the minimum number of edits required to convert one sequence to another. It is sometimes called edit distance. In this measurement the following edit operations are permitted; deletion and insertion. 
 Formally, the Levenshtien distance is defined by the mathematic formula below;
 Suppose x and y are two given strings, the Levenshtien distance between x and y are;
-Lev
 %insert mathematic formula
+%
+%\begin{equation}
 
+%Lev_()= 
+
+%\label{Levenshtien formula}
+%\end{equation}
+%
 In the above definition, there are three cases corresponding to minimum. The first element is for deletion from x to y, the middle case is for insertion and the last element relates to whether x and y match or mismatch\cite{Levenshtein}.  
 
 For example, the Levenshtien distance between “http://www.bbc.co.uk/news/world/” and “http://www.bbc.co.uk/news/wales/” involves four steps before the first URL is converted to the second, as shown below:
