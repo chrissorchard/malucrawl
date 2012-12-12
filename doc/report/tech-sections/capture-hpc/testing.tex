@@ -1,0 +1,23 @@
+\subsection{Testing}
+
+Due to the complexity of the Capture-HPC malware scanner, the individual
+components that make up the scanner as seen by the framework had to be first
+tested individually, and then tested as a single component.
+
+The first unit tests involved running Capture-HPC from the command line, and it
+was quickly discovered that some work was needed to get the revert script to
+function correctly. After spending a considerable amount of time getting an RPC
+mechanism working, it was possible to test Capture-HPC on some URLs. The URLs
+used for unit testing consisted a small list of very common websites, and an
+executable hosted on an ECS internal server. When configured to detect any
+downloaded executable as malware, Capture-HPC correctly identified the
+executable file as malware.
+
+The framework integration was unit tested by running the integration script
+manually in a django shell, and it was discovered that another RPC comonent was
+needed as the version of Python on the gateway was not sufficient. Once the RPC
+component had been completed and the integration script proven to work,
+Capture-HPC was tested in the full framework, and after revealing a few bugs in
+the framework it was successfully running on URL lists. Further testing will
+need to be carried out to determine whether the exclusion lists are correct,
+with any missing parts coming to light over time as the framework is used.

@@ -15,12 +15,13 @@ final-report.d
 final-report.nls
 final-report.fls
 final-report.nlo
-final-report.bbl
+final-report.bbl*
 final-report.blg
 final-report.nlg
 final-report.out*
 final-report.pdf*
 final-report.toc*
+final-report.run*
 
 #vim
 *.swp

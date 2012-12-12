@@ -84,13 +84,19 @@ def lacount(counttext):
         f.close()
 
     cmd = os.path.join(os.getcwd(), "texcount.pl")
+    
+    try:
+        p = Popen([cmd, "-1", "-sum", fname], stdout=PIPE)
+        all_result = p.communicate()[0]
+        lines_result = all_result.splitlines(False)
+        os.unlink(fname)
 
-    p = Popen([cmd, "-1", "-sum", fname], stdout=PIPE)
-    all_result = p.communicate()[0]
-    lines_result = all_result.splitlines(False)
-    os.unlink(fname)
+        res = int(lines_result[0])
 
-    return int(lines_result[0])
+    except ValueError:
+        return -1
+
+    return res
 
 
 def filefromraw(rawurl):
@@ -153,10 +159,13 @@ for commit in sortcommits:
                     filecount[filefromraw(changedf["raw_url"])] = 0
                 else:
                     filecount[fn] = lacount(rcf.text)
-    except ValueError:
-        print lines_result
-        print lines_result2
-        raise
+                    if filecount[fn] == -1:
+                        filecount[fn] = oldcount[fn]
+    #except ValueError:
+    #    print json.dumps(rc.json, sort_keys=True, indent=2)
+        #print lines_result
+        #print lines_result2
+    #    raise
     except KeyError:
         raise
 

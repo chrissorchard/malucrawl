@@ -40,10 +40,12 @@ hard drive. Moreover, the active working directory is known as the Wine prefix.
 One of our discoveries about Wine is that the creation of Wine prefix is 
 lightweight and resource saving compared to that of a virtual machine or
 emulator, while the Wine prefix itself also conforms to the nature of a 
-sandbox, which means all kind of behaviours performed by programs inside the 
-Wine prefix cannot affect the underlying system. Therefore we conclude that 
-Wine is a suitable tool for creating a client honeypot in high interaction 
-malware detection. \\
+sandbox to some extent, which means almost all kind of behaviours performed 
+by programs inside the Wine prefix cannot affect the underlying system. 
+Although there is a potential threat that is the unrestricted permissions 
+for applications in Wine prefix, which by default exposes the root file 
+system to them, we still conclude Wine is a suitable tool for creating a 
+client honeypot in high interaction malware detection. \\
 
 \subsubsection{Execution Flow}
 Wine Explorer is a straightforward program, and the following graph 
