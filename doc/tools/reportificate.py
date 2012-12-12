@@ -57,7 +57,13 @@ report_files = [
     "doc/report/tech-sections/Classification/evaluation.tex",
     "doc/report/tech-sections/HTML-malware/design.tex",
     "doc/report/tech-sections/HTML-malware/implementation.tex",
+    "doc/report/tech-sections/HTML-malware/evaluation.tex",
     "doc/report/tech-sections/Classification/evaluation.tex",
+    "doc/report/Conclusion(Nafiseh).tex",
+    "doc/report/Future development.tex",
+    "doc/report/Liteature(Nafiseh).tex",
+    "doc/report/Related work.tex"
+
     ]
 
 github_url = "https://api.github.com/"
