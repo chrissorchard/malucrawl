@@ -5,12 +5,19 @@ The URL discovery phase is called with a keyword or trending topic from the Tren
 \subparagraph{Dogpile}
 Each of the popular search engine like the Google Search, Yahoo Search and Microsoft Bing search engines employ techniques to prevent the scraping of their results because of the commercial interest to keep those results proprietary so as to gain advertising revenue.
 
-The Dogpile search engine provides no protection from automated access.
+Instead meta-search engine Dogpile was used, Dogpile obtains results from Google and Yahoo and provides those same results in very simple to screen-scrape HTML\cite{screen-scrape}:
 
-A handy code snippet for retrieving URLs from dogpile:
+\begin{verbatim}
+map(
+    lambda link: link.get('href'),
+    lxml.html.fromstring(
+        requests.get("http://www.dogpile.co.uk/search/web?q=foo").text
+    ).cssselect(".webResult .resultDisplayUrl")
+)
+\end{verbatim}
 
-map(lambda link: link.get('href'),lxml.html.fromstring(requests.get("http://www.dogpile.co.uk/search/web?q=foo").text).cssselect(".webResult .resultDisplayUrl"))
+However each of the links we want is wrapped in a ``ClickHandler'', this click handler is used so that the referrer header with the topics used in the search are not sent to the result page when it is followed by a user.
 
-Because each of the links we want is wrapped in a ``ClickHandler'' \verb`http://cs.infospace.com/ClickHandler.ashx?du=http%3a%2f%2fwww.ietf.org%2frfc%2frfc3092.txt&ru=http%3a%2f%2fwww.ietf.org%2frfc%2frfc3092.txt&ld=20121006&ap=10&app=1&c=uk.dogpl&s=dogpileuk&coi=239138&cop=main-title&euip=94.193.128.47&npp=10&p=0&pp=0&pvaid=1351848139fc4226b6b6a0f6e0eed58b&ep=8&mid=9&hash=22AE450C7F5B9FA7C51FE2CEA7841093`
+\url{http://cs.infospace.com/ClickHandler.ashx?du=http%3a%2f%2fwww.ietf.org%2frfc%2frfc3092.txt&ru=http%3a%2f%2fwww.ietf.org%2frfc%2frfc3092.txt&ld=20121006&ap=10&app=1&c=uk.dogpl&s=dogpileuk&coi=239138&cop=main-title&euip=94.193.128.47&npp=10&p=0&pp=0&pvaid=1351848139fc4226b6b6a0f6e0eed58b&ep=8&mid=9&hash=22AE450C7F5B9FA7C51FE2CEA7841093}
 
-The URLs returned must be parsed, eg using ``urlparse'' to retrieve the unwrapped URL available in the ``du'' or ``ru'' GET parameter, in this case\cite{rfc3092}
+As such the URLs returned are be parsed using ``urlparse'' to retrieve the unwrapped URL available in the ``du'' or ``ru'' GET parameter\cite{rfc3092}.
