@@ -198,7 +198,7 @@ MALUCRAWL_REDIS = {
 
 CELERY_RESULT_BACKEND = MALUCRAWL_REDIS["master"]
 CELERYD_PREFETCH_MULTIPLIER = 0
-CELERY_ROUTES = {'malware_crawl.scan.capture_hpc': {'queue': 'capturehpc'}}
+CELERY_ROUTES = {'malware_crawl.scan.capture_hpc.chpc_malware_scan': {'queue': 'capturehpc'}}
 
 requests.defaults.defaults["base_headers"]["User-Agent"] += " +http://git.io/cso_malucrawl"
 

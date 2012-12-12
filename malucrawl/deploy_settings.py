@@ -14,7 +14,7 @@ MALUCRAWL_REDIS = {
 
 CELERY_RESULT_BACKEND = MALUCRAWL_REDIS["master"]
 
-CELERY_ROUTES = {'malware_crawl.scan.capture_hpc': {'queue': 'capturehpc'}}
+CELERY_ROUTES = {'malware_crawl.scan.capture_hpc.chpc_malware_scan': {'queue': 'capturehpc'}}
 
 DATABASES = {
     'default': {
