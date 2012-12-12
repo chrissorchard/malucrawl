@@ -1,0 +1,22 @@
+\subsection{Evaluation of Wine Explorer}
+Wine Explorer is indeed a feasible approach for high interaction malware 
+detection. As Wine is a compatibility layer instead of virtual machine or 
+emulator, the Internet Explorers running under it can execute in full speed, 
+where the computation resource comsumption is minimal compared to what 
+a virtual machine or emulator require. The applications run by Wine are also 
+treated as first class citizens such that permissions for them are not 
+restricted. The creation of a Wine prefix is also impressively fast, which 
+means the overhead for honeypot reset is also minimal. \\
+However disadvantages still exists. We explained that we treat a Wine prefix 
+as a sandbox, and the reason is almost all Windows applications do not operate 
+with Linux environment. Imaging if attackers predicted our Wine Explorer 
+environment, then they could easily develop Windows applications which injects 
+Linux shell commands, which means, they will have access to the file system 
+outside of Wine prefix. Also, the suspicious behavior detection functions of this 
+program is really naive which cannot cover all situations we can think of. For 
+example a virus could be downloaded and delete itself before the scan begins. 
+In that time it is sufficient to perform illegal behaviors such as sensitive 
+information collection. The modification of system 
+registry is also not considered in this application. According to the project 
+schedule we are unable to achieve everything perfectly due to approaching 
+deadline. 
