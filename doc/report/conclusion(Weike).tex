@@ -1,0 +1,18 @@
+\subsection{Wine Explorer and ClamAV scanner}
+Wine Explorer provides a lightweight solution for high interaction malware 
+detection. It has advantages over virtual machines and emulators including 
+short reset time, fast execution and RAM/disk saving, where the potential 
+security threat blocks its way to perfection. The program is also approved to 
+execute stably, for instance the correctness of the Wine prefix package is 
+guaranteed via hash check which avoids external modifications of it. We 
+explained the lacking of complete detection as well, which could be 
+implemented if we have more time in this project. 
+\paragraph{}
+We also provide a signiture-based malware scanning powered by ClamAV. The 
+HTML crawler in the same program gives links for ClamAV to scan and an 
+overall list of malicious links in a webpage can be produced from the 
+application. It has fast scanning and executes concurrently which rises 
+the system's throughput to a significant amount where disadvantages exists 
+such as unprecise link filtering. An improvement could be a deeper level of 
+website crawling, and better link processing which requires further amount 
+of time to complete. 

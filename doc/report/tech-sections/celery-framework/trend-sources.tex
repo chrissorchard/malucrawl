@@ -64,8 +64,8 @@ applying regular expression substitution: \\
 \verb`re.sub(r'((?<=[a-z])[A-Z]|(?<!\A)[A-Z](?=[a-z]))',r' \1',camelCaseString)`
 \newline
 Before the conversion happens the keyword is also decoded into unicode. The 
-reason is to avoid character loss when Celery serializing and sending them to 
-RabbitMQ. 
+reason is that Celery does not support Python 2 strings which may lead to 
+crash when Celery is sending them to RabbitMQ. 
 \paragraph{}
 We also hard coded a list of famous news websites' RSS feed addresses in the 
 program, the website list includes BBC, NewYork Times, Guardian, The Washington 
