@@ -17,16 +17,21 @@ channel = connection.channel()
 
 channel.queue_declare(queue='celery_queue')
 
+capture_handle = None
+
 def revert(op):
+    #usually terrible, but can get away with it due to single thread
+    global capture_handle
     if "start" in op:
         jar = path.join(capture_path, "CaptureServer.jar")
         cmd = ["java", "-jar", jar, "-s", "10.0.0.254:7070", "start"]
         #Popen
         fd, fname = tempfile.mkstemp(prefix="cap")
 
-        p = Popen(cmd, stdout=fd)
+        capture_handle = Popen(cmd, stdout=fd)
     if "stop" in op:
-        p.terminate()
+        if capture_handle:
+            capture_handle.terminate()
         #unlink(fname)
 
     #cmd = "echo"
