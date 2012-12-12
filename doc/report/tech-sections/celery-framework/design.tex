@@ -6,12 +6,14 @@ This section of the report describes the design of a framework that connects tho
 \subsubsection{Components}
 URL Discovery and Trend Analysis are both simpler phases and effect how data flows through the system and as such are discussed together in implementation part of this section. The design and implementation of the malware detection components are discussed later and each have their own section of the report.
 
-\input{tech-sections/celery-framework/trend-sources}
+%TODO explain the Search and Trend components.
 
-\input{tech-sections/celery-framework/search-engine}
+\input{tech-sections/collecting-the-internet/trend-sources}
+
+\input{tech-sections/collecting-the-internet/search-engine}
 
 \paragraph{Malware Detection}
-The malware dection phase will accept a single URL, and optionally the keyword that resulted in the discovery of that URL, returning a confidence level that the URL resolved to malware.  This confidence can be combined with a static overall confidence level for the particular malware scanning method used.
+The malware detection phase will accept a single URL, and optionally the keyword that resulted in the discovery of that URL, returning a confidence level that the URL resolved to malware.  This confidence can be combined with a static overall confidence level for the particular malware scanning method used.
 
 Originally the system was designed with multiple different types of malicious content in mind and so each malware scanner should return a ``type'' of malware as well as a confidence level. 
 
