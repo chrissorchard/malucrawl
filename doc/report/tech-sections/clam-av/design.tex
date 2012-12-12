@@ -3,7 +3,7 @@
 In order to fully identify the existence of malware inside a webpage, a 
 signiture based malware detection method must be implemented in our system. 
 The most obvious approach is to add anti-virus software to the scanning system 
-to enable the classification of URLs and files with non-HTML contents, such 
+in order to enable the classification of URLs and files with non-HTML contents, such 
 as binary files and scripts. Therefore we decide to use ClamAV as a step in 
 scanning for this purpose, which is also a low interaction malware detection 
 method. 
@@ -18,17 +18,17 @@ where on-access scanning is achieved with a scalable multi-threaded daemon.
 It also has a wide support for various file formats, including almost all 
 popular compressed files, emails and documents. \\
 A report in 2011 regarding the overall rating of ClamAV states that it has a 
-ranking of 12 among all public released anti-virus 
+ranking of 12 among all publicly released anti-virus 
 applications,\cite{shandowserver} where the most impressive part is its fast 
 response time and scanning speed. We believe this is a key feature we should 
 make use of due to the purpose of our system. The processing of our large URL
 datasets requires considerable computing power, where the scanning process 
 occupies most of it. \\
-ClamAV also has a third party python API known as pyClamAV. It is a free 
+ClamAV also has a third party Python API known as pyClamAV. It is a free 
 library implemented in C and binds to the ClamAV's own API, libClamAV. However 
 the newest version moved its focus to pyClamd, which is an interface to Clamav 
-daemon instead of libClamAV, due to latest updates in ClamAV removed some key 
-APIs in libClamAV. \\
+daemon instead of libClamAV, due to that latest updates in ClamAV removed some 
+key APIs in libClamAV. \\
 Overall, the conclusion we made is to use ClamAV instead of any other 
 anti-virus software due to following reasons: 
 \begin{itemize}
@@ -68,8 +68,9 @@ multi-threaded. It listens on Unix local socket or TCP socket to work, which
 means it supports remote scanning. However in our system only local socket is 
 used as remote scanning is not necessary. 
 \item {\bf requests}\\The network library used for HTTP enqueries. In this 
-program it is used for downloading the root HTML page and links inside of it. 
-\item {\bf lxml.html}\\lxml is a XML toolkit work for Python, it creates a 
+program it is used for downloading the root HTML page as well as links inside 
+of it. 
+\item {\bf lxml.html}\\lxml is a XML toolkit works for Python, it creates a 
 binding to the C libraries libxml2 and libxslt.\cite{lxml} lxml.html is a 
 package specifically designed for HTML parsing, it acts as a HTML crawler 
 which extracts links. 
@@ -81,23 +82,24 @@ for downloads realisable.
 \subsubsection{Program implementation}
 The program flow is explained as following:
 \begin{enumerate}
-\item A Celery task is created with a URL, which is downloaded via requests. 
+\item A Celery task is created with the crawler function given an URL as 
+parameter, the URL is then downloaded via requests. 
 \item the HTML parser parses the downloaded content as a HTML file, then makes 
 all links in it absolute, which is achieved with the base URL provided. 
-\item All links are extracted with the library function html.iterlinks(), 
+\item All links are extracted with the library function {\em html.iterlinks()}, 
 results are returned as a list for easy manipulation. Thus duplicate links and 
 those with different domain names are removed.
-\item For each link we perform the download function with a separate Celery 
+\item For each link we call the download function with a separate Celery 
 task. A get request which only 
-aquires HTTP header is sent, such that the file size can be determined by the 
+aquires HTTP headers is sent, such that the file size can be determined by the 
 {\em content-length} field. If the file length is within limit, just before 
-the download begins a green thread with {\em Timeout} is created which throw
+the download begins a green thread with {\em Timeout} is created which throws 
 an exception if download time exceeds. Zero is returned if any exception 
 occurs before or during downloading, which includes but not limited to request 
 exceptions (such as error response code) and time outs. After successful 
 downloading a clamd scan to the content is called, the return value should be 
-either {\em None} or virus detected message. 
-\item The final list of malware detected is merged between the results 
-returned from all link downloads and the scan result of the root page, which 
-returns to the main system.  
+either {\em None} or virus description message. 
+\item The final list of malware detected is merged by the results 
+returned from the scan results of all downloaded links as well as the root 
+page, which returns to the main system.  
 \end{enumerate}
