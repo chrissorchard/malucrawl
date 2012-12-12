@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 import pika
-import subprocess
-import os
-import pickle
-
+import tempfile
+from subprocess import Popen
+from os import path, unlink
 #
 # based on code from:
 #    http://www.rabbitmq.com/tutorials/tutorial-six-python.html
