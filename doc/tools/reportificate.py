@@ -38,9 +38,11 @@ report_files = [
     "doc/report/tech-sections/clam-av/design.tex",
     "doc/report/tech-sections/clam-av/evaluation.tex",
     "doc/report/tech-sections/clam-av/testing.tex",
+    "doc/report/tech-sections/clam-av/results.tex",
     "doc/report/tech-sections/wine/design.tex",
     "doc/report/tech-sections/wine/evaluation.tex",
     "doc/report/tech-sections/wine/testing.tex",
+    "doc/report/tech-sections/wine/results.tex",
     "doc/report/lit-review.tex",
     "doc/report/group-approach.tex",
     "doc/report/tech-sections/celery-framework/design.tex",
@@ -63,7 +65,6 @@ report_files = [
     "doc/report/Future development.tex",
     "doc/report/Liteature(Nafiseh).tex",
     "doc/report/Related work.tex"
-
     ]
 
 github_url = "https://api.github.com/"
