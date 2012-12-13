@@ -26,6 +26,7 @@ extra layer on the top of the system, there is no difference to programs that
 uses extra libraries. An example of such software is the compatibility 
 mode in newer versions of Windows designed for running legacy 
 software.\cite{wineperformance}
+\paragraph{}
 Wine has advantages over conventional virtual machines particularly in terms 
 of working with web browsers. Although 
 virtual machines have advantages in simulating programs which give more 
@@ -34,6 +35,7 @@ virtual machine consumes significantly more memory, disk space and CPU, as it
 needs to simulate the whole operating system instead of a providing a layer 
 to a program. Wine treats Windows applications as ``first-class citizens'', 
 which run at full speed.\cite{wineperformance}
+\paragraph{}
 Wine uses a working directory as a complete Windows system which stores all 
 information about the specific system's configurations and files in its virtual 
 hard drive. Moreover, the active working directory is known as the Wine prefix. 
@@ -62,7 +64,7 @@ With Wine Explorer, URLs given by the URL classifier (introduced
 previously) are opened with the specific instance of Internet Explorer inside the Wine 
 prefix. 
 Those URLs are said to be strongly suspicious of containing malware and are 
-supposed to be investigated in depth. 
+supposed to be investigated in depth. \\
 In order to speed up Wine prefix creation, a clean Wine prefix packed with 
 Internet Explorer 6 is prepared. Therefore whenever a new Wine prefix is needed, 
 the only process is to unpack it to a desired location. 
