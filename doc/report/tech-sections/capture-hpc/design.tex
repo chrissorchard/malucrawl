@@ -72,7 +72,7 @@ integrate with wither locally or remotely. Unfortunately the Capture-HPC server
 also has to be restarted to
 consume new URLs from the database, with any finished URLs that are left in the
 database processed again. The Capture-HPC server is configured using an XML
-configuration file that can be found in Appendix TODO.
+configuration file.
 \paragraph{VM Integration}
 The version of Capture-HPC to be used in the project supports VMware as its
 virtualisation platform, and the ECS VM infrastructure also runs on VMware
@@ -96,7 +96,7 @@ reverted, as detailed below.
 
 Capture-HPC is the most accurate simulation of user browsing used by the project
 as a malware scanner, and has a very low URL throughput thanks to each URL
-needing to be rendered in a web browser. The throughput is further reduced be
+needing to be rendered in a web browser. The throughput is further reduced 
 the need to revert the VM every time malicious activity is detected. Therefore
 it is necessary to limit the number of URLs that Capture-HPC is required to
 process. As discussed previously, limiting of the URLs processed by the
@@ -115,7 +115,7 @@ set of URLs provided for time versus detection rate.
 As Capture-HPC renders web pages, there is a significant risk that any malicious
 content will take over the client VM and try to exploit any other computers
 connected to the VM or abuse resources in other ways such as sending spam.
-To mitigate this threat, a set of preventative measures are taken. Diagram 
+To mitigate this threat, a set of preventative measures are taken. 
 Figure \ref{fig:sec-1} shows the architectures used for the implementation of the security
 considerations.
 
@@ -149,18 +149,15 @@ Capture-HPC server to communicate with the Capture-HPC clients.
 %re-use capture binary
 
 When deploying Capture-HPC in ECS to form part of our prototype deployment of
-the framework, a small group of VMs were used host the security architecture
+the framework, a small group of VMs were used to host the security architecture
 discussed above. The gateway VM used Red Hat Enterprise Linux 6 for its
 stability and security,
-with iptables used to provide a firewall. An annotated version of the iptables
-rules used for running Capture-HPC is listed in Appendix TODO, explaining the
-function of each rule. Squid was used as a HTTP and HTTPS proxy, compiled with
+with iptables used to provide a firewall. Squid was used as a HTTP and HTTPS proxy, compiled with
 support for dynamically generating certificates for HTTPS websites. To reduce
 the amount of effort needed to manually configure the firewall to allow/disallow
 different types of traffic during
 development of the system, a small tool was written to allow a number of
-iptables "profiles" to be created, and then changed using a small shell script,
-the source of which can be found in Appendix TODO. Profiles were written for
+iptables "profiles" to be created, and then changed using a small shell script. Profiles were written for
 development mode with little to no firewall restrictions but with NAT and
 forwarding enabled, maintenance mode with restricted ports but forwarding with
 NAT instead of proxying, and full mode with proxying and the minimum number of
@@ -204,7 +201,7 @@ revert command that takes the same arguments as the real version.
 \begin{figure}[htb]
 \centering
 \includegraphics[width=0.8\textwidth]{img/revert-rpc.png}
-\caption{Rervert RPC Architecture}
+\caption{Revert RPC Architecture}
 \label{fig:revert-1}
 \end{figure}
 
@@ -216,10 +213,10 @@ Capture-HPC can be backed using a database for URLs, which is useful as it
 allows us to build Capture-HPC's database format into a Django ORM which can
 be used in the python code to access the database. Due to issues with the
 version of Python on the locked-down Red Hat VM, most of the control happens
-remotely, aided by the accessiblity of the database server on the network. Each
+remotely, aided by the accessibility of the database server on the network. Each
 Capture-HPC server has an RPC server and database server on it, which a remote
 celery worker can connect to. Once the worker has loaded the URLs into the
-databse, it starts the Capture-HPC server and waits for the server to finish
+database, it starts the Capture-HPC server and waits for the server to finish
 processing URLs by periodically checking the database. Once the database
 indicates all of the URLs have been scanned, the URLs are deleted from the
 database and the RPC server is instructed to terminate the Capture-HPC server.
@@ -235,7 +232,7 @@ The exclusion lists used to determine what activity is judged by the Capture-HPC
 clients as malicious also needs to be maintained. The Capture-HPC server is
 capable of sending the lists to the clients, allowing easy distribution of new
 exclusion lists. The exclusion lists as of time of writing are included in
-appendix TODO, and are stored under the project version control, but the lists
+the attached data package, and are stored under the project version control, but the lists
 created are only tested with Windows XP, so it is quite possible that they will
 need to be modified for use under Windows 7 or Windows Vista.
 
