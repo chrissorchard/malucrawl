@@ -4,9 +4,6 @@
 
 \subsection{Capture-HPC}
 
-
-
-
 Capture-HPC is a high interaction client honeypot, a system designed to actively
 search for malware by rendering the content at provided URLs. In addition to
 offering a accurate simulation of a user browsing the web Capture-HPC provide
@@ -24,5 +21,31 @@ restricting the number of URLs passed to it via classification to attempt to
 limit the execution time for a set of URLs. Despite this Capture-HPC still 
 remains one of the more powerful malware scanners available in the framework.
 
-
 \subsection{Framework}
+
+Using a distributed framework as a foundation for the project proved successful,
+although issues arising from the complexity of adapting code to run on the
+framework detracted somewhat from its effectiveness. The framework as
+implemented using Celery, RabbitMQ and Redis was capable of effectively
+distributing tasks to workers using routing features provided to route specific
+tasks to a specific worker, needed by the Capture-HPC malware scanner which
+requires configuration and resources outside of the scope of the framework.
+Caching was also effectively used to reduce duplicate requests, with most of the
+workers implementing Redis caching of URLs mapped to results.
+
+\subsection{Project Conclusions}
+
+Unfortunately, the project did not sufficiently progress to test the hypothesis:
+is malware specifically targeted at trending topics. This would have required
+considerable time to collect data, and the reliability of the project in
+classifying URLs as malicious or benign has not yet been determined as this is a
+property of the combination of malware scanners used and confidence ratings
+applied to the scanners. A small suite of scanners has been assembled and
+tested, including web lists and Capture-HPC.
+
+The project has successfully combined distributed task framework with trend
+sources, search retrieval, and malware scanning and the end result is a
+re-usable framework appropriate for carrying out further investigation into th
+hypothesis. It is hoped that some data collected and a preliminary conclusion to
+the hypothesis can be found in time for the final presentation to the customer.
+ 
