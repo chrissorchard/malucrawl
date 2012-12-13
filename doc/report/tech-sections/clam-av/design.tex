@@ -18,15 +18,15 @@ It also has wide support for various file formats, including almost all
 popular compressed files, emails and documents. \\
 A report in 2011 rated ClamAV 12th among all publicly released anti-virus 
 applications,\cite{shandowserver} where the most impressive part is its fast 
-response time and scanning speed. This is a key feature that is particularly useful for the purpose of the system. The processing of large URL
-datasets requires considerable computing power, where the scanning process 
-occupies most of it. \\
+response time and scanning speed. This is a key feature that is particularly useful 
+because the processing of large URL
+datasets requires considerable computing power. \\
 ClamAV also has a third party Python API known as pyClamAV. It is a free 
 library implemented in C and binds to the ClamAV's own API, libClamAV. However 
-the newest version has moved its focus to pyClamd, which is an interface to Clamav 
+the newest version has moved its focus to pyClamd, which is an interface to ClamAV 
 daemon instead of libClamAV. Due to the latest updates to ClamAV, some 
 key APIs were removed from libClamAV. \\
-Overall, the conclusion made was to use ClamAV over other 
+The conclusion made was to use ClamAV over other 
 anti-virus software for the following reasons: 
 \begin{itemize}
 \item Open source
@@ -38,22 +38,20 @@ anti-virus software for the following reasons:
 \end{itemize}
 
 \subsubsection{ClamAV with HTML crawler}
-A program was built to download URLs and perform static analysis conforming to the term --- low interaction. The given URL is expected to contain 
-an HTML file, and after the virus scan the program crawls it in order to extract links to pages 
+A program was built to download URLs and perform static analysis conforming to low interaction. The given URL is expected to contain 
+an HTML file, and after the virus scan the program crawls the file in order to extract links to pages 
 under the website. After that the extracted links are again downloaded and 
-scanned with ClamAV. This time the file types are uncertain, therefore the program was given a max file size to download as well as a time limit in case of a 
+scanned with ClamAV. This time the file types are uncertain, therefore the program is given a max file size to download as well as a time limit in case of a 
 slow or broken connection. This is a vital step to avoid downloading huge files such as 
-high definition videos as well as without a file length, for example, a live radio stream.
+high definition videos as well as those without a file length, for example, a live radio stream.
 If the given root page is not an HTML file the program simply scans the file content. 
-Links to other domains are ignored, because only the investigation 
-of the given URL's domain is concerned. Duplicate links are removed, and the 
-program avoids downloading the same page twice or more, where a possible case 
-is that the root page needs 
+Links to other domains are ignored because only the investigation 
+of the given URL's domain is concerned. More than once links are removed and the 
+program avoids downloading the same page twice or more. A root page may need 
 to be processed twice: once for crawling and once for virus scan.
 
 Every ClamAV scan is performed by a separate Celery task, which means the 
-number of tasks should be $n+1$ where n is the number of links interested and 
-the other time is for the root page.  
+number of tasks should be $n+1$ where n is the number of interesting links.
 
 \subsection{Implementation}
 \subsubsection{Libraries}
@@ -61,49 +59,46 @@ The following libraries are used in this Python application:
 \begin{itemize}
 \item {\bf pyClamd} This is the ClamAV daemon library used for URL content 
 scanning. Compared to ordinary ClamAV, a daemon is faster and 
-multi-threaded. It listens on Unix local socket or TCP socket to work, which 
-means it supports remote scanning. However in the program only local socket is 
-used as remote scanning is not necessary. 
+multi-threaded. 
 
 \item {\bf requests} The network library used for HTTP inquiries. In the 
-program it is used for downloading the root HTML page as well as links inside 
-of it. 
+program it is used for downloading the root HTML page as well as the links. 
 
-\item {\bf lxml.html} lxml is a Python XML library, it creates a 
+\item {\bf lxml.html} lxml is a Python XML library. It creates a 
 binding to the C libraries libxml2 and libxslt.\cite{lxml} lxml.html is a 
-package specifically designed for HTML parsing, and acts as an HTML crawler 
+package specifically designed for HTML parsing and acts as an HTML crawler 
 which extracts links. 
 
 \item {\bf eventlet.timeout} Eventlet is a Python library that enables 
 concurrent networking. The $timeout$ package provides a universal timeout 
 solution achieved with green threads, and it is this package that makes the time limit 
-for downloads realizable. 
+for downloads achievable. 
 \end{itemize}
 
 \subsubsection{Program implementation}
-The program flow is explained as following:
+The program flow is as follows:
 \begin{enumerate}
 \item A Celery task is created with the crawler function given a URL as a 
-parameter. The URL is then downloaded via requests. 
+parameter. The URL is then downloaded via the \verb`requests` library. 
 
 \item The HTML parser parses the downloaded content as an HTML file, then makes 
-all links in it absolute, which is achieved with the base URL provided. 
+all links in it absolute.
 
-\item All links are extracted with the library function {\em html.iterlinks()}, 
-results are returned as a list for easy manipulation. Thus duplicate links and 
+\item All links are extracted with the library function {\em html.iterlinks()} and
+results are returned as a list for easy manipulation. Duplicate links and 
 those with different domain names are removed.
 
 \item For each link the download function is called with a separate Celery 
 task. A get request which only acquires HTTP headers is sent, such that the file size can be determined by the 
-{\em content-length} field. If the file length is within a limit, just before 
+{\em content-length} field. If the file length is within a pre-defined limit, just before 
 the download begins a green thread with a {\em Timeout} is created which throws 
 an exception if the download time is too great. Zero is returned if any exception 
-occurs before or during downloading, which includes but not limited to request 
+occurs before or during downloading. Exceptions include but are not limited to request 
 exceptions (such as error response code) and time outs. After successful 
-downloading a clamd scan to the content is called, the return value should be 
+downloading a clamd scan to the content is called, and the return value should be 
 either {\em None} or the virus description message. 
 
-\item The final list of malware detected is merged by the results 
-returned from the scan results of all downloaded links as well as the root 
-page, which returns to the main system.  
+\item The final list of malware detected is merged with the results 
+returned from the scan results of all downloaded links as well as those from the root 
+page, this then returns to the main system.  
 \end{enumerate}
