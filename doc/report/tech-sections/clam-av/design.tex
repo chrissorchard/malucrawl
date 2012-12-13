@@ -38,16 +38,17 @@ anti-virus software for the following reasons:
 \end{itemize}
 
 \subsubsection{ClamAV with HTML crawler}
-A program was built to download URLs and perform static analysis conforming to the term --- low interaction. The given URL should always contain 
+A program was built to download URLs and perform static analysis conforming to the term --- low interaction. The given URL is expected to contain 
 an HTML file, and after the virus scan the program crawls it in order to extract links to pages 
 under the website. After that the extracted links are again downloaded and 
 scanned with ClamAV. This time the file types are uncertain, therefore the program was given a max file size to download as well as a time limit in case of a 
 slow or broken connection. This is a vital step to avoid downloading huge files such as 
 high definition videos as well as without a file length, for example, a live radio stream.
-
+If the given root page is not an HTML file the program simply scans the file content. 
 Links to other domains are ignored, because only the investigation 
 of the given URL's domain is concerned. Duplicate links are removed, and the 
-program avoids downloading the same page twice or more, as the root page needs 
+program avoids downloading the same page twice or more, where a possible case 
+is that the root page needs 
 to be processed twice: once for crawling and once for virus scan.
 
 Every ClamAV scan is performed by a separate Celery task, which means the 

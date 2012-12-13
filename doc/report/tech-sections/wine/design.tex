@@ -29,27 +29,36 @@ software.\cite{wineperformance}
 Wine has advantages over conventional virtual machines particularly in terms 
 of working with web browsers. Although 
 virtual machines have advantages in simulating programs which give more 
-realistic environments, they use additional resources. In most cases, a virtual machine consumes significantly more memory, disk space and 
-CPU, as it needs to simulate the whole operating system instead of a providing a layer to a program. Wine treats Windows applications as first-class 
-citizens, which run at full speed.\cite{wineperformance}
+realistic environments, they use additional resources. In most cases, a 
+virtual machine consumes significantly more memory, disk space and CPU, as it 
+needs to simulate the whole operating system instead of a providing a layer 
+to a program. Wine treats Windows applications as ``first-class citizens'', 
+which run at full speed.\cite{wineperformance}
 Wine uses a working directory as a complete Windows system which stores all 
 information about the specific system's configurations and files in its virtual 
 hard drive. Moreover, the active working directory is known as the Wine prefix. 
-One of the discoveries about Wine is that the creation of Wine prefix is 
+One of the discoveries in Wine is that the creation of Wine prefix is 
 lightweight and resource saving compared to that of a virtual machine or
 emulator, while the Wine prefix itself also conforms to the nature of a 
 sandbox to some extent, which means almost all kind of behaviours performed 
 by programs inside the Wine prefix cannot affect the underlying system. 
-Although there is a potential threat that is the unrestricted permissions 
+A potential threat is the unrestricted permissions 
 for applications in Wine prefix, which by default exposes the root file 
-system to them, the conclusion is still that Wine is a suitable tool for creating a 
-client honeypot in high interaction malware detection. 
+system to them, however malwares running in Windows that manipulate Linux 
+file systems are rather rare. \\
+After all these reasons explained, the conclusion is that Wine is a suitable 
+tool for creating a client honeypot in high interaction malware detection. 
 
 \subsubsection{Execution Flow}
-Wine Explorer is a straightforward program, and the following graph 
+Wine Explorer is a straightforward program, and Figure \ref{fig:wine}
 illustrates the execution flow of detecting a single URL. \\
-% Flow chart here
-With Wine Explorer URLs given by the URL classifier (introduced 
+\begin{figure}[htb]
+\centering
+\includegraphics[scale=0.75]{img/wine-flowchart.png}
+\caption{Program flow}
+\label{fig:wine}
+\end{figure}
+With Wine Explorer, URLs given by the URL classifier (introduced 
 previously) are opened with the specific instance of Internet Explorer inside the Wine 
 prefix. 
 Those URLs are said to be strongly suspicious of containing malware and are 
@@ -67,9 +76,10 @@ After an execution is completed a scan is performed to check file system
 modifications inside that Wine prefix. 
 Due to various reasons the file system might have changes performed by normal 
 operations such as cache files. 
-Therefore at this step a white list is provided, which describes the kind of 
-files that should be ignored. It is then applied to filter the final results. 
-The results are then returned to the main system and the temporary Wine 
+Therefore at this step a white list is provided and is which the final 
+results should filter with. The white list describes the kind of 
+files that might be modified by system operations that should be ignored. 
+The results are then returned to the main system, and the temporary Wine 
 prefixes after scanning should be removed in order to save disk space. 
 
 \subsection{Implementation}
@@ -80,7 +90,7 @@ given URL. This is how the program work in details:
 \begin{enumerate}
 \item \verb`create_wine_prefix(template_spec)` \\
 Check cache for the package containing the predefined Wine prefix, if not 
-exist download it, then perform a hash check.
+exist, download it, then perform a hash check.
 If success the package is unpacked to a temporary directory. 
 In the file system there should also be a clean Wine prefix unpacked from the 
 package, which is used for checking file system changes later. 
@@ -93,11 +103,11 @@ Wait for 30 seconds.
 Check the file system changes. This is achieved by running {\em filecmp} recursively 
 for all files between the clean Wine prefix and the active one. The results 
 are filtered against a white list then returned to the main system. The white 
-list is included in the appendix TODO. 
+list is included in the appendix.%TODO 
 \item \verb`WineBrowser.close()`\\
-The temporary directory is removed. 
+Remove the temporary directory. 
 \end{enumerate}
-30 seconds is chosen as the waiting interval is because of possible network 
+30 seconds is chosen as the waiting interval due to possible network 
 latency and long computing time. Any web pages take more than 30 seconds to 
 load will be discarded as if not they will significantly lower the system's 
 throughput. \\
