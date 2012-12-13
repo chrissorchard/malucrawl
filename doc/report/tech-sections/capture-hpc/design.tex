@@ -115,10 +115,16 @@ set of URLs provided for time versus detection rate.
 As Capture-HPC renders web pages, there is a significant risk that any malicious
 content will take over the client VM and try to exploit any other computers
 connected to the VM or abuse resources in other ways such as sending spam.
-To mitigate this threat, a set of preventative measures are taken
-as illustrated in the diagram, and discssed further below.
+To mitigate this threat, a set of preventative measures are taken. Diagram 
+Figure \ref{fig:sec-1} shows the architectures used for the implementation of the security
+considerations.
 
-AWESOME SECURITY ARCH DIAGRAM
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.8\textwidth]{img/physical-arch-pres.png}
+\caption{Secure Architecture}
+\label{fig:sec-1}
+\end{figure}
 
 To secure the virtual machine(s) running the Capture-HPC client, a Linux
 firewall is placed between the VMs and the network, with the client VMs only
@@ -190,11 +196,17 @@ allow a trusted client in a trusted part of the network to connect out to the
 server in the DMZ, and the message queue route revert requests out to the
 trusted server. RabbitMQ was used as the message passing server as it was being
 used elsewhere in the project. The Capture-HPC server only holds fake password details, which
-are replaced with the real credentials on the trusted client. A diagram showing
-the design of the RPC system is shown below. The Capture-HPC server only sees a
+are replaced with the real credentials on the trusted client. Figure
+\ref{fig:revert-1} shows
+the design of the RPC system. The Capture-HPC server only sees a
 revert command that takes the same arguments as the real version. 
 
-AWESOME REVERT RPC DIAGRAM
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.8\textwidth]{img/revert-rpc.png}
+\caption{Rervert RPC Architecture}
+\label{fig:revert-1}
+\end{figure}
 
 \subsubsection{Framework Integration}
 
