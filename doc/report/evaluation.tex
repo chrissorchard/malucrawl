@@ -10,9 +10,9 @@
 \subsection{Capture-HPC}
 Although Capture-HPC is a very capable malware scanning component, there were
 numerous difficulties involved setting it up. Compiling the Windows kernel
-drivers for the client was a very complex process, but will need to be repeated
+drivers for the client was a very complex process, and will need to be repeated
 to generate installers for other Windows OSs. The ECS specific modifications
-that needed two sets of RPC over Message Queues to work also caused considerable
+that required two sets of RPC over Message Queues to work also caused considerable
 delay to the integration of Capture-HPC into the framework, but means that some
 level of network security is maintained separating the hosts running the rest of
 the framework from the host running Capture-HPC.
