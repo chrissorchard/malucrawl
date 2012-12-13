@@ -1,3 +1,19 @@
-\section{Conclusion}
-\input{conclusion-nafiseh}
+\section{Conclusion} 
+\input{conclusion-nafiseh} 
 \input{conclusion-weike}
+
+\subsection{Capture-HPC}
+
+Capture-HPC is a high interaction client honeypot, a system designed to actively
+search for malware by rendering the content at provided URLs. The system is
+capable of returning detailed results, and although slow provides a very
+accurate simulation of a user browsing with a poorly secured browser and OS.
+Capture-HPC integrates easily into the framework using a mysql database to drive
+it, although a fair amount of customisation was needed for Capture-HPC to work
+in the ECS VM and network infrastructure with additional issues caused by the
+security architecture used. Capture-HPC however remains to be a very useful
+malware scanner as part of the framework, with further work possible within the
+framework to optimise the URLs passed to Capture-HPC so only the most suspicious
+URLs are processed. 
+
+\subsection{Framework}
