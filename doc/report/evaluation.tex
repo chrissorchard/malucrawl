@@ -18,6 +18,11 @@ delay to the integration of Capture-HPC into the framework, but means that some
 level of network security is maintained separating the hosts running the rest of
 the framework from the host running Capture-HPC.
 
+\subsection{Malware Lists}
+Although a very fast in terms on URLs scanned per second, the components of the system using Malware Lists give very limited results about those URLs. This is not a severe problem as the intention of these components is to avoid scanning high traffic, or high trustworthy sites such as Google or Wikipedia.
+
+Difficulties envolved with interacting with the counter-intuitive, and in some cases defective, Celery Batches API resulted in more time expended compared to that originally excpected. Fortuneatly it was possible to fix the issues resulting in a defective Batches API and submit those upstream.
+
 \subsection{Framework}
 
 
