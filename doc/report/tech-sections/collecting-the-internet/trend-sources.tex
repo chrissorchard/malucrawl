@@ -41,9 +41,11 @@ The program then retrieves global trending keywords from the Twitter's {\em
 trends/place} API. As previous described, in order to cope with keywords with 
 hashtags, we implemented a hashtag handler, who's role is to remove the hash 
 tag and convert the camel case word to sentence case. This is achieved by 
-applying regular expression substitution: \\
-\verb`re.sub(r'((?<=[a-z])[A-Z]|(?<!\A)[A-Z](?=[a-z]))',r' \1',
-camelCaseString)`
+applying regular expression substitution: 
+\begin{verbatim}
+re.sub(r'((?<=[a-z])[A-Z]|(?<!\A)[A-Z](?=[a-z]))',r' \1',
+camelCaseString)
+\end{verbatim}
 Before the conversion happens the keyword is also decoded into unicode. The 
 reason is that Celery does not support Python 2 strings with non-ASCII characters
 which may lead to 
