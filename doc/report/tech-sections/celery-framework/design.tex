@@ -8,63 +8,44 @@ This section of the report describes the design of a framework that connects tho
 Each trend analysis phase should be able to query some external services and determine a set of keywords. These keywords can then be returned, to be expanded to URLs by the URL Discovery phase.
 
 \paragraph{URL Discovery}
-The URL discovery phase is called with a keyword or trending topic from the Trend Analysis phase and should be able to determine URLs related to that keyword.
-
-This phase is therefore designed to emulate a user searching for pages given a keyword.
-
-
-% URL Discovery and Trend Analysis are both simpler phases and effect how data flows through the system and as such are discussed together in implementation part of this section. The design and implementation of the malware detection components are discussed later and each have their own section of the report.
+The URL discovery phase is called with a keyword or trending topic from the Trend Analysis phase and should be able to determine URLs related to that keyword. This phase is designed to emulate a user searching for pages given a keyword.
 
 \paragraph{Malware Detection}
 The malware detection phase will accept a single URL, and optionally the keyword that resulted in the discovery of that URL, returning a confidence level that the URL resolved to malware.  This confidence can be combined with a static overall confidence level for the particular malware scanning method used.
 
-Originally the system was designed with multiple different types of malicious content in mind and so each malware scanner should return a ``type'' of malware as well as a confidence level. 
-
-After a meeting with the customer, however, in which it was clarified that only drive by download malicious content should be focused on the only valid ``type'' is ``generic''.
+\paragraph{}
+Originally the system was designed with multiple different types of malicious content in mind and so each malware scanner was required to return a ``type'' of malware as well as a confidence level. After a meeting with the customer, however, in which it was clarified that only drive by download malicious content should be focused on the only valid ``type'' is ``generic''.
 
 \paragraph{Result Storage}
 To store the results of the system the response from a malware scanner must be associated with: the URL that called the malware scanner, the keyword or trending topic that was used to discover the URL, the trend source that the topic applied to and the particular components used in forming the result.
 
 \subsubsection{A Distributed System}
-To be able to operate quickly the system can be organized into a parallel architecture.
+To be able to operate quickly the system can be organized into a parallel architecture. This is due to the independent nature of many components of the system: Trend Source Analysis, URL Discovery and Malware Detection.
 
-This is due to the independent nature of many components of the system: Trend Source Analysis, URL Discovery and Malware Detection.
-
+\paragraph{}
 Each trend source is not dependent on on any other trend source, however the search engine tasks cannot be dispatched without a keyword from the Trend Analysis phase to be able to operate.
 
+\paragraph{}
 The process of scanning and determining if a URL has at one point returned a malicious page or not is entirely independent of both any other URL or any other particular method of scanning.
 
+\paragraph{}
 As such multiple sources can be queried for trends and those trends can then be used to browse for URLs using search engines, while multiple malware scanners are able to operate on multiple discovered URLs at the same time.
-
-\subsubsection{Future Extensions}
-The system should be designed so that it is possible to avoid repeating the ``same'' task too often. Eg a ``search engine'' task for the same keyword, or ``malware finding'' task for the same URL should only be repeated once in any given time period.
-
-To implement this a set of keywords and URLs should be maintained. Each item should be dropped from the set after a certain time. This could be in a database eg. the existing Redis instance used for the result backend:
-
-\verb/{"task:(keyword|url):#{data}":{"result":taskid, "requested":time_stamp}}/
-
-The simplest solution is that: each time a task is called it checks in Redis for its task key, eg ``task:keyword:foo'' and returns the result at ``taskid'' if the time is recent enough. Otherwise it adds itself to Redis and returns normally.
-
-Despite being conceptually to check the sets each time, this is a waste of bandwidth. As such the controlling node should be able to check in most cases.
-
-In the end it might not be worth it, as we will only be checking the keyword sources as often as they claim to update and checking for duplicate scanned URLs could be done later in the stack eg. before they are dispatched to the Windows vms.
 
 \subsection{Implementation}
 This section describes how to use a set of workers to determine trending topics and sites relating to those topics
-% Python, pip and PyPi
-% HTML/XML, RSS and JSON parsing
-% OAuth2
-% Celery basics
+
 \subsubsection{Tools}
 \paragraph{Celery}
-Celery is a ``Distributed Task Queue'' that allows standard Python functions to be converted into Tasks that can operate asynchronously and in parallel on a large cluster of worker machines.
+Celery is a ``Distributed Task Queue'' that allows standard Python functions to be converted into Tasks that can operate asynchronously and in parallel on a large cluster of worker machines.  These Tasks can be dispatched in real-time or can be scheduled to take place at a particular time in the future, or at a predictable time intervals.  This scheduling feature is particularly useful for this project because it is required to schedule a complete flow through all phases of operation each day.
 
-These Tasks can be dispatched in real-time or can be scheduled to take place at a particular time in the future, or at a predictable time intervals.  This scheduling feature is particularly useful for this project because it is required to schedule a complete flow through all phases of operation each day.
-
+% TODO: Make sense
+\paragraph{}
 Celery Tasks can either be executed: while the calling thread waits until the Task has finished,  asynchronously by the calling thread that then ignores the result (useful in cases such as adding information to a database) or the calling thread can add a new Subtask to be called with the result of the previous as its argument.
 
-This Subtask is a serialize-able version of a Task and describes the arguments, and the function name so that it can be sent to another worker to be called later.  The Subtask can also be used in a similar way to partial functions, so that more arguments can be added to a Subtask in different steps before it is finally called.  This is useful because it means that a range of Subtasks can be created that all share a predefined value: a particular Trend Source and then can be added as an asynchronous callback to be later given a specific argument: the particular Trending Topic from that Trend Source.
+\subparagraph{}
+The Celery Subtask is a serialize-able version of a Task and describes the arguments, and the function name so that it can be sent to another worker to be called later.  The Subtask can also be used in a similar way to partial functions, so that more arguments can be added to a Subtask in different steps before it is finally called.  This is useful because it means that a range of Subtasks can be created that all share a predefined value: a particular Trend Source and then can be added as an asynchronous callback to be later given a specific argument: the particular Trending Topic from that Trend Source.
 
+\paragraph{Threading Models}
 Celery supports multiple threading models including multiprocessing and Eventlet.
 \subparagraph{multiprocessing}
 Part of the Python Standard Library, multiprocessing, is a threading model that spawns separate processes in which to consume execution units.  This means that each thread is very resource intensive because it is a full process and requires all of the code and a complete instance of the Python environment.
@@ -72,38 +53,40 @@ Part of the Python Standard Library, multiprocessing, is a threading model that 
 \subparagraph{Eventlet}
 Eventlet is a wrapper around either epoll or libevent both of which provide a ``mechanism to execute a callback function when a specific event occurs on a file descriptor'' such as a notification on receiving data in a TCP socket. 
 
+\subparagraph{}
 For programs to be able to take advantage of Eventlet's support for fast non-blocking IO operations they must be written specifically with Eventlet in mind by using ``green'' threads, or ``coroutines''.  Usefully as part of the Eventlet library versions of Python libraries that can be used to make HTTP requests have been created that are built to work co-operatively in an Eventlet environment: \emph{urllib} and \emph{urllib2}. The \emph{requests} library which uses \emph{urlib3} has support for Eventlet built in already.
 
+\subparagraph{}
 Potentially thousands of ``green'' threads can be spawned with minimal resource usage, but any blocking operation causes the entire pool to block also. This is more useful than the multiprocessing threading model for most phases of the system as the majority of them spend most of their execution time downloading data from the Internet.
 
+\paragraph{Message Brokers}
 To be able to communicate to multiple workers operating on multiple, disparate and networked machines Celery requires a message broker and a result back end to make results of Tasks available to other Tasks.  The recommended message broker is RabbitMQ.
 
 \subparagraph{RabbitMQ}
 Although being one of many possible message brokers, RabbitMQ was chosen as the message broker not just because it is the system recommended by Celery.
 
+\subparagraph{}
 Celery supports a range of message broker systems, two message queue systems: RabbitMQ, and Beanstalk, three NoSQL databases: Redis, MongoDB and CouchDB and any SQL database supported by SQLAlchamey or the Django ORM.
 
-While some of the database systems support publish and subscribe on records none of them are capable of managing multiple queues of messages on widely distributed machines.  The SQL databases are to be particularly avoided and only used for test or because no other system is available. This is known as the ``Database as Queue Anti-pattern''\cite{database-as-mq}.
+\subparagraph{}
+While some of the database systems support publish and subscribe on records none of them are capable of managing multiple queues of messages on widely distributed machines.  The SQL databases are to be particularly avoided and only used for test or because no other system is available. This is known as the ``Database as Queue Anti-pattern''\cite{database-as-mq}.  Using a database as a queue is an anti-pattern because the only way to get notified of messages is to repeatedly poll the database and also because a database is difficult to share among multiple client machines while remaining synchronized.
 
-Using a database as a queue is an anti-pattern because the only way to get notified of messages is to repeatedly poll the database and also because a database is difficult to share among multiple client machines while remaining synchronized.
-
+\subparagraph{}
 The only remaining systems after the others have been eliminated are Beanstalk and RabbitMQ, both message queue systems. RabbitMQ was chosen over Beanstalk because it is easier to distribute the queue itself over a network of machines.
 
-\paragraph{Django Object-relational Mapper} %TODO bug chris about Django ORM not Django database lib
+\paragraph{Django Object-relational Mapper}
 An Object-relational Mapper or ORM creates an object orientated interface to relational database systems.  This means that rows in a database can be created and interacted with in a way similar to native Python objects
 
+\paragraph{}
 Popular libraries in Python include SQLAlchemy and the Django Object-relational Mapper. Because the system should be able to interface with a Django web interface to display results the Django ORM is an obvious choice.
 
 \subsubsection{Parallel Crawling and Scanning Framework}
 Each Task is implemented as a Celery Task in its own module, \verb`source`, \verb`search` and \verb`scan` depending on the phase of that Task: Trend Source Analysis, URL Discovery and Malware Detection respectively. Each phase module exposes the Task entry points with a list of functions.
 
 \subsubsection{Controlling the Phases and Storing the Results}
-The general approach to controlling the system is to allow data to flow from the source tasks via the the search tasks to discover URLs to be dispatched to scan tasks. Ensuring that:
+The general approach to controlling the system is to allow data to flow from the source tasks via the the search tasks to discover URLs to be dispatched to scan tasks. Ensuring that each result from a \emph{Trend Analysis} task results in a new \emph{URL Discovery} task.  Each result from the \emph{URL Discovery} tasks should results in a new \emph{Malware Detection} task.  Finally each result from the \emph{Malware Detection} tasks are stored and related to the relevant Keyword and URL.
 
-Each result from the ``keyword finding'' task results in a new ``search engine'' task.
-Each result from the ``search engine'' task should results in a new ``malware finding'' task
-And Each result from the ``malware finding placeholder'' is stored and related to the relevant Keyword and URL.
-
+\paragraph{}
 However two different technical approaches were applied to control the flow of the system:
 
 One in which a single task, the scheduled task, controlled the entire process.  Ensuring that each phase completed and waited before before starting the next, gradually building a Python data-structure out of dictionaries and lists until finally returning it.  This structure can then be validated and finally written to the database in one go.
@@ -120,14 +103,14 @@ The second approach was chosen as the final approach and is justified in the Tes
 \subsubsection{Placeholder Malware Scanning Task}
 A simple Twitter source Task and Dogpile search Task could be developed very early on in the project and it is also possible to reduce the workload of the system by changing the Dogpile search engine to only query for the first page of results, as such significantly less URLs will be processed.
 
+\paragraph{}
 Malware detection Tasks, however, require significantly more in depth technical work before they become operational and would not be expected to be complete before nearer the end of the project. Therefore before being able to demonstrate and test the distributed framework a placeholder malware scanning task was produced. This task downloaded the contents of the page referenced by the given URL using \emph{requests}, loaded the document into an \emph{lxml.html} object and returned the contents of the \verb`<title>` element of the document or ``Failed'' if there was no title, or an \emph{Exception} was thrown.
 
+\paragraph{}
 Despite this process being unable to give a useful result, due to the title of the returned document having little to no bearing on whether or not that page is malicious, it served to both allow the system as a whole to operate and act as a template for other group members when developing parts of their code.
 
 \subsubsection{Creating A Demonstration}
-As part of the first presentation it was decided that a demo should be used to show how the project had developed.  In this demo the first approach was used to generate a JSON file representing the data that would be inserted into the database.
-
-While this approach is acceptable for a small number of tasks, the speed of operation when scanning many 
+As part of the first presentation it was decided that a demo should be used to show how the project had developed.  In this demo the first approach was used to generate a JSON file representing the data that would be inserted into the database.  While this approach is acceptable for a small number of tasks the requirement to block operation when waiting for each phase to complete is unacceptable in the final system, so the second callback oriented, asynchronous approach was used.
 
 \subsubsection{Considerations For ECS systems}
-Thanks to Celery the system can scale to very large clusters of machines, however the implementation used to test the system was the minimum required to demonstrate the ability to work over some number of machines: Two Virtual Machines, one controlling node hosting a RabbitMQ server and another purely worker node. While both machines are available as workers only the controlling node has access to the Django ORM Database.
+Thanks to Celery the system can scale to very large clusters of machines, however the implementation used to test the system was the minimum required to demonstrate the ability to work over some number of machines: Two Virtual Machines, one controlling node hosting a RabbitMQ server and another purely worker node.
