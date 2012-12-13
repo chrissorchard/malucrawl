@@ -50,18 +50,20 @@ Suppose x and y are two given strings, the Levenshtien distance between x and y 
 In the above definition, there are three cases corresponding to minimum. The first element is for deletion from x to y, the middle case is for insertion and the last element relates to whether x and y match or mismatch\cite{Levenshtein}.  
 
 For example, the Levenshtien distance between “http://www.bbc.co.uk/news/world/” and “http://www.bbc.co.uk/news/wales/” involves four steps before the first URL is converted to the second, as shown below:
-
-1-	(substitution of "a" for "o")
-http://www.bbc.co.uk/news/world/ -> http://www.bbc.co.uk/news/warld/
-
-2-	(deletion of “r”)
-http://www.bbc.co.uk/news/warld/ -> http://www.bbc.co.uk/news/wald/
-
-3-	(Insertion of “e” after “l”)
-http://www.bbc.co.uk/news/wald/-> http://www.bbc.co.uk/news/wale/
-
-4-	(Insertion of "s" at the end)
-http://www.bbc.co.uk/news/wale/ -> http://www.bbc.co.uk/news/wales/
+\begin{enumerate}
+\item 
+{\bf substitution of "a" for "o"}\\
+%http://www.bbc.co.uk/news/world/ \to http://www.bbc.co.uk/news/warld/ 
+\item
+{\bf deletion of “r” }\\
+%http://www.bbc.co.uk/news/warld/ \to http://www.bbc.co.uk/news/wald/
+\item
+{\bf Insertion of “e” after “l”}\\
+%http://www.bbc.co.uk/news/wald/ \to http://www.bbc.co.uk/news/wale/
+\item
+{\bf Insertion of "s" at the end}\\
+%http://www.bbc.co.uk/news/wale/ \to http://www.bbc.co.uk/news/wales/
+\end{enumerate}
 
 \paragraph{} 
 According to the Levenshtien distance, it is not possible to transform the first URL to the second one with fewer than four edits. The main advantage of using this method is that two URLs do not need to have the same number of characters. Hence, a URL with any structure is acceptable as an input for the classification. However, adapting the Levenshtien distance for pattern matching can reduce the speed of the system.
