@@ -4,9 +4,16 @@ The project can be split into four phases of operation, Trend Source Analysis, U
 This section of the report describes the design of a framework that connects those phases of operation together in a distributed manner.
 
 \subsubsection{Components}
-URL Discovery and Trend Analysis are both simpler phases and effect how data flows through the system and as such are discussed together in implementation part of this section. The design and implementation of the malware detection components are discussed later and each have their own section of the report.
+\paragraph{Trend Analysis}
+Each trend analysis phase should be able to query some external services and determine a set of keywords. These keywords can then be returned, to be expanded to URLs by the URL Discovery phase.
 
-%TODO explain the Search and Trend components.
+\paragraph{URL Discovery}
+The URL discovery phase is called with a keyword or trending topic from the Trend Analysis phase and should be able to determine URLs related to that keyword.
+
+This phase is therefore designed to emulate a user searching for pages given a keyword.
+
+
+% URL Discovery and Trend Analysis are both simpler phases and effect how data flows through the system and as such are discussed together in implementation part of this section. The design and implementation of the malware detection components are discussed later and each have their own section of the report.
 
 \paragraph{Malware Detection}
 The malware detection phase will accept a single URL, and optionally the keyword that resulted in the discovery of that URL, returning a confidence level that the URL resolved to malware.  This confidence can be combined with a static overall confidence level for the particular malware scanning method used.
