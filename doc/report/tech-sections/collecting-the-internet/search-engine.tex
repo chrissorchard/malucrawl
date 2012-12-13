@@ -1,8 +1,9 @@
-\paragraph{URL Discovery}
+\subsection{Design}
+\sbusbusection{URL Discovery}
 The URL discovery phase is called with a keyword or trending topic from the Trend Analysis phase and should be able to determine URLs related to that keyword.  Search engines are designed specifically for this task, as such this Task should is designed to query a search engine to determine a set of pages related to those URLs. This phase is therefore designed to emulate a user searching for pages given a keyword.
 
-\paragraph{implementation}
-\subparagraph{Dogpile}
+\subsection{Implementation}
+\subsubsection{Dogpile}
 Each of the popular search engine like the Google Search, Yahoo Search and Microsoft Bing search engines employ techniques to prevent the scraping of their results because of the commercial interest to keep those results proprietary so as to gain advertising revenue.
 
 Instead meta-search engine Dogpile was used, Dogpile obtains results from Google and Yahoo and provides those same results in very simple to screen-scrape HTML\cite{screen-scrape}:
