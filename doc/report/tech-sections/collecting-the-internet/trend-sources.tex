@@ -1,4 +1,4 @@
-\paragraph{Trend Analysis}
+\subsection{Design}
 Each trend analysis phase should be able to query some external services and determine a set of keywords. These keywords can then be returned, to be expanded to URLs by the URL Discovery phase.
 
 Libraries available that will be useful include:
@@ -10,9 +10,9 @@ Libraries available that will be useful include:
 
 Trend sources to be used are Twitter Trending Topics API, RSS Feeds and Trends from the Sun JSON Feed.
 
-It is important to note that further possibilities for keyword determination should be researched. The sources suggested here are the ones I think will be the easiest to interface to, but might not be the sources malware distribution networks actually use!
+It is important to note that further possibilities for keyword determination should be researched. The sources suggested here are the ones I think will be the easiest to interface to, but might not be the sources malware distribution networks actually use.
 
-\paragraph{Twitter}
+\subsubsection{Twitter}
 The twitter api is available in multiple versions, 1 and 1.1. Currently 1 is deprecated and it is recommended that new applications build against 1.1.  The disadvantage of the 1.1 API is that it requires a ``User Context'', ie all requests must be authenticated based on Application-User key.
 
 The Twitter API provides access to global trending topics at
@@ -37,10 +37,10 @@ Each item from a feed should be entered into a corpus, to calculate keywords fro
 
 Note that each feed can be processed separately. Ie one corpus per feed.
 
-\subsubsection{A note on the Sun}
+\subsubsection{The Sun JSON API}
 The Sun provides a JSON API for the top 200 most commented on articles at \verb`http://bootstrap.thesun.fyre.co/api/cust/ni/todays_hottest/200.json`. In most cases the content of this JSON file can be treated exactly the same as an RSS feed however care should be taken to deal with the dodgy encoding of some of the returned headlines: ``Terry a â\\u0080\\u0098liarâu\\0080\\u0099'' should be ``Terry a \"liar\"''.
 
-\subsubsection{Even More Sources}
+\subsubsection{Alternative Sources}
 Examples include:
 \begin{itemize}
     \item Link aggregation sites such as Reddit and Digg.
