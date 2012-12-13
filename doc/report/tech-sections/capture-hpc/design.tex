@@ -8,7 +8,7 @@ Capture-HPC is designed as a client honeypot, where in contrast to the usual and
 more common form of passive honeypots that simply wait for incoming attacks,
 goes out and requests content from the Internet and attempts to detect any
 malicious actions performed by the content. Capture-HPC was developed at Victoria
-University in Wellington NZ and is maintained be the HoneyNet project(CITE).
+University in Wellington NZ and is maintained be the HoneyNet project\cite{honeynet}.
 
 \subsubsection{Capture-HPC in Detail}
 
@@ -65,7 +65,7 @@ relational database if one is configured. URLs can be inserted into the
 database, and when the server is run, the URLs are annotated with the results of
 the scanning, with additional detail stored in other tables.
 The use of a MySQL table for a queue
-could be considered an anti-pattern as discussed in (CITE), but is the best of
+could be considered an anti-pattern as discussed in \cite{anti-queue}, but is the best of
 the options available for providing Capture-HPC with data, and retrieving the
 results, presenting an easiliy accessible interface for framework components to
 integrate with wither locally or remotely. Unfortunately the Capture-HPC server
