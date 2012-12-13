@@ -1,59 +1,55 @@
 
 \section{ClamAV Malware Scan}
 In order to fully identify the existence of malware inside a webpage, a 
-signiture based malware detection method must be implemented in our system. 
-The most obvious approach is to add anti-virus software to the scanning system 
+signature based malware detection method must be implemented in the system. 
+The most obvious approach was to add anti-virus software to the scanning system, 
 in order to enable the classification of URLs and files with non-HTML contents, such 
-as binary files and scripts. Therefore we decide to use ClamAV as a step in 
-scanning for this purpose, which is also a low interaction malware detection 
-method. 
+as binary files and scripts. Therefore ClamAV was used as a step in scanning for this purpose, which is also a low interaction malware detection 
+method.
 
 \subsection{Design}
 \subsubsection{Introduction to ClamAV}
-ClamAV is an open source anti-virus software developed for UNIX, and is also 
-available to Linux systems. It has a command-line scanner with open access 
-signatures database, where the anti-virus engine is also in a shared library. 
+ClamAV is an open source anti-virus software developed for UNIX, and is 
+available to Linux systems. It has a command-line scanner with an open access 
+signature database, where the anti-virus engine is in a shared library. 
 The software provides both on-demand and on-access scanning on Linux systems, 
 where on-access scanning is achieved with a scalable multi-threaded daemon. 
-It also has a wide support for various file formats, including almost all 
+It also has wide support for various file formats, including almost all 
 popular compressed files, emails and documents. \\
-A report in 2011 regarding the overall rating of ClamAV states that it has a 
-ranking of 12 among all publicly released anti-virus 
+A report in 2011 rated ClamAV 12th among all publicly released anti-virus 
 applications,\cite{shandowserver} where the most impressive part is its fast 
-response time and scanning speed. We believe this is a key feature we should 
-make use of due to the purpose of our system. The processing of our large URL
+response time and scanning speed. This is a key feature that is particularly useful for the purpose of the system. The processing of large URL
 datasets requires considerable computing power, where the scanning process 
 occupies most of it. \\
 ClamAV also has a third party Python API known as pyClamAV. It is a free 
 library implemented in C and binds to the ClamAV's own API, libClamAV. However 
-the newest version moved its focus to pyClamd, which is an interface to Clamav 
-daemon instead of libClamAV, due to that latest updates in ClamAV removed some 
-key APIs in libClamAV. \\
-Overall, the conclusion we made is to use ClamAV instead of any other 
-anti-virus software due to following reasons: 
+the newest version has moved its focus to pyClamd, which is an interface to Clamav 
+daemon instead of libClamAV. Due to the latest updates to ClamAV, some 
+key APIs were removed from libClamAV. \\
+Overall, the conclusion made was to use ClamAV over other 
+anti-virus software for the following reasons: 
 \begin{itemize}
-\item Open source.
-\item Large signiture database and high detection rate.
-\item Linux compatible. 
-\item Python compatible. 
-\item Wide support for various file types. 
-\item Fast response time and scanning speed. 
+\item Open source
+\item Large signiture database and high detection rate
+\item Linux compatible
+\item Python compatible
+\item Wide support for various file types
+\item Fast response time and scanning speed
 \end{itemize}
 
 \subsubsection{ClamAV with HTML crawler}
-We build a program to download URLs and perform static analysis, which 
-conforms to the term --- low interaction. The given URL should always contain 
-a HTML file, and after virus scan the program crawls it in order to extract links to pages 
+A program was built to download URLs and perform static analysis conforming to the term --- low interaction. The given URL should always contain 
+an HTML file, and after the virus scan the program crawls it in order to extract links to pages 
 under the website. After that the extracted links are again downloaded and 
-scanned with ClamAV. This time the file types are uncertain, therefore we give 
-the program a max file size to download as well as a time limit in case of 
-slow or broken connection. This is a vital step to avoid huge files such as 
-high definition videos as well as those does not give file length, for example, an 
-infinite length radio stream. \\
-We ignore links to other domains, for the reason that only the investigation 
+scanned with ClamAV. This time the file types are uncertain, therefore the program was given a max file size to download as well as a time limit in case of a 
+slow or broken connection. This is a vital step to avoid downloading huge files such as 
+high definition videos as well as without a file length, for example, a live radio stream.
+
+Links to other domains are ignored, because only the investigation 
 of the given URL's domain is concerned. Duplicate links are removed, and the 
 program avoids downloading the same page twice or more, as the root page needs 
-to be processed twice: once for crawling and once for virus scan. \\
+to be processed twice: once for crawling and once for virus scan.
+
 Every ClamAV scan is performed by a separate Celery task, which means the 
 number of tasks should be $n+1$ where n is the number of links interested and 
 the other time is for the root page.  
@@ -62,43 +58,50 @@ the other time is for the root page.
 \subsubsection{Libraries}
 The following libraries are used in this Python application:
 \begin{itemize}
-\item {\bf pyClamd}\\This is the ClamAV daemon library used for URL content 
-scanning. Compared to ordinary Clamav, a daemon is faster and 
+\item {\bf pyClamd} This is the ClamAV daemon library used for URL content 
+scanning. Compared to ordinary ClamAV, a daemon is faster and 
 multi-threaded. It listens on Unix local socket or TCP socket to work, which 
-means it supports remote scanning. However in our system only local socket is 
+means it supports remote scanning. However in the program only local socket is 
 used as remote scanning is not necessary. 
-\item {\bf requests}\\The network library used for HTTP enqueries. In this 
+
+\item {\bf requests} The network library used for HTTP inquiries. In the 
 program it is used for downloading the root HTML page as well as links inside 
 of it. 
-\item {\bf lxml.html}\\lxml is a XML toolkit works for Python, it creates a 
+
+\item {\bf lxml.html} lxml is a Python XML library, it creates a 
 binding to the C libraries libxml2 and libxslt.\cite{lxml} lxml.html is a 
-package specifically designed for HTML parsing, it acts as a HTML crawler 
+package specifically designed for HTML parsing, and acts as an HTML crawler 
 which extracts links. 
-\item {\bf eventlet.timeout}\\Eventlet is a Python library that enables 
-concurrent networking. The $timeout$ package provides an universal timeout 
-solution achieved with green threads, it is this package makes the time limit 
-for downloads realisable. 
+
+\item {\bf eventlet.timeout} Eventlet is a Python library that enables 
+concurrent networking. The $timeout$ package provides a universal timeout 
+solution achieved with green threads, and it is this package that makes the time limit 
+for downloads realizable. 
 \end{itemize}
+
 \subsubsection{Program implementation}
 The program flow is explained as following:
 \begin{enumerate}
-\item A Celery task is created with the crawler function given an URL as 
-parameter, the URL is then downloaded via requests. 
-\item the HTML parser parses the downloaded content as a HTML file, then makes 
+\item A Celery task is created with the crawler function given a URL as a 
+parameter. The URL is then downloaded via requests. 
+
+\item The HTML parser parses the downloaded content as an HTML file, then makes 
 all links in it absolute, which is achieved with the base URL provided. 
+
 \item All links are extracted with the library function {\em html.iterlinks()}, 
 results are returned as a list for easy manipulation. Thus duplicate links and 
 those with different domain names are removed.
-\item For each link we call the download function with a separate Celery 
-task. A get request which only 
-aquires HTTP headers is sent, such that the file size can be determined by the 
-{\em content-length} field. If the file length is within limit, just before 
-the download begins a green thread with {\em Timeout} is created which throws 
-an exception if download time exceeds. Zero is returned if any exception 
+
+\item For each link the download function is called with a separate Celery 
+task. A get request which only acquires HTTP headers is sent, such that the file size can be determined by the 
+{\em content-length} field. If the file length is within a limit, just before 
+the download begins a green thread with a {\em Timeout} is created which throws 
+an exception if the download time is too great. Zero is returned if any exception 
 occurs before or during downloading, which includes but not limited to request 
 exceptions (such as error response code) and time outs. After successful 
 downloading a clamd scan to the content is called, the return value should be 
-either {\em None} or virus description message. 
+either {\em None} or the virus description message. 
+
 \item The final list of malware detected is merged by the results 
 returned from the scan results of all downloaded links as well as the root 
 page, which returns to the main system.  
