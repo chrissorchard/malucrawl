@@ -12,7 +12,6 @@ The results from the five malware scanners along with the associated confidence 
  
 The classification unit is where the data clustering is performed. Initially, the plan was to employ the machine learning methods in the classification algorithm. The most popular machine learning methods for clustering are; Naïve Base, Support Vector Machine (SVM) and Decision Tree. Employing the machine learning methods requires a predefined dataset to build the training and learning dataset. Therefore, any unknown URL can be identified based on the learning data. According to the observation of the deSEO research and IMDS project, the results will be reliable and promising\cite{deseo}.
 However, despite the initial plan and advantage of using machine learning methods for the classification, it was not possible to apply such methods in this project for the following reasons:
-\paragraph{}
 \begin{enumerate} 
 \item The project is time limited 
 \item The result of malware scanner modules will not be available until the end of the project.
@@ -52,17 +51,17 @@ In the above definition, there are three cases corresponding to minimum. The fir
 For example, the Levenshtien distance between “http://www.bbc.co.uk/news/world/” and “http://www.bbc.co.uk/news/wales/” involves four steps before the first URL is converted to the second, as shown below:
 \begin{enumerate}
 \item 
-{\bf substitution of "a" for "o"}\\
-%http://www.bbc.co.uk/news/world/ \to http://www.bbc.co.uk/news/warld/ 
+{\bf substitution of `a' for `o'}\\
+\url{http://www.bbc.co.uk/news/world/} to \url{http://www.bbc.co.uk/news/warld/}
 \item
-{\bf deletion of “r” }\\
-%http://www.bbc.co.uk/news/warld/ \to http://www.bbc.co.uk/news/wald/
+{\bf deletion of `r' }\\
+\url{http://www.bbc.co.uk/news/warld/} to \url{http://www.bbc.co.uk/news/wald/}
 \item
-{\bf Insertion of “e” after “l”}\\
-%http://www.bbc.co.uk/news/wald/ \to http://www.bbc.co.uk/news/wale/
+{\bf Insertion of `e' after `l'}\\
+\url{http://www.bbc.co.uk/news/wald/} to \url{http://www.bbc.co.uk/news/wale/}
 \item
-{\bf Insertion of "s" at the end}\\
-%http://www.bbc.co.uk/news/wale/ \to http://www.bbc.co.uk/news/wales/
+{\bf Insertion of `s' at the end}\\
+\url{http://www.bbc.co.uk/news/wale/} to \url{http://www.bbc.co.uk/news/wales/}
 \end{enumerate}
 
 \paragraph{} 
