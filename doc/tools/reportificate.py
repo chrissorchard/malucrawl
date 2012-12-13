@@ -136,11 +136,19 @@ data = {}
 filecount = {}
 
 sortcommits = sorted(
-        itertools.chain.from_iterable(commits_generator()),
-        key=lambda x: dateutil.parser.parse(x["commit"]["committer"]["date"]))
+    itertools.ifilter(
+        lambda x: True if x["committer"] is not None else False,
+        itertools.chain.from_iterable(commits_generator())
+    ),
+    key=lambda x: dateutil.parser.parse(x["commit"]["committer"]["date"])
+)
 
-for commit in sortcommits:
-    print commit["sha"]
+print sortcommits
+
+for commit_number, commit in enumerate(sortcommits):
+    print (commit_number, commit["sha"])
+    if commit["sha"] == "[":
+        print commit
     oldcount = deepcopy(filecount)
 
     rc = requests.get(commit["url"], auth=(username, password))
@@ -167,14 +175,19 @@ for commit in sortcommits:
         #print lines_result2
     #    raise
     except KeyError:
+        print commit
+        print rc.json
         raise
 
     #TODO: sum file changes
     changes = sum(filecount.values()) - sum(oldcount.values())
 
-    dt = dateutil.parser.parse(commit["commit"]["committer"]["date"])
-    data[commit["sha"]] = commit["author"]["login"], dt, changes
-
+    try:
+        dt = dateutil.parser.parse(commit["commit"]["committer"]["date"])
+        data[commit["sha"]] = commit["author"]["login"], dt, changes
+    except TypeError:
+        print commit
+        raise
     #print data[commit["sha"]]
     #print json.dumps(rc.json, sort_keys=True, indent=2)
 
