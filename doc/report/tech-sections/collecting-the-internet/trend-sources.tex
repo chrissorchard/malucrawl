@@ -5,7 +5,7 @@ Trend Analysis Tasks should be implemented to take advantage of multiple differe
 Sources that the system will use include the Twitter Trending Topics API, RSS Feeds and trends from derived from the Sun JSON Feed.
 
 \subsubsection{Twitter}
-The Twitter API is available in multiple versions, 1 and 1.1. Currently 1 is deprecated and it is recommended that new applications build against 1.1.  The disadvantage of the 1.1 API is that it requires a ``User Context'', ie all requests must be authenticated based on Application-User key.
+The Twitter API is available in multiple versions, 1 and 1.1. Currently 1 is deprecated and it is recommended that new applications build against 1.1.  The disadvantage of the 1.1 API is that it requires a ``User Context'' so all requests must be performed as an authenticated user.This requires both a Twitter User and Application OAuth token.
 
 \paragraph{}
 As part of the Twitter API access to global trending topics is made available at a JSON endpoint\footnote{\url{https://api.twitter.com/1.1/trends/place.json}}. This is possible to parse manually but a library should be chosen to handle the interaction and authentication instead.
@@ -17,7 +17,7 @@ Topics with a pound sign ``\#'' as the first character are Twitter ``hashtags'' 
 In the case of all capitals eg ``NIALLSAYHITOTURKEY'' an entirely lowercase keyword should be derived.
 
 \subsubsection{RSS}
-A set of RSS feeds should be collected and parsed, ``feedparser'' is likely to be useful for this.  Each item from a feed should be entered into a corpus, to calculate keywords from items in the corpus algorithms such as TFIDF should be used. The natural language library ``metanl'' is likely to be helpful. Note that each feed can be processed separately. Ie one corpus per feed.
+A set of RSS feeds should be collected and parsed, ``feedparser'' is likely to be useful for this.  Each item from a feed should be entered into a corpus, to calculate keywords from items in the corpus algorithms such as TFIDF should be used. The natural language library ``metanl'' is likely to be helpful. Note that each feed can be processed separately with one corpus per feed.
 
 \subsubsection{The Sun JSON API}
 The Sun provides a JSON API for the top 200 most commented on articles\footnote{\url{http://bootstrap.thesun.fyre.co/api/cust/ni/todays_hottest/200.json}}. In most cases the content of this JSON file can be treated in exactly the same way as an RSS feed however care should be taken to deal with the strange encoding of some of the returned headlines: \verb`Terry a â\u0080\u0098liarâu\u0080\u0099` should be \verb`Terry a "liar"`.
