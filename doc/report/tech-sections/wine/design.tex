@@ -1,39 +1,39 @@
-\section{Wine Based Malware Scanner}
+\section{High interaction malware detection with Wine}
 \subsection{Design}
-In this section we discuss one of our high interaction malware detection 
-approach in details. High interaction requires completely functionable systems 
+This section details one of the high interaction malware detection 
+approaches used in the system. High interaction requires completely functional systems 
 and realistic user interaction with the target malicious websites, which means 
-it will certainly consume more system resources and demands more complicated 
-framework compared to low interation and no interaction methods. The major 
-feature of this approach is the capability of detecting unknown malicious 
-actions. In this project we developed our own system called Wine Explorer 
-which complys this approach. It uses Wine as a compatibility layer to run 
-Internet Explorer 6 in our Linux environment and is capable to scan for 
+it consumes more system resources and demands a more complicated 
+framework compared to low interaction and no interaction methods. The major 
+feature of this approach is capability to detect unknown malicious 
+actions. This project has a system called Wine Explorer, 
+which is typical of a high interaction approach. It uses Wine as a compatibility layer to run 
+Internet Explorer 6 in a Linux environment and is capable of scanning for 
 possible file operations performed by malicious websites. 
 
 \subsubsection{Wine Is Not an Emulator}
 Wine is a widely used free software which acts as a compatibility layer 
 capable of running Windows applications on non-Windows operating 
-systems.\cite{wikiwine} Not like virtual machines and emulators which simulate 
+systems.\cite{wikiwine} It us unlike virtual machines and emulators which simulate 
 internal Windows logic, ``Wine translates Windows API calls into POSIX calls 
 on-the-fly, eliminating the performance and memory penalties of other methods 
 and allowing you to cleanly integrate Windows applications into your 
-desktop.''\cite{aboutwine} Hence the acronym Wine stands for ``Wine Is Not an 
-Emulator''. The fact is that Wine is able to run most Windows applications 
-without any performance drop as long as there is no performance related bugs, 
-especially for 2D applications. Although technically say, Wine requires an 
-extra layer on the top of the system, there is no differences to programs that 
-uses extra libraries. An exact example of such software is the compatibility 
-mode in new versions of Windows for running legacy 
-software.\cite{wineperformance} \\
-Wine is definitely better than conventional virtual machines as well in terms 
+desktop.''\cite{aboutwine} Originally a ``backcronym'' WINE stood for ``Wine Is Not an 
+Emulator''. Wine is able to run most Windows applications 
+without any performance drop as long as there are no performance related bugs, 
+especially for 2D applications. Whilst Wine is an 
+extra layer on the top of the system, there is no difference to programs that 
+uses extra libraries. An example of such software is the compatibility 
+mode in newer versions of Windows designed for running legacy 
+software.\cite{wineperformance}
+
+Wine has advantages over conventional virtual machines particularly in terms 
 of working with web browsers. Although 
 virtual machines have advantages in simulating programs which give more 
-realistic environments, they are certainly not resource saving. In most of the 
-case, a virtual machine consumes significantly more memory, disk space and 
-CPU, as it needs to simulate the whole operating system instead of a single 
-program like Wine does. Wine treats Windows applications as first-class 
-citizens, which run at full speed.\cite{wineperformance} \\
+realistic environments, they use additional resources. In most cases, a virtual machine consumes significantly more memory, disk space and 
+CPU, as it needs to simulate the whole operating system instead of a providing a layer to a program. Wine treats Windows applications as first-class 
+citizens, which run at full speed.\cite{wineperformance}
+
 Wine uses a working directory as a complete Windows system which stores all 
 information about the specific system's configurations and files in its virtual 
 hard drive. Moreover, the active working directory is known as the Wine prefix. 
