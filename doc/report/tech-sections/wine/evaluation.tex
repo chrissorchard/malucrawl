@@ -7,9 +7,9 @@ a virtual machine or emulator require. The applications run by Wine are also
 treated as first class citizens such that permissions for them are not 
 restricted. The creation of a Wine prefix is also impressively fast, which 
 means the overhead for honeypot reset is also minimal. \\
-However disadvantages still exists. We explained that we treat a Wine prefix 
+However disadvantages still exists. We explained that the Wine prefix is treated
 as a sandbox, and the reason is almost all Windows applications do not operate 
-with Linux environment. Imaging if attackers predicted our Wine Explorer 
+with Linux environment. Imaging if attackers predicted the Wine Explorer 
 environment, then they could easily develop Windows applications which inject 
 Linux shell commands, which means, they will have access to the file system 
 outside of Wine prefix. Also, the suspicious behaviour detection functions of 

@@ -3,35 +3,26 @@ The program's individual functions were tested separately. The sequence of
 testing was as following:
 \begin{enumerate}
 \item Downloading and parse of HTML.
-
 \item Extraction of links and make them absolute.
-
 This is tested by printing all links as absolute from a given HTML and check 
 manually.
-
 \item Removal of duplicate link and those links to other domains.
-
 \item Downloading of an arbitrary URL.
-
 This function was tested by downloading testing websites such as
-
 \verb`http://www.thinkbroadband.com/download/`
-
 The tests with various file 
 sizes passed without errors and those links that exceeded the size or time limits are 
 ignored. 
-
 \item Clamd scan of the downloaded contents. 
 \end{enumerate}
 After that the whole program was tested with benign websites which provide 
 testing for various viruses. These files used for testing were not real viruses however anti-virus packages recognize these signatures 
 as part of their test suite. 
-
 One of the websites used was Eicar (
 \verb`http://www.rexswain.com/eicar.html`). This website provides a small test 
 virus in three compressed levels: plain text, zipped and double-zipped, with 
 download links in the same page. The results obtained after 
-crawling the webpage are presented below:
+crawling the web page are presented below:
 \begin{verbatim}
 [('http://www.rexswain.com/eicar.com', 
 {'stream': ('FOUND', 'Eicar-Test-Signature')}), 

@@ -14,7 +14,7 @@ possible file operations performed by malicious websites.
 \subsubsection{Wine Is Not an Emulator}
 Wine is a widely used free software which acts as a compatibility layer 
 capable of running Windows applications on non-Windows operating 
-systems.\cite{wikiwine} It us unlike virtual machines and emulators which simulate 
+systems.\cite{wikiwine} It is unlike virtual machines and emulators which simulate 
 internal Windows logic, ``Wine translates Windows API calls into POSIX calls 
 on-the-fly, eliminating the performance and memory penalties of other methods 
 and allowing you to cleanly integrate Windows applications into your 
@@ -26,39 +26,37 @@ extra layer on the top of the system, there is no difference to programs that
 uses extra libraries. An example of such software is the compatibility 
 mode in newer versions of Windows designed for running legacy 
 software.\cite{wineperformance}
-
 Wine has advantages over conventional virtual machines particularly in terms 
 of working with web browsers. Although 
 virtual machines have advantages in simulating programs which give more 
 realistic environments, they use additional resources. In most cases, a virtual machine consumes significantly more memory, disk space and 
 CPU, as it needs to simulate the whole operating system instead of a providing a layer to a program. Wine treats Windows applications as first-class 
 citizens, which run at full speed.\cite{wineperformance}
-
 Wine uses a working directory as a complete Windows system which stores all 
 information about the specific system's configurations and files in its virtual 
 hard drive. Moreover, the active working directory is known as the Wine prefix. 
-One of our discoveries about Wine is that the creation of Wine prefix is 
+One of the discoveries about Wine is that the creation of Wine prefix is 
 lightweight and resource saving compared to that of a virtual machine or
 emulator, while the Wine prefix itself also conforms to the nature of a 
 sandbox to some extent, which means almost all kind of behaviours performed 
 by programs inside the Wine prefix cannot affect the underlying system. 
 Although there is a potential threat that is the unrestricted permissions 
 for applications in Wine prefix, which by default exposes the root file 
-system to them, we still conclude Wine is a suitable tool for creating a 
-client honeypot in high interaction malware detection. \\
+system to them, the conclusion is still that Wine is a suitable tool for creating a 
+client honeypot in high interaction malware detection. 
 
 \subsubsection{Execution Flow}
 Wine Explorer is a straightforward program, and the following graph 
 illustrates the execution flow of detecting a single URL. \\
 % Flow chart here
-With Wine Explorer we open the URLs given by the URL classifier (introduced 
-previously) with the specific instance of Internet Explorer inside the Wine 
+With Wine Explorer URLs given by the URL classifier (introduced 
+previously) are opened with the specific instance of Internet Explorer inside the Wine 
 prefix. 
-Those URLs are said to be strongly suspecious of containing malware and are 
+Those URLs are said to be strongly suspicious of containing malware and are 
 supposed to be investigated in depth. 
-In order to speed up Wine prefix creation, we pack a clean Wine prefix with 
-Internet Explorer 6 installed. Therefore whenever a new Wine prefix is needed, 
-we just unpack it to a desired location. 
+In order to speed up Wine prefix creation, a clean Wine prefix packed with 
+Internet Explorer 6 is prepared. Therefore whenever a new Wine prefix is needed, 
+the only process is to unpack it to a desired location. 
 The package's SHA-256 hash is calculated and stored in Wine Explorer such that 
 its validity can be ensured. 
 The package is then uploaded into a web drive and can be downloaded in 
@@ -69,13 +67,13 @@ After an execution is completed a scan is performed to check file system
 modifications inside that Wine prefix. 
 Due to various reasons the file system might have changes performed by normal 
 operations such as cache files. 
-Therefore at this step we provide a white list that describes the kind of 
-files that should be ignored, which is applied to filter the results. 
+Therefore at this step a white list is provided, which describes the kind of 
+files that should be ignored. It is then applied to filter the final results. 
 The results are then returned to the main system and the temporary Wine 
 prefixes after scanning should be removed in order to save disk space. 
 
 \subsection{Implementation}
-We use Python to implement this program just as other parts of our project. 
+Python is used to implement this program just as other parts of this project. 
 In the program an instance of Wine prefix running Internet Explorer, which is called 
 a WineBrowser, is a threaded class manages all operations with a single 
 given URL. This is how the program work in details:
@@ -99,8 +97,8 @@ list is included in the appendix TODO.
 \item \verb`WineBrowser.close()`\\
 The temporary directory is removed. 
 \end{enumerate}
-We choose 30 seconds as the waiting interval is because of possible network 
-latency and long computing time. Any webpages take more than 30 seconds to 
+30 seconds is chosen as the waiting interval is because of possible network 
+latency and long computing time. Any web pages take more than 30 seconds to 
 load will be discarded as if not they will significantly lower the system's 
 throughput. \\
 The main system runs WineBrowser instances with Celery, one per task, in order 
