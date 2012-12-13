@@ -3,6 +3,7 @@
 *.pyc
 *.~vsd
 *.*#
+cifs*
 *.*~
 local_settings.py
 dp.sqlite3
