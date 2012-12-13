@@ -2,60 +2,56 @@
 
 Malware is now an international word, which gained prominence following the
 creation and development of the internet. There are many definitions of
-malware. Malware is often defined as a short form of malicious software that
-contains malicious programs such as computer viruses and worms. With the
+malware. Malware is often defined as a short form of malicious software 
+containing malicious programs such as computer viruses and worms. With the
 increasing sophistication of malware attacks and their potential for causing
-major damage and disruption, there is an increasing need for the development of
-sophisticated malware detectors\cite{Malware-tech}.
+major damage and disruption, there is an ongoing need for the development of
+more advanced malware detectors\cite{Malware-tech}.
 
 \subsection{Malware Detection: Approaches}
 
 Malware detectors employ a variety of malware detection techniques depending on
-the type of malware being addressed. In general, malware detection techniques
+the type of malware being targetted. In general, malware detection techniques
 can be classified into two groups: the first group is heuristic-based (or
 anomaly-based) detection that defines normal behaviour in order to determine
 the maliciousness of the software. The second group is signature-based
-detection that compares the content to the code signature of known malware in
+detection that compares the code content to the code signature of known malware in
 order to decide the maliciousness of a program under inspection. However,
 current detection techniques that are based on known malware are unable to
-detect a malcode unless it has been executed. Therefore, not all malwares can
-be detected by these two techniques alone. Hence, it is crucial to consider how
+detect a malcode unless it has been executed. Hence, not all malwares can
+be detected by these two techniques alone. Therefore, it is crucial to consider how
 we can extend the available detection tools by designing and developing a
 detection system capable of detecting other unknown
 malwares\cite{Malware-tech}.
  
 
 In recent years, machine learning methods were introduced to the malware
-detection systems to extend the awareness of heuristic-based methods. The
+detection systems to extend the effectiveness of heuristic-based methods. The
 classification algorithm is one of the standard methods in machine learning
 that could solve the problem of detecting unknown malwares\cite{Machin-lear}.
 The idea of classification algorithm is based on pattern matching. The
 classifier contains a set of learnt patterns and decides the maliciousness of
-an unknown program by comparing to these patterns. The learnt pattern set is as
+an unknown program by comparing to these learnt patterns. The learnt pattern set is as
 a result of applying learning methods on a training set that contain instances
 of both malicious and benign files. A recent study on integrating machine
 learning methods with heuristic-base methods produced positive results in
-detecting new malware\cite{Machin-lear}.  The file representation and feature
+detecting new malware\cite{Machin-lear}. The file representation and feature
 selection methods are other machine learning techniques that greatly improve
 the result of malware detection systems. The latter method is concerned with
-patterns used for demonstrating executable files while the former tries to
+patterns used for demonstrating executable files while the former seeks to
 decrease the dimensionality of patterns that appear in the
 file\cite{Machin-lear}.
 
 Polymorphic viruses are a complex type of malware that many widely used malware
-detection software will fail to recognise because malware detection software
-tends to employ Heuristic-based and signature-based algorithms. There are
-drawbacks to using signature-based methods because they are expensive and also
+detection software will fail to detect because such malware detection software
+tends to employ Heuristic-based and signature-based algorithms. Furthermore, the
+drawbacks to using signature-based methods are that they are expensive and also
 slow.  The recently designed system called Intelligent Malware Detection System
 (IMDS) is capable of recognising both polymorphic and previously unseen
-malicious executable (new malware). IMDS uses data mining based classification
-method. The evaluation and experimental results of the IMDS illustrates its
-high performance against some anti-virus software such as McAfee virus scan.
-The architecture of the IMDS system includes three main modules; the parser,
-the rule generator and the malware detection part\cite{IMDS}.
+malicious executable (new) malware. The evaluation and experimental results of the IMDS illustrated its high performance compared with some anti-virus software such as McAfee virus scan. IMDS uses data mining based classification method and the architecture of the IMDS system includes three main modules; the parser,the rule generator and the malware detection part\cite{IMDS}.
 
 One of the most commonly used formats for reading documents is PDF. Therefore,
-it is likely that an attacker uses PDF files for malicious purposes. Also, it
+it is likely that an attackers use PDF files for malicious purposes. Also, it
 is important to note the structure of PDF documents, which is made up of a
 sequence of flexible dictionary objects. This flexibility makes PDF files more
 attractive for an attacker because they can host a variety of applications such
@@ -84,7 +80,7 @@ detector must be capable of detecting unknown malware as well as hidden
 malcode. However, malware writers analyse the techniques used in commercial
 malware scanners and attempt to produce new malware that can bypass the
 techniques adopted by such virus scanners. Therefore, an increase in unknown
-malware is at present innevitable\cite{vinod2009survey}.
+malware is, at present, innevitable\cite{vinod2009survey}.
 
 
 Another study performed on malware detection methods was called BINSPECT, which
@@ -99,7 +95,7 @@ from a given web page and the web page features were defined in three
 categories; features of URL, source code of webpage and social reputation
 features.  For the URL features, the structure of URL (for example, number of
 dots ‘.’) or the length of the URL string was analyzed. The results showed the
-most malicious URL has abnormal length. For the web page source code, an
+most malicious URL had an abnormal length. For the web page source code, an
 emulated browser was used to capture the obfuscated JavaScript. Some of the
 features considered in the web page sources code included the number of; lines,
 links and suspicious functions. The extracted features were then used to
@@ -108,6 +104,6 @@ classified by applying machine-learning methods such as Logistic Regression,
 SVM (Support Vector Machine) and Decision Tree\cite{eshete2012binspect}.  The
 paper concludes its proposed method is very effective in detecting a malicious
 webpage with an accuracy rate exceeding 97\% and that by adding the new
-features to the system its performance will significantly improve. However
+features to the system improved its performance significantly. However
 BINSPECT lacked the ability to analyse obfuscated
 JavaScript\cite{eshete2012binspect}. 
