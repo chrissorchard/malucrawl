@@ -46,7 +46,8 @@ applying regular expression substitution: \\
 \verb`re.sub(r'((?<=[a-z])[A-Z]|(?<!\A)[A-Z](?=[a-z]))',r' \1',camelCaseString)`
 \newline
 Before the conversion happens the keyword is also decoded into unicode. The 
-reason is that Celery does not support Python 2 strings which may lead to 
+reason is that Celery does not support Python 2 strings with non-ASCII characters
+which may lead to 
 crash when Celery is sending them to RabbitMQ. 
 \paragraph{}
 We also hard coded a list of famous news websites' RSS feed addresses in the 
@@ -54,7 +55,7 @@ program, the website list includes BBC, NewYork Times, Guardian, The Washington
 Post and so on. Our RSS parser downloads every feeds, parses them into list 
 then extracts news titles in them. Characters require encodings other than 
 UTF-8 are ignored. The downloading is achieved with requests and any network 
-errors will be handled gracefully. 
+errors will be handled in order to prevent system crash. 
 \paragraph{}
 The top 200 commented articles from Sun JSON API are handled in a similar way 
 as that of RSS feeds. Due to good compatibility between Python and JSON we 
