@@ -2,12 +2,12 @@
 Anti-virus scanning gives the system the ability to detect malicious 
 signature patterns in various file types that may exist in webpages. The 
 testing results proved the fast response and scanning speed of ClamAV. The 
-program returns an list of malware found in a particular website, and 
+program returns an list of malware found in a particular website and 
 is self-contained.
 
-However the design of this application is still far from perfect. One of the 
-defects is the exclusion of links to other domains. It might be too 
-decisive which is highly possible to miss malicious files. For example it is 
+A limitation 
+of this project is the exclusion of links to other domains. It might be too 
+decisive which is highly possible to miss malicious files, as it is 
 not rare to see a webpage contain a direct download link which points to a 
 virus executable hosted on another website that cannot be easily found by 
 a search engine. Apart from other disadvantages inherited from a low interaction 
