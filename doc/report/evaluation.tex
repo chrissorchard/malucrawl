@@ -8,7 +8,6 @@
 \input{tech-sections/wine/evaluation}
 
 \subsection{Capture-HPC}
-
 Although Capture-HPC is a very capable malware scanning component, there were
 numerous difficulties involved setting it up. Compiling the Windows kernel
 drivers for the client was a very complex process, but will need to be repeated
@@ -19,10 +18,15 @@ level of network security is maintained separating the hosts running the rest of
 the framework from the host running Capture-HPC.
 
 \subsection{Malware Lists}
-Although a very fast in terms on URLs scanned per second, the components of the system using Malware Lists give very limited results about those URLs. This is not a severe problem as the intention of these components is to avoid scanning high traffic, or high trustworthy sites such as Google or Wikipedia.
+Although very fast in terms of URLs scanned per second, the components of the system using Malware Lists give very limited results about those URLs. This is not a severe problem as the intention of these components is to avoid scanning high traffic, or high trustworthy sites such as Google or Wikipedia.
 
-Difficulties envolved with interacting with the counter-intuitive, and in some cases defective, Celery Batches API resulted in more time expended compared to that originally excpected. Fortuneatly it was possible to fix the issues resulting in a defective Batches API and submit those upstream.
+\paragraph{}
+Difficulties involved with interacting with the counter-intuitive, and in some cases defective, Celery Batches API resulted in more time expended compared to that originally expected. Fortunately it was possible to fix the issues resulting in a defective Batches API and submit those upstream.
 
 \subsection{Framework}
+The Framework for the system allowed the system to control multiple independent malware scanning systems.  The distributed framework is the best solution for the task as multiple systems can be scanning concurrently on a vast array of hardware. Celery allowed the framework to define Tasks and describe the way in which data must flow through the system: stating which Tasks depended on which other Tasks without directly exposing concepts of Queues and Locks.
+
+\paragraph{}
+However while the ability to distribute the system across multiple machines offered a significant performance benefit it also reduced the rate of development and caused difficulties during integration because multi-threaded programming concepts are generally counter-intuitive and difficult to reason about for those not used to the concept.
 
 
