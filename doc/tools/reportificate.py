@@ -135,11 +135,16 @@ def commits_generator():
 data = {}
 filecount = {}
 
+all_commits = list(itertools.chain.from_iterable(commits_generator()))
+
+for commit in all_commits:
+    if commit["committer"] is None:
+        commit["author"] = {
+            "login" : u"nafisehvahabi"
+        }
+
 sortcommits = sorted(
-    itertools.ifilter(
-        lambda x: True if x["committer"] is not None else False,
-        itertools.chain.from_iterable(commits_generator())
-    ),
+    all_commits,
     key=lambda x: dateutil.parser.parse(x["commit"]["committer"]["date"])
 )
 
