@@ -9,15 +9,17 @@
 import itertools
 import requests
 import getpass
-from urlparse import urljoin
 import tempfile
 import os
-from subprocess import PIPE, Popen
 import dateutil.parser
 import datetime
-from copy import deepcopy
-from xdg import BaseDirectory
 import percache
+
+from copy import deepcopy
+from contextlib import closing
+from xdg import BaseDirectory
+from subprocess import PIPE, Popen
+from urlparse import urljoin
 
 from link_header import parse_link_value
 
@@ -72,47 +74,6 @@ repo_url = "repos/chrissorchard/malucrawl/commits"
 commit_url = "repos/chrissorchard/malucrawl/commits/"
 status_url = "rate_limit"
 
-cache = percache.Cache(
-    os.path.join(BaseDirectory.save_cache_path("malucrawl_reportificate"), "cache")
-)
-
-
-@cache
-def lacount(count_url):
-    response = requests.get(count_url, auth=(username, password))
-
-    fd, fname = tempfile.mkstemp(prefix="gdp-")
-    os.close(fd)
-
-    with open(fname, 'w') as f:
-        f.write(response.content)
-        f.close()
-
-    cmd = os.path.join(os.getcwd(), "texcount.pl")
-
-    try:
-        p = Popen([cmd, "-1", "-sum", fname], stdout=PIPE)
-        all_result = p.communicate()[0]
-        lines_result = all_result.splitlines(False)
-        os.unlink(fname)
-
-        res = int(lines_result[0])
-
-    except ValueError:
-        return -1
-
-    return res
-
-
-def filefromraw(rawurl):
-    parts = rawurl.split('/')
-    return '/'.join(parts[-3:])
-
-
-username = raw_input("Username: ")
-#WARNING: password contains the password, do not print!!!
-password = getpass.getpass()
-
 
 def commits_generator():
     url = urljoin(github_url, repo_url)
@@ -137,70 +98,109 @@ def commits_generator():
             "Not found a next URL? Then the generator is empty"
             break
 
-data = {}
-filecount = {}
 
-all_commits = list(itertools.chain.from_iterable(commits_generator()))
+def filefromraw(rawurl):
+    parts = rawurl.split('/')
+    return '/'.join(parts[-3:])
 
-for commit in all_commits:
-    if commit["committer"] is None:
-        commit["author"] = {
-            "login": u"nafisehvahabi"
-        }
 
-sortcommits = sorted(
-    all_commits,
-    key=lambda x: dateutil.parser.parse(x["commit"]["committer"]["date"])
-)
+username = raw_input("Username: ")
+#WARNING: password contains the password, do not print!!!
+password = getpass.getpass()
 
-print sortcommits
+with closing(percache.Cache(
+    os.path.join(BaseDirectory.save_cache_path("malucrawl_reportificate"), "cache")
+)) as cache:
 
-for commit_number, commit in enumerate(sortcommits):
-    print (commit_number, commit["sha"])
-    if commit["sha"] == "[":
-        print commit
-    oldcount = deepcopy(filecount)
+    @cache
+    def lacount(count_url):
+        response = requests.get(count_url, auth=(username, password))
 
-    rc = requests.get(commit["url"], auth=(username, password))
-    try:
-        for changedf in rc.json["files"]:
-            fn = changedf["filename"]
-            if fn in report_files:
-                #print "I found: " + fn
-                if "removed" in changedf["status"]:
-                    filecount[fn] = 0
-                elif not changedf["sha"]:
-                    #print filecount
-                    filecount[fn] = filecount[filefromraw(changedf["raw_url"])]
-                    filecount[filefromraw(changedf["raw_url"])] = 0
-                else:
-                    filecount[fn] = lacount(changedf["raw_url"])
-                    if filecount[fn] == -1:
-                        filecount[fn] = oldcount[fn]
-    #except ValueError:
-    #    print json.dumps(rc.json, sort_keys=True, indent=2)
-        #print lines_result
-        #print lines_result2
-    #    raise
-    except KeyError:
-        print commit
-        print rc.json
-        raise
+        fd, fname = tempfile.mkstemp(prefix="gdp-")
+        os.close(fd)
 
-    #TODO: sum file changes
-    changes = sum(filecount.values()) - sum(oldcount.values())
+        with open(fname, 'w') as f:
+            f.write(response.content)
+            f.close()
 
-    try:
-        dt = dateutil.parser.parse(commit["commit"]["committer"]["date"])
-        data[commit["sha"]] = commit["author"]["login"], dt, changes
-    except TypeError:
-        print commit
-        raise
-    #print data[commit["sha"]]
-    #print json.dumps(rc.json, sort_keys=True, indent=2)
+        cmd = os.path.join(os.getcwd(), "texcount.pl")
 
-cache.close()
-#print data
+        try:
+            p = Popen([cmd, "-1", "-sum", fname], stdout=PIPE)
+            all_result = p.communicate()[0]
+            lines_result = all_result.splitlines(False)
+            os.unlink(fname)
+
+            res = int(lines_result[0])
+
+        except ValueError:
+            return -1
+
+        return res
+
+    data = {}
+    filecount = {}
+
+    all_commits = list(itertools.chain.from_iterable(commits_generator()))
+
+    for commit in all_commits:
+        if commit["committer"] is None:
+            commit["author"] = {
+                "login": u"nafisehvahabi"
+            }
+
+    sortcommits = sorted(
+        all_commits,
+        key=lambda x: dateutil.parser.parse(x["commit"]["committer"]["date"])
+    )
+
+    print sortcommits
+
+    for commit_number, commit in enumerate(sortcommits):
+        print (commit_number, commit["sha"])
+        if commit["sha"] == "[":
+            print commit
+        oldcount = deepcopy(filecount)
+
+        rc = requests.get(commit["url"], auth=(username, password))
+        try:
+            for changedf in rc.json["files"]:
+                fn = changedf["filename"]
+                if fn in report_files:
+                    #print "I found: " + fn
+                    if "removed" in changedf["status"]:
+                        filecount[fn] = 0
+                    elif not changedf["sha"]:
+                        #print filecount
+                        filecount[fn] = filecount[filefromraw(changedf["raw_url"])]
+                        filecount[filefromraw(changedf["raw_url"])] = 0
+                    else:
+                        filecount[fn] = lacount(changedf["raw_url"])
+                        if filecount[fn] == -1:
+                            filecount[fn] = oldcount[fn]
+        #except ValueError:
+        #    print json.dumps(rc.json, sort_keys=True, indent=2)
+            #print lines_result
+            #print lines_result2
+        #    raise
+        except KeyError:
+            print commit
+            print rc.json
+            raise
+
+        #TODO: sum file changes
+        changes = sum(filecount.values()) - sum(oldcount.values())
+
+        try:
+            dt = dateutil.parser.parse(commit["commit"]["committer"]["date"])
+            data[commit["sha"]] = commit["author"]["login"], dt, changes
+        except TypeError:
+            print commit
+            raise
+        #print data[commit["sha"]]
+        #print json.dumps(rc.json, sort_keys=True, indent=2)
+
+    #print data
 
 rstatus = requests.get(
         urljoin(github_url, status_url), auth=(username, password))
