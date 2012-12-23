@@ -162,9 +162,9 @@ with closing(percache.Cache(
             print commit
         oldcount = deepcopy(filecount)
 
-        rc = requests.get(commit["url"], auth=(username, password))
+        commit_details = requests.get(commit["url"], auth=(username, password)).json
         try:
-            for changedf in rc.json["files"]:
+            for changedf in commit_details["files"]:
                 fn = changedf["filename"]
                 if fn in report_files:
                     #print "I found: " + fn
@@ -179,13 +179,13 @@ with closing(percache.Cache(
                         if filecount[fn] == -1:
                             filecount[fn] = oldcount[fn]
         #except ValueError:
-        #    print json.dumps(rc.json, sort_keys=True, indent=2)
+        #    print json.dumps(commit_details, sort_keys=True, indent=2)
             #print lines_result
             #print lines_result2
         #    raise
         except KeyError:
             print commit
-            print rc.json
+            print commit_details
             raise
 
         #TODO: sum file changes
