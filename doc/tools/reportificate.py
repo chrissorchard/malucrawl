@@ -73,8 +73,6 @@ commit_url = "repos/chrissorchard/malucrawl/commits/"
 status_url = "rate_limit"
 
 
-
-
 def lacount(counttext):
     fd, fname = tempfile.mkstemp(prefix="gdp-")
     os.close(fd)
@@ -84,7 +82,7 @@ def lacount(counttext):
         f.close()
 
     cmd = os.path.join(os.getcwd(), "texcount.pl")
-    
+
     try:
         p = Popen([cmd, "-1", "-sum", fname], stdout=PIPE)
         all_result = p.communicate()[0]
@@ -108,9 +106,9 @@ username = raw_input("Username: ")
 #WARNING: password contains the password, do not print!!!
 password = getpass.getpass()
 
+
 def commits_generator():
     url = urljoin(github_url, repo_url)
-    first_page = True
     param = {
         'path': 'doc/report',
         'per_page': '100'
@@ -119,7 +117,7 @@ def commits_generator():
         r = requests.get(
             url,
             auth=(username, password),
-            params = param
+            params=param
         )
         yield r.json
 
@@ -140,7 +138,7 @@ all_commits = list(itertools.chain.from_iterable(commits_generator()))
 for commit in all_commits:
     if commit["committer"] is None:
         commit["author"] = {
-            "login" : u"nafisehvahabi"
+            "login": u"nafisehvahabi"
         }
 
 sortcommits = sorted(
