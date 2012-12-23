@@ -12,12 +12,12 @@ import getpass
 from urlparse import urljoin
 import tempfile
 import os
-import codecs
 from subprocess import PIPE, Popen
 import dateutil.parser
 import datetime
 from copy import deepcopy
-import json
+from xdg import BaseDirectory
+import percache
 
 from link_header import parse_link_value
 
@@ -72,7 +72,12 @@ repo_url = "repos/chrissorchard/malucrawl/commits"
 commit_url = "repos/chrissorchard/malucrawl/commits/"
 status_url = "rate_limit"
 
+cache = percache.Cache(
+    os.path.join(BaseDirectory.save_cache_path("malucrawl_reportificate"), "cache")
+)
 
+
+@cache
 def lacount(count_url):
     response = requests.get(count_url, auth=(username, password))
 
@@ -194,6 +199,7 @@ for commit_number, commit in enumerate(sortcommits):
     #print data[commit["sha"]]
     #print json.dumps(rc.json, sort_keys=True, indent=2)
 
+cache.close()
 #print data
 
 rstatus = requests.get(
