@@ -74,7 +74,7 @@ status_url = "rate_limit"
 
 
 def lacount(count_url):
-    response = requests.get(changedf["raw_url"], auth=(username, password))
+    response = requests.get(count_url, auth=(username, password))
 
     fd, fname = tempfile.mkstemp(prefix="gdp-")
     os.close(fd)
