@@ -14,6 +14,8 @@ import os
 import dateutil.parser
 import datetime
 import percache
+import keyring
+import httplib
 
 from copy import deepcopy
 from contextlib import closing
@@ -73,10 +75,35 @@ github_url = "https://api.github.com/"
 repo_url = "repos/chrissorchard/malucrawl/commits"
 commit_url = "repos/chrissorchard/malucrawl/commits/"
 status_url = "rate_limit"
+full_repo_url = urljoin(github_url, repo_url)
+
+
+def get_auth():
+    def check_auth(auth):
+        return requests.head(full_repo_url, auth=auth).status_code != httplib.UNAUTHORIZED
+
+    username = raw_input("Username: ")
+    password = keyring.get_password(github_url, username)
+
+    if password is None:
+        password = getpass.getpass()
+
+    while not check_auth((username, password)):
+        print "Authorization Failed"
+        username = raw_input("Username: ")
+        password = getpass.getpass()
+
+    keyring.set_password(github_url, username, password)
+
+    # the stuff that needs authorization here
+    print "Authorization successful."
+    return (username, password)
+
+auth = get_auth()
 
 
 def commits_generator():
-    url = urljoin(github_url, repo_url)
+    url = full_repo_url
     param = {
         'path': 'doc/report',
         'per_page': '100'
@@ -84,7 +111,7 @@ def commits_generator():
     while True:
         r = requests.get(
             url,
-            auth=(username, password),
+            auth=auth,
             params=param
         )
         yield r.json
@@ -104,21 +131,17 @@ def filefromraw(rawurl):
     return '/'.join(parts[-3:])
 
 
-username = raw_input("Username: ")
-#WARNING: password contains the password, do not print!!!
-password = getpass.getpass()
-
 with closing(percache.Cache(
     os.path.join(BaseDirectory.save_cache_path("malucrawl_reportificate"), "cache")
 )) as cache:
 
     @cache
     def get_commit_details(commit_url):
-        return requests.get(commit_url, auth=(username, password)).json
+        return requests.get(commit_url, auth=auth).json
 
     @cache
     def lacount(count_url):
-        response = requests.get(count_url, auth=(username, password))
+        response = requests.get(count_url, auth=auth)
 
         fd, fname = tempfile.mkstemp(prefix="gdp-")
         os.close(fd)
@@ -207,7 +230,7 @@ with closing(percache.Cache(
     #print data
 
 rstatus = requests.get(
-        urljoin(github_url, status_url), auth=(username, password))
+        urljoin(github_url, status_url), auth=auth)
 print rstatus.json
 
 
