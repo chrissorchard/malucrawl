@@ -73,12 +73,12 @@ commit_url = "repos/chrissorchard/malucrawl/commits/"
 status_url = "rate_limit"
 
 
-def lacount(counttext):
+def lacount(countdata):
     fd, fname = tempfile.mkstemp(prefix="gdp-")
     os.close(fd)
 
-    with codecs.open(fname, 'w', encoding='utf-8') as f:
-        f.write(counttext)
+    with open(fname, 'w') as f:
+        f.write(countdata)
         f.close()
 
     cmd = os.path.join(os.getcwd(), "texcount.pl")
@@ -169,7 +169,7 @@ for commit_number, commit in enumerate(sortcommits):
                     filecount[fn] = filecount[filefromraw(changedf["raw_url"])]
                     filecount[filefromraw(changedf["raw_url"])] = 0
                 else:
-                    filecount[fn] = lacount(rcf.text)
+                    filecount[fn] = lacount(rcf.content)
                     if filecount[fn] == -1:
                         filecount[fn] = oldcount[fn]
     #except ValueError:
