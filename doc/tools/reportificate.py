@@ -113,6 +113,10 @@ with closing(percache.Cache(
 )) as cache:
 
     @cache
+    def get_commit_details(commit_url):
+        return requests.get(commit_url, auth=(username, password)).json
+
+    @cache
     def lacount(count_url):
         response = requests.get(count_url, auth=(username, password))
 
@@ -162,7 +166,7 @@ with closing(percache.Cache(
             print commit
         oldcount = deepcopy(filecount)
 
-        commit_details = requests.get(commit["url"], auth=(username, password)).json
+        commit_details = get_commit_details(commit["url"])
         try:
             for changedf in commit_details["files"]:
                 fn = changedf["filename"]
