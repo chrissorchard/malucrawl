@@ -27,51 +27,7 @@ from link_header import parse_link_value
 
 from six.moves import configparser
 
-report_files = [
-    "doc/report/analysis.tex",
-    "doc/report/spec-cust.tex"
-    "doc/report/conclusion.tex",
-    "doc/report/description.tex",
-    "doc/report/control.tex",
-    "doc/report/problem-definition.tex",
-    "doc/report/evaluation.tex",
-    "doc/report/review.tex",
-    "doc/report/testing.tex",
-    "doc/report/Literature research.tex",
-    "doc/report/tech-sections/capture-hpc/design.tex",
-    "doc/report/tech-sections/capture-hpc/results.tex",
-    "doc/report/tech-sections/capture-hpc/testing.tex",
-    "doc/report/tech-sections/clam-av/design.tex",
-    "doc/report/tech-sections/clam-av/evaluation.tex",
-    "doc/report/tech-sections/clam-av/testing.tex",
-    "doc/report/tech-sections/clam-av/results.tex",
-    "doc/report/tech-sections/wine/design.tex",
-    "doc/report/tech-sections/wine/evaluation.tex",
-    "doc/report/tech-sections/wine/testing.tex",
-    "doc/report/tech-sections/wine/results.tex",
-    "doc/report/lit-review.tex",
-    "doc/report/group-approach.tex",
-    "doc/report/tech-sections/celery-framework/design.tex",
-    "doc/report/tech-sections/celery-framework/results.tex",
-    "doc/report/tech-sections/celery-framework/testing.tex",
-    "doc/report/tech-sections/celery-framework/search-engine.tex",
-    "doc/report/tech-sections/celery-framework/trend-sources.tex",
-    "doc/report/tech-sections/malware-lists/design.tex",
-    "doc/report/tech-sections/malware-lists/results.tex",
-    "doc/report/tech-sections/malware-lists/testing.tex",
-    "doc/report/Evaluation(classifer+HTML).tex",
-    "doc/report/tech-sections/Classification/design.tex",
-    "doc/report/tech-sections/Classification/implementation.tex",
-    "doc/report/tech-sections/Classification/evaluation.tex",
-    "doc/report/tech-sections/HTML-malware/design.tex",
-    "doc/report/tech-sections/HTML-malware/implementation.tex",
-    "doc/report/tech-sections/HTML-malware/evaluation.tex",
-    "doc/report/tech-sections/Classification/evaluation.tex",
-    "doc/report/Conclusion(Nafiseh).tex",
-    "doc/report/Future development.tex",
-    "doc/report/Liteature(Nafiseh).tex",
-    "doc/report/Related work.tex"
-    ]
+from fnmatch import fnmatchcase
 
 github_url = "https://api.github.com/"
 repo_url = "repos/chrissorchard/malucrawl/commits"
@@ -79,6 +35,7 @@ commit_url = "repos/chrissorchard/malucrawl/commits/"
 status_url = "rate_limit"
 full_repo_url = urljoin(github_url, repo_url)
 path = "doc/report"
+valid_files = "doc/report/*.tex"
 
 
 def get_auth():
@@ -159,7 +116,7 @@ with closing(percache.Cache(
             map(
                 lambda tree: blob_lacount(tree["url"]),
                 itertools.ifilter(
-                    lambda tree: tree["type"] == "blob" and tree["path"] in report_files,
+                    lambda tree: tree["type"] == "blob" and fnmatchcase(tree["path"], valid_files),
                     requests.get(tree_url, auth=auth, params={"recursive": 1}).json["tree"]
                 )
             )
