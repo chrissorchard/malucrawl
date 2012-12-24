@@ -101,7 +101,6 @@ def filefromraw(rawurl):
     parts = rawurl.split('/')
     return '/'.join(parts[-3:])
 
-
 with closing(percache.Cache(
     os.path.join(BaseDirectory.save_cache_path("malucrawl_reportificate"), "cache")
 )) as cache:
@@ -149,7 +148,6 @@ with closing(percache.Cache(
 
         return res
 
-    data = []
     all_commits = list(itertools.chain.from_iterable(commits_generator()))
 
     for commit in all_commits:
@@ -158,6 +156,12 @@ with closing(percache.Cache(
                 "login": u"nafisehvahabi"
             }
 
+    # Count the total number of words in each commit
+    # Append to data: the author of the commit, the time it was made
+    # and the absolute word count at that commit.
+    #
+    # Note: This no-longer counts deltas
+    data = []
     for commit_number, commit in enumerate(all_commits):
         print (commit_number, commit["sha"])
 
@@ -200,6 +204,7 @@ dateList = [mindate + datetime.timedelta(days=x)
 
 #make four lists for y values
 
+# associate deltas with the relevant username
 namecount = {}
 old_words = 0
 for name, dt, count in sdata:
