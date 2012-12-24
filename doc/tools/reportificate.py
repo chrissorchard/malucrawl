@@ -17,6 +17,10 @@ import percache
 import keyring
 import httplib
 
+import matplotlib.pyplot as plt
+import numpy as np
+from operator import itemgetter
+
 from contextlib import closing
 from xdg import BaseDirectory
 from subprocess import PIPE, Popen
@@ -172,10 +176,6 @@ print requests.get(urljoin(github_url, status_url), auth=auth).json
 #
 # Graphing
 #
-
-import matplotlib.pyplot as plt
-import numpy as np
-from operator import itemgetter
 
 
 sdata = sorted(data, key=itemgetter(1))
