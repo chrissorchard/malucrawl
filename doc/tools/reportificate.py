@@ -17,7 +17,6 @@ import percache
 import keyring
 import httplib
 
-from copy import deepcopy
 from contextlib import closing
 from xdg import BaseDirectory
 from subprocess import PIPE, Popen
@@ -96,11 +95,6 @@ def commits_generator():
             "Not found a next URL? Then the generator is empty"
             break
 
-
-def filefromraw(rawurl):
-    parts = rawurl.split('/')
-    return '/'.join(parts[-3:])
-
 with closing(percache.Cache(
     os.path.join(BaseDirectory.save_cache_path("malucrawl_reportificate"), "cache")
 )) as cache:
@@ -148,13 +142,7 @@ with closing(percache.Cache(
 
         return res
 
-    all_commits = list(itertools.chain.from_iterable(commits_generator()))
-
-    for commit in all_commits:
-        if commit["committer"] is None:
-            commit["author"] = {
-                "login": u"nafisehvahabi"
-            }
+    all_commits = itertools.chain.from_iterable(commits_generator())
 
     # Count the total number of words in each commit
     # Append to data: the author of the commit, the time it was made
@@ -165,22 +153,20 @@ with closing(percache.Cache(
     for commit_number, commit in enumerate(all_commits):
         print (commit_number, commit["sha"])
 
-        words = count_words_in_tree(commit["commit"]["tree"]["url"])
+        if commit["committer"] is None:
+            commit["author"] = {
+                "login": u"nafisehvahabi"
+        }
 
-        try:
-            dt = dateutil.parser.parse(commit["commit"]["committer"]["date"])
-            data.append((commit["author"]["login"], dt, words))
-        except TypeError:
-            print commit
-            raise
-        #print data[commit["sha"]]
-        #print json.dumps(rc.json, sort_keys=True, indent=2)
+        data.append(
+            (
+                commit["author"]["login"],
+                dateutil.parser.parse(commit["commit"]["committer"]["date"]),
+                count_words_in_tree(commit["commit"]["tree"]["url"])
+            )
+        )
 
-    #print data
-
-rstatus = requests.get(
-        urljoin(github_url, status_url), auth=auth)
-print rstatus.json
+print requests.get(urljoin(github_url, status_url), auth=auth).json
 
 
 #
