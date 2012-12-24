@@ -40,6 +40,7 @@ full_repo_url = urljoin(github_url, repo_url)
 path = "doc/report"
 valid_files = "doc/report/*.tex"
 
+working_dir = os.path.dirname(os.path.realpath(__file__))
 
 def get_auth():
     def check_auth(auth):
@@ -130,7 +131,7 @@ with closing(percache.Cache(
             f.write(response.content)
             f.close()
 
-        cmd = os.path.join(os.getcwd(), "texcount.pl")
+        cmd = os.path.join(working_dir, "texcount.pl")
 
         try:
             p = Popen([cmd, "-1", "-sum", fname], stdout=PIPE)
