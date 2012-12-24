@@ -78,6 +78,7 @@ repo_url = "repos/chrissorchard/malucrawl/commits"
 commit_url = "repos/chrissorchard/malucrawl/commits/"
 status_url = "rate_limit"
 full_repo_url = urljoin(github_url, repo_url)
+path = "doc/report"
 
 
 def get_auth():
@@ -86,9 +87,7 @@ def get_auth():
 
     # config file init
     config_file = os.path.join(BaseDirectory.save_config_path("malucrawl_reportificate"), "settings.ini")
-
     config = configparser.SafeConfigParser()
-
     config.read(config_file)
 
     if not config.has_section('auth'):
@@ -100,7 +99,6 @@ def get_auth():
         username = raw_input("Username: ")
 
     password = keyring.get_password(github_url, username)
-
     if password is None:
         password = getpass.getpass()
 
@@ -121,7 +119,7 @@ auth = get_auth()
 def commits_generator():
     url = full_repo_url
     param = {
-        'path': 'doc/report',
+        'path': path,
         'per_page': '100'
     }
     while True:
@@ -156,8 +154,20 @@ with closing(percache.Cache(
         return requests.get(commit_url, auth=auth).json
 
     @cache
-    def lacount(count_url):
-        response = requests.get(count_url, auth=auth)
+    def count_words_in_tree(tree_url):
+        return sum(
+            map(
+                lambda tree: blob_lacount(tree["url"]),
+                itertools.ifilter(
+                    lambda tree: tree["type"] == "blob" and tree["path"] in report_files,
+                    requests.get(tree_url, auth=auth, params={"recursive": 1}).json["tree"]
+                )
+            )
+        )
+
+    @cache
+    def blob_lacount(blob_url):
+        response = requests.get(blob_url, auth=auth, headers={"Accept": "application/vnd.github.v3.raw"})
 
         fd, fname = tempfile.mkstemp(prefix="gdp-")
         os.close(fd)
@@ -177,13 +187,12 @@ with closing(percache.Cache(
             res = int(lines_result[0])
 
         except ValueError:
-            return -1
+            print lines_result
+            return 0
 
         return res
 
-    data = {}
-    filecount = {}
-
+    data = []
     all_commits = list(itertools.chain.from_iterable(commits_generator()))
 
     for commit in all_commits:
@@ -192,49 +201,14 @@ with closing(percache.Cache(
                 "login": u"nafisehvahabi"
             }
 
-    sortcommits = sorted(
-        all_commits,
-        key=lambda x: dateutil.parser.parse(x["commit"]["committer"]["date"])
-    )
-
-    for commit_number, commit in enumerate(sortcommits):
+    for commit_number, commit in enumerate(all_commits):
         print (commit_number, commit["sha"])
-        if commit["sha"] == "[":
-            print commit
-        oldcount = deepcopy(filecount)
 
-        commit_details = get_commit_details(commit["url"])
-        try:
-            for changedf in commit_details["files"]:
-                fn = changedf["filename"]
-                if fn in report_files:
-                    #print "I found: " + fn
-                    if "removed" in changedf["status"]:
-                        filecount[fn] = 0
-                    elif not changedf["sha"]:
-                        #print filecount
-                        filecount[fn] = filecount[filefromraw(changedf["raw_url"])]
-                        filecount[filefromraw(changedf["raw_url"])] = 0
-                    else:
-                        filecount[fn] = lacount(changedf["raw_url"])
-                        if filecount[fn] == -1:
-                            filecount[fn] = oldcount[fn]
-        #except ValueError:
-        #    print json.dumps(commit_details, sort_keys=True, indent=2)
-            #print lines_result
-            #print lines_result2
-        #    raise
-        except KeyError:
-            print commit
-            print commit_details
-            raise
-
-        #TODO: sum file changes
-        changes = sum(filecount.values()) - sum(oldcount.values())
+        words = count_words_in_tree(commit["commit"]["tree"]["url"])
 
         try:
             dt = dateutil.parser.parse(commit["commit"]["committer"]["date"])
-            data[commit["sha"]] = commit["author"]["login"], dt, changes
+            data.append((commit["author"]["login"], dt, words))
         except TypeError:
             print commit
             raise
@@ -257,7 +231,7 @@ import numpy as np
 from operator import itemgetter
 
 
-sdata = sorted(data.values(), key=itemgetter(1))
+sdata = sorted(data, key=itemgetter(1))
 
 mindate = sdata[0][1].date()
 maxdate = sdata[-1][1].date()
@@ -270,10 +244,13 @@ dateList = [mindate + datetime.timedelta(days=x)
 #make four lists for y values
 
 namecount = {}
+old_words = 0
 for name, dt, count in sdata:
+    delta = count - old_words
+    old_words = count
     if name not in namecount:
         namecount[name] = []
-    namecount[name].append((dt, count))
+    namecount[name].append((dt, delta))
     namecount[name].sort()
 
 
