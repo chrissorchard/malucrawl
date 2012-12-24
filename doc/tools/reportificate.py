@@ -181,8 +181,6 @@ with closing(percache.Cache(
         key=lambda x: dateutil.parser.parse(x["commit"]["committer"]["date"])
     )
 
-    print sortcommits
-
     for commit_number, commit in enumerate(sortcommits):
         print (commit_number, commit["sha"])
         if commit["sha"] == "[":
