@@ -174,7 +174,7 @@ maxdate = sdata[-1][1].date()
 
 delta = maxdate - mindate
 
-dateList = [mindate + datetime.timedelta(days=x)
+date_list = [mindate + datetime.timedelta(days=x)
         for x in range(0, delta.days + 1)]
 
 #make four lists for y values
@@ -194,14 +194,18 @@ width = 0.35
 colours = ["b", "g", "r", "c", "m", "y"]
 currc = 0
 pltbars = {}
-barsum = np.zeros(len(dateList))
+barsum = np.zeros(len(date_list))
 
 for name, dtcount in namecount.items():
-    amounts = np.zeros(len(dateList))
-    running_total = np.zeros(len(dateList))
+    amounts = np.zeros(len(date_list))
+    running_total = np.zeros(len(date_list))
 
+    course_date_count = defaultdict(lambda: 0)
     for dt, count in dtcount:
-        amounts[dateList.index(dt.date())] += count
+        course_date_count[dt.date()] += count
+
+    for i, date in enumerate(date_list):
+        amounts[i] = course_date_count.get(date, 0)
 
     total = 0
     for i, count in enumerate(amounts):
@@ -211,12 +215,12 @@ for name, dtcount in namecount.items():
     nameadd[name] = running_total
 
     if not bars:
-        pltbars[name] = plt.bar(dateList, nameadd[name], color=colours[currc])
+        pltbars[name] = plt.bar(date_list, nameadd[name], color=colours[currc])
         currc += 1
         bars.append(name)
     else:
         pltbars[name] = plt.bar(
-                dateList,
+                date_list,
                 nameadd[name],
                 bottom=barsum,
                 color=colours[currc])
@@ -224,7 +228,7 @@ for name, dtcount in namecount.items():
         bars.append(name)
     barsum += running_total
 
-print dateList
+print date_list
 print nameadd
 
 plt.xticks(rotation='vertical')
