@@ -19,18 +19,19 @@ import httplib
 
 import matplotlib.pyplot as plt
 import numpy as np
-from operator import itemgetter
 
+from operator import itemgetter
 from contextlib import closing
-from xdg import BaseDirectory
+from fnmatch import fnmatchcase
 from subprocess import PIPE, Popen
 from urlparse import urljoin
+from collections import defaultdict
+
+from xdg import BaseDirectory
 
 from link_header import parse_link_value
 
 from six.moves import configparser
-
-from fnmatch import fnmatchcase
 
 github_url = "https://api.github.com/"
 repo_url = "repos/chrissorchard/malucrawl/commits"
@@ -41,6 +42,7 @@ path = "doc/report"
 valid_files = "doc/report/*.tex"
 
 working_dir = os.path.dirname(os.path.realpath(__file__))
+
 
 def get_auth():
     def check_auth(auth):
@@ -124,28 +126,24 @@ with closing(percache.Cache(
     def blob_lacount(blob_url):
         response = requests.get(blob_url, auth=auth, headers={"Accept": "application/vnd.github.v3.raw"})
 
-        fd, fname = tempfile.mkstemp(prefix="gdp-")
-        os.close(fd)
-
-        with open(fname, 'w') as f:
+        with tempfile.NamedTemporaryFile(prefix="reportificate") as f:
             f.write(response.content)
-            f.close()
+            f.flush()
 
-        cmd = os.path.join(working_dir, "texcount.pl")
+            cmd = os.path.join(working_dir, "texcount.pl")
 
-        try:
-            p = Popen([cmd, "-1", "-sum", fname], stdout=PIPE)
-            all_result = p.communicate()[0]
-            lines_result = all_result.splitlines(False)
-            os.unlink(fname)
+            try:
+                p = Popen([cmd, "-1", "-sum", f.name], stdout=PIPE)
+                all_result = p.communicate()[0]
+                lines_result = all_result.splitlines(False)
 
-            res = int(lines_result[0])
+                res = int(lines_result[0])
 
-        except ValueError:
-            print lines_result
-            return 0
+            except ValueError:
+                print lines_result
+                return 0
 
-        return res
+            return res
 
     all_commits = itertools.chain.from_iterable(commits_generator())
 
@@ -192,13 +190,11 @@ dateList = [mindate + datetime.timedelta(days=x)
 #make four lists for y values
 
 # associate deltas with the relevant username
-namecount = {}
+namecount = defaultdict(list)
 old_words = 0
 for name, dt, count in sdata:
     delta = count - old_words
     old_words = count
-    if name not in namecount:
-        namecount[name] = []
     namecount[name].append((dt, delta))
     namecount[name].sort()
 
