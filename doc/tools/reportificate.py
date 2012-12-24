@@ -75,7 +75,7 @@ def get_auth():
 
     return (username, password)
 
-auth = get_auth()
+session = requests.Session(auth=get_auth())
 
 
 def commits_generator():
@@ -85,9 +85,8 @@ def commits_generator():
         'per_page': '100'
     }
     while True:
-        r = requests.get(
+        r = session.get(
             url,
-            auth=auth,
             params=param
         )
         yield r.json
@@ -107,7 +106,7 @@ with closing(percache.Cache(
 
     @cache
     def get_commit_details(commit_url):
-        return requests.get(commit_url, auth=auth).json
+        return session.get(commit_url).json
 
     @cache
     def count_words_in_tree(tree_url):
@@ -116,15 +115,14 @@ with closing(percache.Cache(
                 lambda tree: blob_lacount(tree["url"]),
                 itertools.ifilter(
                     lambda tree: tree["type"] == "blob" and fnmatchcase(tree["path"], valid_files),
-                    requests.get(tree_url, auth=auth, params={"recursive": 1}).json["tree"]
+                    session.get(tree_url, params={"recursive": 1}).json["tree"]
                 )
             )
         )
 
     @cache
     def blob_lacount(blob_url):
-        response = requests.get(blob_url,
-            auth=auth,
+        response = session.get(blob_url,
             headers={"Accept": "application/vnd.github.v3.raw"}
         )
 
@@ -161,7 +159,7 @@ with closing(percache.Cache(
             )
         )
 
-print requests.get(urljoin(github_url, status_url), auth=auth).json
+print session.get(urljoin(github_url, status_url)).json
 
 
 #
