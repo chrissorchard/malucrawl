@@ -196,7 +196,6 @@ for name, dt, count in sdata:
     delta = count - old_words
     old_words = count
     namecount[name].append((dt, delta))
-    namecount[name].sort()
 
 
 nameadd = {}
