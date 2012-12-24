@@ -206,11 +206,11 @@ currc = 0
 pltbars = {}
 barsum = np.zeros(len(dateList))
 
-for name in namecount.keys():
+for name, dtcount in namecount.items():
     amounts = np.zeros(len(dateList))
     running_total = np.zeros(len(dateList))
 
-    for dt, count in namecount[name]:
+    for dt, count in dtcount:
         amounts[dateList.index(dt.date())] += count
 
     total = 0
