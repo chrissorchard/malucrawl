@@ -9,7 +9,6 @@
 import itertools
 import requests
 import getpass
-import tempfile
 import os
 import dateutil.parser
 import datetime
@@ -23,7 +22,7 @@ import numpy as np
 from operator import itemgetter
 from contextlib import closing
 from fnmatch import fnmatchcase
-from subprocess import PIPE, Popen
+from subprocess import Popen, PIPE
 from urlparse import urljoin
 from collections import defaultdict
 
@@ -124,26 +123,19 @@ with closing(percache.Cache(
 
     @cache
     def blob_lacount(blob_url):
-        response = requests.get(blob_url, auth=auth, headers={"Accept": "application/vnd.github.v3.raw"})
+        response = requests.get(blob_url,
+            auth=auth,
+            headers={"Accept": "application/vnd.github.v3.raw"}
+        )
 
-        with tempfile.NamedTemporaryFile(prefix="reportificate") as f:
-            f.write(response.content)
-            f.flush()
+        cmd = os.path.join(working_dir, "texcount.pl")
+        count_proc = Popen([cmd, "-1", "-sum", "-"], stdin=PIPE, stdout=PIPE)
 
-            cmd = os.path.join(working_dir, "texcount.pl")
-
-            try:
-                p = Popen([cmd, "-1", "-sum", f.name], stdout=PIPE)
-                all_result = p.communicate()[0]
-                lines_result = all_result.splitlines(False)
-
-                res = int(lines_result[0])
-
-            except ValueError:
-                print lines_result
-                return 0
-
-            return res
+        try:
+            stdout, stderr = count_proc.communicate(input=response.content)
+            return int(stdout.splitlines(False)[0])
+        except (ValueError):
+            return 0
 
     all_commits = itertools.chain.from_iterable(commits_generator())
 
