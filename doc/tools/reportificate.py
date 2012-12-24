@@ -25,6 +25,8 @@ from urlparse import urljoin
 
 from link_header import parse_link_value
 
+from six.moves import configparser
+
 report_files = [
     "doc/report/analysis.tex",
     "doc/report/spec-cust.tex"
@@ -82,7 +84,21 @@ def get_auth():
     def check_auth(auth):
         return requests.head(full_repo_url, auth=auth).status_code != httplib.UNAUTHORIZED
 
-    username = raw_input("Username: ")
+    # config file init
+    config_file = os.path.join(BaseDirectory.save_config_path("malucrawl_reportificate"), "settings.ini")
+
+    config = configparser.SafeConfigParser()
+
+    config.read(config_file)
+
+    if not config.has_section('auth'):
+        config.add_section('auth')
+
+    try:
+        username = config.get('auth', 'username')
+    except configparser.NoOptionError:
+        username = raw_input("Username: ")
+
     password = keyring.get_password(github_url, username)
 
     if password is None:
@@ -94,9 +110,9 @@ def get_auth():
         password = getpass.getpass()
 
     keyring.set_password(github_url, username, password)
+    config.set('auth', 'username', username)
+    config.write(open(config_file, 'w'))
 
-    # the stuff that needs authorization here
-    print "Authorization successful."
     return (username, password)
 
 auth = get_auth()
