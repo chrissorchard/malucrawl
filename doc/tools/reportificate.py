@@ -191,7 +191,6 @@ for name, dt, count in sdata:
 
 nameadd = {}
 bars = []
-width = 0.35
 colors = deque(["b", "g", "r", "c", "m", "y"])
 pltbars = {}
 barsum = np.zeros(len(date_list))
