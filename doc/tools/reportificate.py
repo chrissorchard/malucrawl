@@ -196,8 +196,6 @@ pltbars = {}
 barsum = np.zeros(len(date_list))
 
 for name, course_date_count in namecount.items():
-    color = colors[0]
-    colors.rotate(-1)
     amounts = np.zeros(len(date_list))
     running_total = np.zeros(len(date_list))
 
@@ -211,16 +209,13 @@ for name, course_date_count in namecount.items():
 
     nameadd[name] = running_total
 
-    if not bars:
-        pltbars[name] = plt.bar(date_list, nameadd[name], color=color)
-        bars.append(name)
-    else:
-        pltbars[name] = plt.bar(
-                date_list,
-                nameadd[name],
-                bottom=barsum,
-                color=color)
-        bars.append(name)
+    pltbars[name] = plt.bar(
+        date_list,
+        nameadd[name],
+        bottom=barsum,
+        color=colors[0]
+    )[0]
+    colors.rotate(-1)
     barsum += running_total
 
 print date_list
@@ -230,8 +225,9 @@ plt.xticks(rotation='vertical')
 plt.ylabel('Words')
 plt.title('Report Word Count Breakdown')
 
-legend = map(itemgetter(0), pltbars.values())
-plt.legend(legend, bars, loc="upper left")
+
+labels, bars = zip(*pltbars.items())
+plt.legend(bars, labels, loc="upper left")
 
 plt.subplots_adjust(bottom=.2)
 plt.show()
