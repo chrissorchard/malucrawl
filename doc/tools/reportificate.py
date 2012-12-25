@@ -182,11 +182,13 @@ date_list = [mindate + datetime.timedelta(days=x)
 # associate deltas with the relevant username
 # sum deltas with the same username and date
 namecount = defaultdict(lambda: defaultdict(lambda: 0))
+nametotal = defaultdict(lambda: 0)
 old_words = 0
 for name, dt, count in sdata:
     delta = count - old_words
     old_words = count
     namecount[name][dt.date()] += delta
+    nametotal[name] += delta
 
 
 nameadd = {}
@@ -195,7 +197,13 @@ labels = []
 bars = []
 barsum = np.zeros(len(date_list))
 
-for name, course_date_count in namecount.items():
+sorted_name_count = sorted(
+    namecount.items(),
+    key=lambda item: nametotal[item[0]],
+    reverse=True
+)
+
+for name, course_date_count in sorted_name_count:
     amounts = np.zeros(len(date_list))
     running_total = np.zeros(len(date_list))
 
