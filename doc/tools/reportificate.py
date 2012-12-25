@@ -24,7 +24,7 @@ from contextlib import closing
 from fnmatch import fnmatchcase
 from subprocess import Popen, PIPE
 from urlparse import urljoin
-from collections import defaultdict
+from collections import defaultdict, deque
 
 from xdg import BaseDirectory
 
@@ -192,12 +192,13 @@ for name, dt, count in sdata:
 nameadd = {}
 bars = []
 width = 0.35
-colours = ["b", "g", "r", "c", "m", "y"]
-currc = 0
+colors = deque(["b", "g", "r", "c", "m", "y"])
 pltbars = {}
 barsum = np.zeros(len(date_list))
 
 for name, course_date_count in namecount.items():
+    color = colors[0]
+    colors.rotate(-1)
     amounts = np.zeros(len(date_list))
     running_total = np.zeros(len(date_list))
 
@@ -212,16 +213,14 @@ for name, course_date_count in namecount.items():
     nameadd[name] = running_total
 
     if not bars:
-        pltbars[name] = plt.bar(date_list, nameadd[name], color=colours[currc])
-        currc += 1
+        pltbars[name] = plt.bar(date_list, nameadd[name], color=color)
         bars.append(name)
     else:
         pltbars[name] = plt.bar(
                 date_list,
                 nameadd[name],
                 bottom=barsum,
-                color=colours[currc])
-        currc = (currc + 1) % len(colours)
+                color=color)
         bars.append(name)
     barsum += running_total
 
