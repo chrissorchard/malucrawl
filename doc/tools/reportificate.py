@@ -190,9 +190,9 @@ for name, dt, count in sdata:
 
 
 nameadd = {}
-bars = []
 colors = deque(["b", "g", "r", "c", "m", "y"])
-pltbars = {}
+labels = []
+bars = []
 barsum = np.zeros(len(date_list))
 
 for name, course_date_count in namecount.items():
@@ -209,12 +209,14 @@ for name, course_date_count in namecount.items():
 
     nameadd[name] = running_total
 
-    pltbars[name] = plt.bar(
-        date_list,
-        nameadd[name],
-        bottom=barsum,
-        color=colors[0]
-    )[0]
+    labels.append(name)
+    bars.append(plt.bar(
+            date_list,
+            nameadd[name],
+            bottom=barsum,
+            color=colors[0]
+        )[0]
+    )
     colors.rotate(-1)
     barsum += running_total
 
@@ -225,8 +227,6 @@ plt.xticks(rotation='vertical')
 plt.ylabel('Words')
 plt.title('Report Word Count Breakdown')
 
-
-labels, bars = zip(*pltbars.items())
 plt.legend(bars, labels, loc="upper left")
 
 plt.subplots_adjust(bottom=.2)
