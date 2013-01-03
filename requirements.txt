@@ -13,6 +13,6 @@ jsonschema
 eventlet
 pebl
 clamd
-requests
+requests>=1.0.0
 pika
 MySQL-python

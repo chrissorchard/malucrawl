@@ -75,7 +75,8 @@ def get_auth():
 
     return (username, password)
 
-session = requests.Session(auth=get_auth())
+session = requests.Session()
+session.auth = get_auth()
 
 
 def commits_generator():
@@ -89,7 +90,7 @@ def commits_generator():
             url,
             params=param
         )
-        yield r.json
+        yield r.json()
 
         for key_url, prop in parse_link_value(r.headers["link"]).items():
             if prop.get("rel", None) == "next":
@@ -106,7 +107,7 @@ with closing(percache.Cache(
 
     @cache
     def get_commit_details(commit_url):
-        return session.get(commit_url).json
+        return session.get(commit_url).json()
 
     @cache
     def count_words_in_tree(tree_url):
@@ -115,7 +116,7 @@ with closing(percache.Cache(
                 lambda tree: blob_lacount(tree["url"]),
                 itertools.ifilter(
                     lambda tree: tree["type"] == "blob" and fnmatchcase(tree["path"], valid_files),
-                    session.get(tree_url, params={"recursive": 1}).json["tree"]
+                    session.get(tree_url, params={"recursive": 1}).json()["tree"]
                 )
             )
         )
@@ -159,7 +160,7 @@ with closing(percache.Cache(
             )
         )
 
-print session.get(urljoin(github_url, status_url)).json
+print session.get(urljoin(github_url, status_url)).json()
 
 
 #
