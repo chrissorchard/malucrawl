@@ -4,6 +4,7 @@ import socket
 import djcelery
 import requests
 
+DEPLOYED = True
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 COMPRESS_ENABLED = True
@@ -21,6 +22,14 @@ DATABASES = {
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+    },
+    'capture': {
+        'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'capturehpc',                      # Or path to database file if using sqlite3.
+        'USER': 'capture',
+        'PASSWORD': 'capture',
+        'HOST': 'kanga-toast.ecs.soton.ac.uk',
+        'PORT': '',                      # Set to empty string for default.
     }
 }
 
@@ -117,9 +126,9 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
     'django.contrib.auth',
-    'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
@@ -189,15 +198,17 @@ MALUCRAWL_REDIS = {
 
 CELERY_RESULT_BACKEND = MALUCRAWL_REDIS["master"]
 CELERYD_PREFETCH_MULTIPLIER = 0
+CELERY_ROUTES = {'malware_crawl.scan.capture_hpc.chpc_malware_scan': {'queue': 'capturehpc'}}
 
 requests.defaults.defaults["base_headers"]["User-Agent"] += " +http://git.io/cso_malucrawl"
 
 djcelery.setup_loader()
 
-if socket.gethostname().startswith("kanga"):
+if DEPLOYED:
     from deploy_settings import *
 
 try:
+    pass
     from local_settings import *
 except ImportError as e:
     pass

@@ -13,3 +13,4 @@ jsonschema
 eventlet
 pebl
 clamd
+requests
