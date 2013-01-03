@@ -14,3 +14,5 @@ eventlet
 pebl
 clamd
 requests
+pika
+MySQL-python
