@@ -25,7 +25,14 @@ def fetch(url):
         while data and (len(body) <= MAX_SIZE):
             data = r.raw.read(1024)
             body += data
-        if not (len(data) < CHUNK):  # we read a full chunk so we're not at the end of the file
+        expected_length = int(r.headers.get("Content-Length", 0))
+
+        # If len(data) < CHUNK we're at the end of the file.
+        # If it's the expected length, that's great we got the whole file,
+        # even if len(data) == CHUNK.
+        # Otherwise because we've read a full chunk of an unknown total
+        # length we're not at the end of the file.
+        if not len(body) == expected_length and not (len(data) < CHUNK):
             print "file too big", url
     except eventlet.Timeout as t:
         if t is not timeout:
