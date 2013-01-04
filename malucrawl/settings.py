@@ -1,8 +1,10 @@
 # Django settings for malucrawl project.
 import os
-import socket
 import djcelery
 import requests
+
+djcelery.setup_loader()
+
 
 DEPLOYED = False
 DEBUG = True
@@ -196,13 +198,11 @@ MALUCRAWL_REDIS = {
     "slave": "redis://localhost:6379/0"
 }
 
+CElERY_IMPORTS = ("malware_crawl.tasks",)
+
 CELERY_RESULT_BACKEND = MALUCRAWL_REDIS["master"]
 CELERYD_PREFETCH_MULTIPLIER = 0
 CELERY_ROUTES = {'malware_crawl.scan.capture_hpc.chpc_malware_scan': {'queue': 'capturehpc'}}
-
-requests.defaults.defaults["base_headers"]["User-Agent"] += " +http://git.io/cso_malucrawl"
-
-djcelery.setup_loader()
 
 if DEPLOYED:
     from deploy_settings import *
