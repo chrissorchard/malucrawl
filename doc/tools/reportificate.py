@@ -28,8 +28,6 @@ from collections import defaultdict, deque
 
 from xdg import BaseDirectory
 
-from link_header import parse_link_value
-
 from six.moves import configparser
 
 github_url = "https://api.github.com/"
@@ -85,21 +83,14 @@ def commits_generator():
         'path': path,
         'per_page': '100'
     }
-    while True:
+    while url:
         r = session.get(
             url,
             params=param
         )
         yield r.json()
-
-        for key_url, prop in parse_link_value(r.headers["link"]).items():
-            if prop.get("rel", None) == "next":
-                url = key_url
-                param = {}
-                break
-        else:
-            "Not found a next URL? Then the generator is empty"
-            break
+        url = r.links.get("next", {"url": False})["url"]
+        param = {}
 
 with closing(percache.Cache(
     os.path.join(BaseDirectory.save_cache_path("malucrawl_reportificate"), "cache")
