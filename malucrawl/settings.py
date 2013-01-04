@@ -4,7 +4,7 @@ import socket
 import djcelery
 import requests
 
-DEPLOYED = True
+DEPLOYED = False
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 COMPRESS_ENABLED = True
@@ -208,7 +208,6 @@ if DEPLOYED:
     from deploy_settings import *
 
 try:
-    pass
     from local_settings import *
 except ImportError as e:
     pass
