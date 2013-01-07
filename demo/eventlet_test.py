@@ -7,6 +7,7 @@ urls = (
 
 import eventlet
 requests = eventlet.import_patched('requests')
+from eventlet.green import os
 from datetime import timedelta
 from six import binary_type
 
@@ -19,6 +20,8 @@ def fetch(url):
     body = binary_type()
     timeout = eventlet.Timeout(timedelta(minutes=0.1).seconds)
     try:
+        print os.environ.get("malucrawl_foo", "no changes")
+        os.environ["malucrawl_foo"] = "changed"
         r = requests.get(url, stream=True)
         data = r.raw.read(CHUNK)
         body += data
