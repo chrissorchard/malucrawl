@@ -14,11 +14,11 @@ CELERY_RESULT_BACKEND = MALUCRAWL_REDIS["master"]
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'db.sqlite3',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'malucrawl',                      # Or path to database file if using sqlite3.
+        'USER': 'malucrawl',                      # Not used with sqlite3.
+        'PASSWORD': 'tW9fZ63QeEELWt7P',                  # Not used with sqlite3.
+        'HOST': 'malucrawl.ecs.soton.ac.uk',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     },
     'capture': {
