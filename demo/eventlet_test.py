@@ -20,10 +20,10 @@ def fetch(url):
     timeout = eventlet.Timeout(timedelta(minutes=0.1).seconds)
     try:
         r = requests.get(url, stream=True)
-        data = r.raw.read(1024)
+        data = r.raw.read(CHUNK)
         body += data
         while data and (len(body) <= MAX_SIZE):
-            data = r.raw.read(1024)
+            data = r.raw.read(CHUNK)
             body += data
         expected_length = int(r.headers.get("Content-Length", 0))
 
